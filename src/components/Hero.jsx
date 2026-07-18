@@ -99,7 +99,7 @@ export default function Hero() {
         </div>
 
         <div className="flex w-full lg:w-[40%] min-h-[420px] lg:min-h-[650px] flex-col shrink-0 justify-end">
-          <div className="flex w-full h-[420px] lg:h-[650px] flex-col shrink-0 bg-[url('/images/hero.jpg')] bg-cover bg-no-repeat bg-center rounded-3xl"></div>
+          <div className="flex w-full h-[420px] lg:h-[650px] flex-col shrink-0 bg-[url('/images/hero.webp')] bg-cover bg-no-repeat bg-center rounded-3xl"></div>
         </div>
       </div>
     </div></Reveal>
