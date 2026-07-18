@@ -21,7 +21,9 @@ export default function Footer() {
             <div className="w-fit text-[#0b3442] font-['Poppins'] text-[32px] md:text-[42px] font-semibold leading-tight tracking-[-1.26px]">amazing together.</div>
           </div>
           <a
-            href="mailto:naja.andika3000@gmail.com"
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=naja.andika3000@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex flex-wrap items-baseline gap-x-[7.75px] mt-[66px] mb-0 text-[#0b3442] text-[31px] font-semibold mx-0 group w-fit"
           >
             <div className="w-fit text-[#0b3442] font-['Poppins'] text-[31px] font-semibold leading-normal">Start by</div>

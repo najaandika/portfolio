@@ -13,6 +13,7 @@ const projects = [
     btnText: 'text-[#176f69]',
     badge: 'bg-[#ffffff14] border-[#ffffff66] text-white',
     badgeText: 'Offline Project',
+    link: 'https://github.com/najaandika/ac-service.git',
     image: 'https://cdn.wonder.so/images/019f7377-58f2-7608-ab42-a6eb1c84676f/9440e103760c83b45d39b911c2ec98db7d8cf98d080b0f9e0876f4fd5b01b7d1.jpg',
   },
   {
@@ -26,6 +27,7 @@ const projects = [
     btnText: 'text-white',
     badge: 'bg-[#ffffff24] border-[#173f4166] text-[#173f41]',
     badgeText: 'Offline Project',
+    link: 'https://github.com/najaandika/thrif_app.git',
     image: 'https://cdn.wonder.so/images/019f7377-58f2-7608-ab42-a6eb1c84676f/0605ff356b110d61a9fbb52c05c3ae363d97834488451bc99c5ed91e38b08ff7.jpg',
   },
   {
@@ -39,7 +41,8 @@ const projects = [
     btnText: 'text-white',
     badge: 'bg-[#ffffff2e] border-[#123c3b55] text-[#143c3b]',
     badgeText: 'Figma Prototype',
-    image: 'https://cdn.wonder.so/images/019f7377-58f2-7608-ab42-a6eb1c84676f/3f9586795ce9bee7e4c823daf2811626a254f35bf553e5a5e85d30ec84b53530.jpg',
+    link: 'https://hub-affix-00189305.figma.site',
+    image: '/images/overview_resize.png',
   },
   {
     title: 'E-Commerce Storefront UI',
@@ -52,7 +55,9 @@ const projects = [
     btnText: 'text-white',
     badge: 'bg-[#ffffff2e] border-[#3d342655] text-[#4a3217]',
     badgeText: 'Figma Prototype',
-    image: 'https://cdn.wonder.so/images/019f7377-58f2-7608-ab42-a6eb1c84676f/0605ff356b110d61a9fbb52c05c3ae363d97834488451bc99c5ed91e38b08ff7.jpg',
+    bgSize: '120%',
+    link: 'https://login-soft-19644151.figma.site/',
+    image: '/images/205shots_so.png',
   },
 ];
 
@@ -65,7 +70,7 @@ export default function Projects() {
           <div className="w-fit max-w-[650px] text-[#455d63] font-['Poppins'] text-[15px] leading-[1.7]">Selected work covering the problem, my role, key decisions, and the tools used to deliver each experience.</div>
         </div>
         <a
-          href="https://github.com/naja-andika"
+          href="https://github.com/najaandika"
           target="_blank"
           rel="noopener noreferrer"
           className="flex w-fit shrink-0 items-center border text-[#176f69] font-['Poppins'] text-[13px] font-semibold leading-normal rounded-full px-5 py-3 gap-2 border-[#176f69] hover:bg-[#176f69] hover:text-white transition-colors"
@@ -85,7 +90,7 @@ export default function Projects() {
                 <div className={`w-fit max-w-[500px] ${project.descColor} font-['Poppins'] text-sm leading-[1.65]`}>{project.desc}</div>
                 <div className="flex h-fit items-center pt-2 pb-0 mt-auto mb-0 px-0 mx-0 gap-3 flex-wrap">
                   <button
-                    onClick={() => window.open('https://github.com/naja-andika', '_blank')}
+                    onClick={() => window.open(project.link || 'https://github.com/najaandika', '_blank')}
                     className={`flex h-[38px] items-center ${project.btnBg} shadow rounded-full px-5 py-0 hover:opacity-90 transition-opacity`}
                   >
                     <div className={`w-fit font-['Poppins'] text-xs font-semibold leading-normal ${project.btnText}`}>View Case Study</div>
@@ -97,8 +102,8 @@ export default function Projects() {
                 <div className={`w-fit ${project.tagColor} font-['Poppins'] text-[11px] font-medium leading-normal tracking-[1.32px] uppercase`}>{project.tags}</div>
               </div>
               <div
-                className="flex w-[92%] h-[200px] md:h-[240px] shrink-0 mt-auto mr-0 mb-0 ml-auto bg-cover bg-no-repeat bg-center rounded-tl-2xl"
-                style={{ backgroundImage: `url('${project.image}')` }}
+                className="flex w-[92%] h-[200px] md:h-[240px] shrink-0 mt-auto mr-0 mb-0 ml-auto bg-no-repeat bg-center lg:!bg-contain rounded-tl-2xl"
+                style={{ backgroundImage: `url('${project.image}')`, backgroundSize: project.bgSize || 'cover' }}
               ></div>
             </div>
           ))}

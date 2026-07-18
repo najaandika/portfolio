@@ -8,6 +8,7 @@ const certs = [
     iconColor: 'text-[#a435f0]',
     title: 'Microsoft Excel Comprehensive Guide',
     issuer: 'Udemy · Issued 2026 · Microsoft Excel',
+    link: 'https://www.udemy.com/certificate/UC-56646efb-1094-4a88-a033-fe8ce00ae64a/',
   },
   {
     icon: <UdemyIcon />,
@@ -15,6 +16,7 @@ const certs = [
     iconColor: 'text-[#a435f0]',
     title: 'Mastering Excel Formulas & Functions',
     issuer: 'Udemy · Issued 2026 · Beginner to Advanced',
+    link: 'https://www.udemy.com/certificate/UC-07b6ad15-3c42-4abc-a46c-c57b3269798f/',
   },
   {
     icon: <GraduationIcon />,
@@ -22,6 +24,7 @@ const certs = [
     iconColor: 'text-white',
     title: 'Administrative Internship Certificate',
     issuer: 'Balai Guru Penggerak · Issued 2024 · Administration',
+    link: 'https://drive.google.com/drive/folders/1OYj5pADBij38czyE0zZti0zx7gy7R1ub',
   },
 ];
 
@@ -38,7 +41,7 @@ export default function Certifications() {
       <div className="flex w-full h-fit flex-col items-center mt-[34px] mb-0 mx-0 gap-6">
         <div className="flex flex-col md:flex-row w-full justify-center gap-7">
           {certs.map((cert, idx) => (
-            <div key={idx} className="flex min-h-[230px] flex-col justify-center items-center bg-white shadow-[0px_10px_28px_rgba(8,47,61,0.05)] text-center flex-1 rounded-[14px] px-[34px] py-8 gap-2.5">
+            <div key={idx} onClick={() => cert.link && window.open(cert.link, '_blank')} className="flex min-h-[230px] flex-col justify-center items-center bg-white shadow-[0px_10px_28px_rgba(8,47,61,0.05)] text-center flex-1 rounded-[14px] px-[34px] py-8 gap-2.5 cursor-pointer hover:shadow-[0px_10px_28px_rgba(8,47,61,0.15)] transition-shadow">
               <div className={`size-14 flex shrink-0 justify-center items-center mt-[-55px] mb-0 rounded-full mx-0 ${cert.iconBg}`}>
                 <div className={`size-[26px] ${cert.iconColor}`}>
                   {cert.icon}

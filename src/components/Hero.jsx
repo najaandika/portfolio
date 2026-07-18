@@ -33,10 +33,10 @@ export default function Hero() {
           ))}
         </div>
 
-        <a href="tel:082125461418" className="hidden md:block w-fit shrink-0 text-[#102f39] font-['Poppins'] text-xs font-medium leading-normal hover:text-[#176f69] transition-colors">0821-2546-1418</a>
+        <a href="https://wa.me/6282125461418" target="_blank" rel="noopener noreferrer" className="hidden md:block w-fit shrink-0 text-[#102f39] font-['Poppins'] text-xs font-medium leading-normal hover:text-[#176f69] transition-colors">0821-2546-1418</a>
 
         <div className="flex items-center gap-2 ml-auto md:ml-0">
-          <a href="tel:082125461418" className="size-10 flex shrink-0 justify-center items-center bg-white shadow-[0px_8px_20px_rgba(8,47,61,0.06)] rounded-full hover:shadow-[0px_8px_20px_rgba(8,47,61,0.15)] transition-shadow">
+          <a href="https://wa.me/6282125461418" target="_blank" rel="noopener noreferrer" className="size-10 flex shrink-0 justify-center items-center bg-white shadow-[0px_8px_20px_rgba(8,47,61,0.06)] rounded-full hover:shadow-[0px_8px_20px_rgba(8,47,61,0.15)] transition-shadow">
           <div className="size-[17px] text-[#176f69]">
             <PhoneIcon />
           </div>
@@ -75,12 +75,12 @@ export default function Hero() {
             <div className="w-fit text-[#0b3442] font-['Poppins'] text-[44px] md:text-[56px] lg:text-[64px] font-bold leading-[0.98] tracking-[-2px]">Naja Andika</div>
           </div>
           <div className="max-w-[400px] text-[#34505a] font-['Poppins'] text-[15px] leading-[1.75]">Information Systems graduate focused on web development and intuitive digital experiences.</div>
-          <a href="mailto:naja.andika3000@gmail.com" className="w-fit pt-0 pb-1 border-b text-[#0b3442] font-['Poppins'] text-xs font-medium leading-normal px-0 mx-0 border-b-[#0b3442] hover:text-[#176f69] hover:border-b-[#176f69] transition-colors">naja.andika3000@gmail.com</a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=naja.andika3000@gmail.com" target="_blank" rel="noopener noreferrer" className="w-fit pt-0 pb-1 border-b text-[#0b3442] font-['Poppins'] text-xs font-medium leading-normal px-0 mx-0 border-b-[#0b3442] hover:text-[#176f69] hover:border-b-[#176f69] transition-colors">naja.andika3000@gmail.com</a>
           <div className="flex h-fit items-center gap-3">
             <button onClick={() => scrollTo('projects')} className="flex w-[142px] h-[46px] shrink-0 justify-center items-center bg-[#176f69] shadow-[0px_8px_20px_rgba(23,111,105,0.18)] rounded-full px-5 py-0 hover:bg-[#145a55] transition-colors">
               <div className="w-fit text-white font-['Poppins'] text-xs font-semibold leading-normal">View My Work</div>
             </button>
-            <a href="mailto:naja.andika3000@gmail.com" className="flex w-[142px] h-[46px] shrink-0 justify-center items-center bg-[#f6f5ee] border rounded-full px-5 py-0 border-[#176f69] hover:bg-[#176f69] group transition-colors">
+            <a href="https://stitch-butter-49331401.figma.site/" target="_blank" rel="noopener noreferrer" className="flex w-[142px] h-[46px] shrink-0 justify-center items-center bg-[#f6f5ee] border rounded-full px-5 py-0 border-[#176f69] hover:bg-[#176f69] group transition-colors">
               <div className="w-fit text-[#176f69] font-['Poppins'] text-xs font-semibold leading-normal group-hover:text-white transition-colors">Download CV</div>
             </a>
           </div>
