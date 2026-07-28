@@ -10,7 +10,7 @@ const skills = [
   },
   {
     icon: <LayersIcon />,
-    title: 'Framework & Library',
+    title: 'Frameworks & Libraries',
     desc: 'Laravel, Tailwind CSS, React',
     bg: 'bg-[#edbb3f]',
   },
@@ -24,39 +24,41 @@ const skills = [
 
 export default function Skills() {
   return (
-    <Reveal><div id="skills" className="flex flex-col lg:flex-row min-h-[500px] bg-white px-6 md:px-12 lg:px-20 xl:px-[120px] py-[78px] gap-[78px]">
+    <Reveal><div id="skills" className="flex flex-col lg:flex-row min-h-[500px] bg-white px-5 md:px-12 lg:px-20 xl:px-[120px] py-[68px] md:py-[78px] gap-12 lg:gap-[78px]">
       <div className="flex w-full lg:w-[43%] flex-col gap-[18px]">
-        {skills.map((skill) => (
-          <div key={skill.title} className="flex items-center bg-white border shadow-[0px_12px_30px_rgba(8,47,61,0.04)] rounded-lg p-6 gap-6 border-[#edf0ee]">
-            <div className={`size-[58px] flex shrink-0 justify-center items-center ${skill.bg} rounded-full`}>
-              <div className="size-6 text-white">
-                {skill.icon}
+        {skills.map((skill, idx) => (
+          <Reveal key={skill.title} delay={idx * 90}>
+            <div className="group relative overflow-hidden flex items-center bg-white border shadow-[0px_12px_30px_rgba(8,47,61,0.04)] rounded-lg p-5 md:p-6 gap-4 md:gap-6 border-[#edf0ee] transition-all duration-300 hover:-translate-y-1 hover:border-[#b9d8d4] hover:shadow-[0px_16px_34px_rgba(8,47,61,0.09)] before:absolute before:inset-0 before:bg-gradient-to-r before:from-[#176f69]/0 before:via-[#176f69]/[0.035] before:to-[#176f69]/0 before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100">
+              <div className={`relative z-10 size-[58px] flex shrink-0 justify-center items-center ${skill.bg} rounded-full transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3`}>
+                <div className="size-6 text-white">
+                  {skill.icon}
+                </div>
+              </div>
+              <div className="relative z-10 flex flex-col gap-[3px]">
+                <div className="w-fit text-black font-['Poppins'] text-base font-semibold">{skill.title}</div>
+                <div className="w-fit text-[#5b6b70] font-['Poppins'] text-sm">{skill.desc}</div>
               </div>
             </div>
-            <div className="flex flex-col gap-[3px]">
-              <div className="w-fit text-black font-['Poppins'] text-base font-semibold">{skill.title}</div>
-              <div className="w-fit text-[#5b6b70] font-['Poppins'] text-sm">{skill.desc}</div>
-            </div>
-          </div>
+          </Reveal>
         ))}
       </div>
-      <div className="flex flex-col pt-2 pb-0 flex-1 px-0">
-        <div className="w-fit text-[#0b3442] font-['Poppins'] text-[36px] md:text-[44px] font-semibold leading-[1.12] tracking-[-1.5px]">What do I build?</div>
+      <Reveal className="flex flex-col pt-2 pb-0 flex-1 px-0" delay={180}>
+        <div className="w-fit text-[#0b3442] font-['Poppins'] text-[32px] md:text-[44px] font-semibold leading-[1.12] tracking-[-1.5px]">What do I build?</div>
         <div className="flex max-w-[560px] flex-col mt-5 mb-0 text-[#293f47] font-['Poppins'] text-[13px] leading-[1.9] mx-0">
           <div className="w-fit text-[#293f47] font-['Poppins'] text-[13px] leading-[1.9]">I build responsive web applications with Laravel and Next.js, supported by structured data and clear user flows.</div>
           <div className="w-fit text-[#293f47] font-['Poppins'] text-[13px] leading-[1.9] mt-2">I combine development, UI/UX design, administration, and careful collaboration to deliver practical digital products.</div>
         </div>
-        <div className="flex mt-[30px] mb-0 mx-0 gap-[88px]">
-          <div className="flex flex-col">
-            <div className="w-fit text-[#0b3442] font-['Poppins'] text-[43px] font-semibold leading-normal">3.61</div>
+        <div className="flex mt-[30px] mb-0 mx-0 gap-x-14 gap-y-6 md:gap-[88px] flex-wrap">
+          <div className="group/stat flex flex-col border-b border-transparent pb-1 transition-colors duration-300 hover:border-[#176f69]">
+            <div className="w-fit text-[#0b3442] font-['Poppins'] text-[43px] font-semibold leading-normal transition-transform duration-300 group-hover/stat:-translate-y-0.5">3.61</div>
             <div className="w-fit text-[#293f47] font-['Poppins'] text-xs leading-normal">GPA / 4.00</div>
           </div>
-          <div className="flex flex-col">
-            <div className="w-fit text-[#0b3442] font-['Poppins'] text-[43px] font-semibold leading-normal">3+</div>
+          <div className="group/stat flex flex-col border-b border-transparent pb-1 transition-colors duration-300 hover:border-[#176f69]">
+            <div className="w-fit text-[#0b3442] font-['Poppins'] text-[43px] font-semibold leading-normal transition-transform duration-300 group-hover/stat:-translate-y-0.5">3+</div>
             <div className="w-fit text-[#293f47] font-['Poppins'] text-xs leading-normal">Featured Projects</div>
           </div>
         </div>
-      </div>
+      </Reveal>
     </div></Reveal>
   );
 }

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import Reveal from './Reveal';
 
 const timeline = [
@@ -21,7 +22,7 @@ const timeline = [
     institution: 'Freelance',
     period: '2022 - 2025',
     title: 'Freelance MLBB Rank Player',
-    desc: 'Completed rank progression targets independently while maintaining consistent performance, managing schedules, meeting deadlines, and communicating progress with clients.',
+    desc: 'Completed client rank progression targets while maintaining consistent performance, schedule discipline, deadline ownership, and clear progress communication.',
     color: 'bg-[#176f69]',
     dots: true,
   },
@@ -35,16 +36,40 @@ const timeline = [
   },
 ];
 
+function TimelineLine() {
+  const ref = useRef(null);
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setAnimate(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`timeline-flow absolute left-[25px] md:left-[38px] top-[30px] bottom-[-50px] w-0.5 overflow-hidden rounded-full ${animate ? 'is-running' : ''}`}
+    ></div>
+  );
+}
+
 function TimelineDot({ color, hasDots }) {
   return (
     <div className="flex relative w-[50px] md:w-[76px] shrink-0 justify-center">
-      {hasDots && (
-        <div className="flex absolute min-w-0 min-h-0 flex-col items-center left-[25px] md:left-[38px] top-[30px] bottom-[-50px] gap-1.5 overflow-clip">
-          {[...Array(18)].map((_, i) => (
-            <div key={i} className="flex w-0.5 h-[5px] flex-col shrink-0 bg-[#537579] rounded-full"></div>
-          ))}
-        </div>
-      )}
+      {hasDots && <TimelineLine />}
       <div className="size-[34px] flex relative shrink-0 justify-center items-center z-[10] bg-[#f6f5ee] border rounded-full border-[#789092]">
         <div className={`size-4 flex flex-col ${color} rounded-full`}></div>
       </div>
@@ -54,9 +79,9 @@ function TimelineDot({ color, hasDots }) {
 
 export default function Education() {
   return (
-    <Reveal><div className="flex min-h-[640px] flex-col bg-[#f6f5ee] px-6 md:px-12 lg:px-20 xl:px-[120px] py-[76px]">
+    <Reveal><div className="flex min-h-[640px] flex-col bg-[#f6f5ee] px-5 md:px-12 lg:px-20 xl:px-[120px] py-[68px] md:py-[76px]">
       <div className="flex w-full h-fit justify-center">
-        <div className="w-fit text-[#0b3442] font-['Poppins'] text-[36px] md:text-[46px] font-semibold leading-[1.2] tracking-[-1.6px]">Education & Experience</div>
+        <div className="w-fit text-[#0b3442] font-['Poppins'] text-[31px] md:text-[46px] font-semibold leading-[1.2] tracking-[-1.6px]">Education & Experience</div>
       </div>
       <div id="education" className="flex w-full h-fit flex-col mt-11 mb-0 mx-0">
         <div className="flex flex-col gap-7">

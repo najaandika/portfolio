@@ -4,5 +4,96 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+body { margin: 0; background: #ffffff; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: #d8ebe7; color: #0b3442; }
+:focus-visible { outline: 2px solid #176f69; outline-offset: 4px; }
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+
+#skills,
+#projects,
+#education,
+#experience,
+#certifications {
+  scroll-margin-top: 104px;
+}
+.notion-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(23, 111, 105, 0.08) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+.timeline-flow {
+  background: transparent;
+}
+
+.timeline-flow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(83, 117, 121, 0.78) 0,
+    rgba(83, 117, 121, 0.78) 5px,
+    transparent 5px,
+    transparent 12px
+  );
+  background-size: 2px 12px;
+  transform-origin: top;
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+
+.timeline-flow.is-running::before {
+  animation: timeline-load 1.6s ease-out both;
+}
+@keyframes timeline-load {
+  0% { transform: scaleY(0); opacity: 0; }
+  12% { opacity: 1; }
+  72% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+
+
+
+.hero-enter {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: hero-enter 760ms cubic-bezier(.22,1,.36,1) both;
+}
+
+.hero-enter:nth-child(1) { animation-delay: 90ms; }
+.hero-enter:nth-child(2) { animation-delay: 180ms; }
+.hero-enter:nth-child(3) { animation-delay: 260ms; }
+.hero-enter:nth-child(4) { animation-delay: 340ms; }
+.hero-enter:nth-child(5) { animation-delay: 420ms; }
+
+.hero-enter-photo {
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  animation: hero-photo-enter 900ms cubic-bezier(.22,1,.36,1) 260ms both;
+}
+
+@keyframes hero-enter {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-photo-enter {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes mobile-menu-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
