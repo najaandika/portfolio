@@ -3,9 +3,9 @@ import Reveal from './Reveal';
 
 const projects = [
   {
-    title: 'AC Service Website',
-    desc: 'Built a responsive Laravel service site with clearer service discovery, booking flow, and mobile-friendly interface.',
-    tags: 'Laravel - Tailwind CSS - Responsive UI',
+    title: 'AC & Electronics Service Website',
+    desc: 'Redesigned a responsive service website with clearer service discovery, WhatsApp booking flow, and mobile-first interface.',
+    tags: 'Astro - Tailwind CSS - Responsive UI',
     bg: 'bg-[#176f69]',
     descColor: 'text-[#e7f3f1]',
     titleColor: 'text-white',
@@ -15,13 +15,13 @@ const projects = [
     badge: 'bg-[#ffffff14] border-[#ffffff66] text-white',
     badgeText: 'Offline Project',
     link: 'https://github.com/najaandika/ac-service.git',
-    image: 'https://cdn.wonder.so/images/019f7377-58f2-7608-ab42-a6eb1c84676f/9440e103760c83b45d39b911c2ec98db7d8cf98d080b0f9e0876f4fd5b01b7d1.jpg',
+    image: '/images/project-service-ac.png',
   },
   {
     title: 'E-Commerce Thrifting',
     desc: 'Developed a Laravel storefront with product browsing, checkout, Midtrans payment integration, and MySQL data management.',
     tags: 'Laravel - Midtrans - MySQL',
-    bg: 'bg-[#e9b74d]',
+    bg: 'bg-[#e8b84a]',
     descColor: 'text-[#263f43]',
     titleColor: 'text-[#0b3442]',
     tagColor: 'text-[#4f563e]',
@@ -30,7 +30,7 @@ const projects = [
     badge: 'bg-[#ffffff24] border-[#173f4166] text-[#173f41]',
     badgeText: 'Offline Project',
     link: 'https://github.com/najaandika/thrif_app.git',
-    image: 'https://cdn.wonder.so/images/019f7377-58f2-7608-ab42-a6eb1c84676f/0605ff356b110d61a9fbb52c05c3ae363d97834488451bc99c5ed91e38b08ff7.jpg',
+    image: '/images/project-thrif.png',
   },
   {
     title: 'SaaS Dashboard UI',
@@ -45,7 +45,7 @@ const projects = [
     badge: 'bg-[#ffffff2e] border-[#123c3b55] text-[#143c3b]',
     badgeText: 'Figma Prototype',
     link: 'https://hub-affix-00189305.figma.site',
-    image: '/images/overview_resize.png',
+    image: '/images/project-saas-dashboard.png',
   },
   {
     title: 'E-Commerce Storefront UI',
@@ -59,9 +59,8 @@ const projects = [
     btnText: 'text-white',
     badge: 'bg-[#ffffff2e] border-[#3d342655] text-[#4a3217]',
     badgeText: 'Figma Prototype',
-    bgSize: '120%',
     link: 'https://login-soft-19644151.figma.site/',
-    image: '/images/205shots_so.png',
+    image: '/images/project-ecommerce-storefront.png',
   },
 ];
 
@@ -128,11 +127,14 @@ export default function Projects() {
                   </div>
                   <div className={`w-fit ${project.tagColor} font-['Poppins'] text-[11px] font-medium leading-normal tracking-[1.32px] uppercase`}>{project.tags}</div>
                 </div>
-                <div className="relative w-[92%] h-[170px] sm:h-[200px] md:h-[240px] shrink-0 mt-auto mr-0 mb-0 ml-auto overflow-hidden rounded-tl-2xl bg-white/10 shadow-[-18px_-18px_44px_rgba(255,255,255,0.12)]">
-                  <div
-                    className="absolute inset-0 bg-no-repeat bg-center lg:!bg-contain transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-2 group-hover:scale-[1.045]"
-                    style={{ backgroundImage: `url('${project.image}')`, backgroundSize: project.bgSize || 'cover' }}
-                  ></div>
+                <div className="relative w-full h-[190px] sm:h-[230px] md:h-[280px] shrink-0 mt-auto overflow-hidden bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
+                  <img
+                    src={project.image}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 h-full w-full object-contain object-bottom transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-2 group-hover:scale-[1.045]"
+                    loading="lazy"
+                  />
                   <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/10 to-transparent opacity-40 transition-opacity duration-300 group-hover:opacity-20"></div>
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/16 to-transparent opacity-40 transition-opacity duration-300 group-hover:opacity-20"></div>
                 </div>
@@ -144,3 +146,16 @@ export default function Projects() {
     </div></Reveal>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
