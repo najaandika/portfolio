@@ -125,15 +125,14 @@ export default function Certifications() {
   };
 
   return (
-    <Reveal><div id="certifications" className="flex min-w-0 min-h-[500px] flex-col items-center bg-[#f6f5ee] px-5 md:px-12 lg:px-20 xl:px-[120px] py-[68px] md:py-[72px] overflow-clip">
+    <Reveal><div id="certifications" className="flex min-w-0 min-h-[620px] flex-col items-center bg-[#f6f5ee] px-5 md:px-12 lg:px-20 xl:px-[120px] pt-[68px] pb-[84px] md:py-[72px] overflow-clip">
       <div className="flex w-full h-fit flex-col items-center gap-3">
         <div className="w-fit text-[#0b3442] font-['Poppins'] text-[28px] md:text-[38px] font-semibold leading-normal tracking-[-1.2px] text-center">Learning & Certifications</div>
-        <div className="flex max-w-[650px] flex-col text-[#506066] text-xs leading-[1.7] text-center">
-          <div className="w-fit text-[#506066] font-['Poppins'] text-sm leading-[1.6] text-center">Verified learning in web development, UI design, spreadsheet analysis,</div>
-          <div className="w-fit text-[#506066] font-['Poppins'] text-sm leading-[1.6] text-center">data foundations, and professional administration experience.</div>
-        </div>
+        <p className="m-0 max-w-[650px] text-center text-[#506066] font-['Poppins'] text-sm leading-[1.7]">
+          Verified learning in web development, UI design, spreadsheet analysis, data foundations, and professional administration experience.
+        </p>
       </div>
-      <div className="group/certs mt-[34px] w-full min-w-0">
+      <div className="group/certs mt-[42px] w-full min-w-0 md:mt-[34px]">
         <div className="mb-3 hidden justify-end gap-2 opacity-80 transition-opacity duration-300 group-hover/certs:opacity-100 md:flex">
           <button
             type="button"
@@ -157,23 +156,23 @@ export default function Certifications() {
         <div
           ref={scrollerRef}
           onScroll={updateActiveCert}
-          className="scrollbar-hide -mx-5 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-6 pt-9 md:-mx-12 md:px-12 lg:-mx-20 lg:px-20 xl:-mx-[120px] xl:px-[120px]"
+          className="scrollbar-hide -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-[11vw] pb-7 pt-9 sm:gap-6 sm:px-5 md:-mx-12 md:px-12 lg:-mx-20 lg:px-20 xl:-mx-[120px] xl:px-[120px]"
         >
           {certs.map((cert, idx) => {
             const isActive = activeIndex === idx;
 
             return (
-              <Reveal key={cert.title} className="w-[86%] min-w-[260px] shrink-0 snap-start sm:w-[45%] lg:w-[31%]" delay={idx * 100}>
+              <Reveal key={cert.title} className="w-[78vw] min-w-[250px] max-w-[330px] shrink-0 snap-center sm:w-[45%] sm:max-w-none sm:snap-start lg:w-[31%]" delay={idx * 100}>
                 <div
                   role="button"
                   tabIndex={0}
                   aria-label={`Open ${cert.title} certificate in a new tab`}
                   onClick={() => openExternal(cert.link)}
                   onKeyDown={(event) => handleCardKey(event, cert.link)}
-                  className={`group flex min-h-[230px] flex-col justify-center items-center bg-white border text-center rounded-[14px] px-6 md:px-[34px] py-8 gap-3 cursor-pointer ${cert.accentBorder} transition-all duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69] ${
+                  className={`group flex min-h-[238px] flex-col justify-center items-center bg-white border text-center rounded-[14px] px-5 md:px-[34px] py-8 gap-3 cursor-pointer ${cert.accentBorder} transition-all duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69] ${
                     isActive
-                      ? 'border-[#dbe8e4] shadow-[0px_18px_42px_rgba(8,47,61,0.14)] opacity-100 scale-[1.02]'
-                      : 'border-transparent shadow-[0px_10px_28px_rgba(8,47,61,0.05)] opacity-75 scale-[0.985] hover:opacity-100 hover:scale-100 hover:-translate-y-1 hover:shadow-[0px_14px_34px_rgba(8,47,61,0.13)]'
+                      ? 'border-[#dbe8e4] shadow-[0px_18px_42px_rgba(8,47,61,0.14)] opacity-100 md:scale-[1.02]'
+                      : 'border-transparent shadow-[0px_10px_28px_rgba(8,47,61,0.05)] opacity-75 md:scale-[0.985] hover:opacity-100 hover:scale-100 hover:-translate-y-1 hover:shadow-[0px_14px_34px_rgba(8,47,61,0.13)]'
                   }`}
                 >
                   <div className={`size-14 flex shrink-0 justify-center items-center mt-[-55px] mb-1 rounded-full mx-0 transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105 ${cert.iconBg}`}>
@@ -192,7 +191,7 @@ export default function Certifications() {
             );
           })}
         </div>
-        <div className="mx-auto mt-2 flex w-full max-w-[360px] flex-col items-center gap-3">
+        <div className="mx-auto mt-2 flex w-full max-w-[280px] flex-col items-center gap-3 sm:max-w-[360px]">
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#dce5e2]">
             <div
               className="h-full rounded-full bg-[#176f69] transition-[width] duration-500 ease-out"

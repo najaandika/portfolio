@@ -1,17 +1,17 @@
 import { CodeIcon, LayersIcon, FigmaIcon } from './Icons';
 import Reveal from './Reveal';
 
-const iconUrl = (slug, color) => `https://cdn.simpleicons.org/${slug}/${color}`;
+const iconPath = (file) => `/icons/${file}`;
 
 const skills = [
   {
     icon: <CodeIcon />,
     title: 'Web Technologies',
     tools: [
-      { label: 'PHP', icon: iconUrl('php', '777BB4') },
-      { label: 'JavaScript', icon: iconUrl('javascript', 'F7DF1E') },
-      { label: 'HTML5', icon: iconUrl('html5', 'E34F26') },
-      { label: 'CSS', icon: iconUrl('css', '663399') },
+      { label: 'PHP', icon: iconPath('php.svg') },
+      { label: 'JavaScript', icon: iconPath('javascript.svg') },
+      { label: 'HTML5', icon: iconPath('html5.svg') },
+      { label: 'CSS', icon: iconPath('css.svg') },
     ],
     bg: 'bg-[#17786f]',
   },
@@ -19,9 +19,9 @@ const skills = [
     icon: <LayersIcon />,
     title: 'Frameworks & Libraries',
     tools: [
-      { label: 'Laravel', icon: iconUrl('laravel', 'FF2D20') },
-      { label: 'Tailwind CSS', icon: iconUrl('tailwindcss', '06B6D4') },
-      { label: 'React', icon: iconUrl('react', '61DAFB') },
+      { label: 'Laravel', icon: iconPath('laravel.svg') },
+      { label: 'Tailwind CSS', icon: iconPath('tailwindcss.svg') },
+      { label: 'React', icon: iconPath('react.svg') },
     ],
     bg: 'bg-[#edbb3f]',
   },
@@ -29,16 +29,9 @@ const skills = [
     icon: <FigmaIcon />,
     title: 'Tools & Design',
     tools: [
-      { label: 'Figma', icon: iconUrl('figma', 'F24E1E') },
-      { label: 'MySQL', icon: iconUrl('mysql', '4479A1') },
-      { label: 'Microsoft Excel', icon: (
-        <svg className="size-4 shrink-0 transition-transform duration-300 group-hover/tool:scale-110" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="3" y="4" width="11" height="16" rx="2" fill="#217346" />
-          <path fill="#ffffff" d="M6.1 8h2.1l1.15 2.1L10.58 8h2.02l-2.1 3.45L12.78 16h-2.1l-1.35-2.52L7.9 16H5.82l2.32-4.48L6.1 8Z" />
-          <path fill="#33A852" d="M13 6h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6V6Z" />
-          <path stroke="#ffffff" strokeOpacity="0.8" strokeWidth="1" d="M15 9.5h4M15 12h4M15 14.5h4" />
-        </svg>
-      ) },
+      { label: 'Figma', icon: iconPath('figma.svg') },
+      { label: 'MySQL', icon: iconPath('mysql.svg') },
+      { label: 'Microsoft Excel', icon: iconPath('microsoft-excel.svg') },
     ],
     bg: 'bg-[#ef5b3f]',
   },
@@ -61,11 +54,7 @@ export default function Skills() {
                 <div className="flex flex-wrap gap-2">
                   {skill.tools.map((tool) => (
                     <div key={tool.label} title={tool.label} aria-label={tool.label} className="group/tool flex h-8 items-center gap-2 rounded-full border border-[#e4ebe8] bg-[#fbfcfb] px-2.5 pr-3 text-[#41545b] shadow-[0px_5px_12px_rgba(8,47,61,0.035)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#b9d8d4] hover:bg-white hover:shadow-[0px_9px_18px_rgba(8,47,61,0.08)] group-hover:border-[#d5e5e1]">
-                      {typeof tool.icon === 'string' ? (
-                        <img className="size-4 shrink-0 object-contain transition-transform duration-300 group-hover/tool:scale-110" src={tool.icon} alt="" loading="lazy" />
-                      ) : (
-                        tool.icon
-                      )}
+                      <img className="size-4 shrink-0 object-contain transition-transform duration-300 group-hover/tool:scale-110" src={tool.icon} alt="" loading="lazy" />
                       <span className="font-['Poppins'] text-xs font-medium leading-none">{tool.label}</span>
                     </div>
                   ))}
@@ -78,7 +67,7 @@ export default function Skills() {
       <Reveal className="flex flex-col pt-2 pb-0 flex-1 px-0" delay={180}>
         <div className="w-fit text-[#0b3442] font-['Poppins'] text-[32px] md:text-[44px] font-semibold leading-[1.12] tracking-[-1.5px]">What do I build?</div>
         <div className="flex max-w-[560px] flex-col mt-5 mb-0 text-[#293f47] font-['Poppins'] text-[13px] leading-[1.9] mx-0">
-          <div className="w-fit text-[#293f47] font-['Poppins'] text-[13px] leading-[1.9]">I build responsive web applications with Laravel and Next.js, supported by structured data and clear user flows.</div>
+          <div className="w-fit text-[#293f47] font-['Poppins'] text-[13px] leading-[1.9]">I build responsive web applications with Laravel and React, supported by structured data and clear user flows.</div>
           <div className="w-fit text-[#293f47] font-['Poppins'] text-[13px] leading-[1.9] mt-2">I combine development, UI/UX design, administration, and careful collaboration to deliver practical digital products.</div>
         </div>
         <div className="flex mt-[30px] mb-0 mx-0 gap-x-14 gap-y-6 md:gap-[88px] flex-wrap">
