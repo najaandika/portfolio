@@ -1,26 +1,8 @@
 import { useRef, useState } from 'react';
-import { UdemyIcon, GraduationIcon } from './Icons';
+import { UdemyIcon, CourseraIcon, GraduationIcon } from './Icons';
 import Reveal from './Reveal';
 
 const certs = [
-  {
-    icon: <UdemyIcon />,
-    iconBg: 'bg-white border-4 border-[#a435f0]',
-    iconColor: 'text-[#a435f0]',
-    accentBorder: 'hover:border-[#d7a8ff]',
-    title: 'Microsoft Excel Comprehensive Guide',
-    issuer: 'Udemy - Issued 2026 - Microsoft Excel',
-    link: 'https://www.udemy.com/certificate/UC-56646efb-1094-4a88-a033-fe8ce00ae64a/',
-  },
-  {
-    icon: <UdemyIcon />,
-    iconBg: 'bg-white border-4 border-[#a435f0]',
-    iconColor: 'text-[#a435f0]',
-    accentBorder: 'hover:border-[#d7a8ff]',
-    title: 'Mastering Excel Formulas & Functions',
-    issuer: 'Udemy - Issued 2026 - Beginner to Advanced',
-    link: 'https://www.udemy.com/certificate/UC-07b6ad15-3c42-4abc-a46c-c57b3269798f/',
-  },
   {
     icon: <UdemyIcon />,
     iconBg: 'bg-white border-4 border-[#a435f0]',
@@ -38,6 +20,42 @@ const certs = [
     title: 'Complete Figma Course: Web & Mobile Projects from Scratch',
     issuer: 'Udemy - Issued 2026 - Figma, Web & Mobile Design',
     link: 'https://www.udemy.com/certificate/UC-c53eabf9-4c22-4d7a-a100-9562428e5d8f/',
+  },
+  {
+    icon: <CourseraIcon />,
+    iconBg: 'bg-white border-4 border-[#0056D2]',
+    iconColor: 'text-[#0056D2]',
+    accentBorder: 'hover:border-[#9fc5ff]',
+    title: 'Foundations: Data, Data, Everywhere',
+    issuer: 'Coursera - Google Data Analytics - Data Foundations',
+    link: 'https://coursera.org/share/4d57e930eddb785e730704fdd6bc16fb',
+  },
+  {
+    icon: <CourseraIcon />,
+    iconBg: 'bg-white border-4 border-[#0056D2]',
+    iconColor: 'text-[#0056D2]',
+    accentBorder: 'hover:border-[#9fc5ff]',
+    title: 'Excel Skills for Business: Essentials',
+    issuer: 'Coursera - Macquarie University - Excel Essentials',
+    link: 'https://coursera.org/share/272100def0d31b378bcf52b1ca7ba4dc',
+  },
+  {
+    icon: <UdemyIcon />,
+    iconBg: 'bg-white border-4 border-[#a435f0]',
+    iconColor: 'text-[#a435f0]',
+    accentBorder: 'hover:border-[#d7a8ff]',
+    title: 'Mastering Excel Formulas & Functions',
+    issuer: 'Udemy - Issued 2026 - Beginner to Advanced',
+    link: 'https://www.udemy.com/certificate/UC-07b6ad15-3c42-4abc-a46c-c57b3269798f/',
+  },
+  {
+    icon: <UdemyIcon />,
+    iconBg: 'bg-white border-4 border-[#a435f0]',
+    iconColor: 'text-[#a435f0]',
+    accentBorder: 'hover:border-[#d7a8ff]',
+    title: 'Microsoft Excel Comprehensive Guide',
+    issuer: 'Udemy - Issued 2026 - Microsoft Excel',
+    link: 'https://www.udemy.com/certificate/UC-56646efb-1094-4a88-a033-fe8ce00ae64a/',
   },
   {
     icon: <GraduationIcon />,
@@ -111,8 +129,8 @@ export default function Certifications() {
       <div className="flex w-full h-fit flex-col items-center gap-3">
         <div className="w-fit text-[#0b3442] font-['Poppins'] text-[28px] md:text-[38px] font-semibold leading-normal tracking-[-1.2px] text-center">Learning & Certifications</div>
         <div className="flex max-w-[650px] flex-col text-[#506066] text-xs leading-[1.7] text-center">
-          <div className="w-fit text-[#506066] font-['Poppins'] text-sm leading-[1.6] text-center">Verified learning in spreadsheet analysis, advanced Excel functions,</div>
-          <div className="w-fit text-[#506066] font-['Poppins'] text-sm leading-[1.6] text-center">and professional administration experience.</div>
+          <div className="w-fit text-[#506066] font-['Poppins'] text-sm leading-[1.6] text-center">Verified learning in web development, UI design, spreadsheet analysis,</div>
+          <div className="w-fit text-[#506066] font-['Poppins'] text-sm leading-[1.6] text-center">data foundations, and professional administration experience.</div>
         </div>
       </div>
       <div className="group/certs mt-[34px] w-full min-w-0">
