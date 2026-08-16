@@ -142,7 +142,7 @@ export default function Hero() {
             <button onClick={() => scrollTo('projects')} className="flex w-full min-[380px]:w-[142px] h-[46px] shrink-0 justify-center items-center bg-[#176f69] shadow-[0px_8px_20px_rgba(23,111,105,0.18)] rounded-full px-5 py-0 hover:-translate-y-0.5 hover:bg-[#145a55] hover:shadow-[0px_12px_26px_rgba(23,111,105,0.26)] transition-all duration-300">
               <div className="w-fit text-white font-['Poppins'] text-xs font-semibold leading-normal">View My Work</div>
             </button>
-            <a href="https://stitch-butter-49331401.figma.site/" target="_blank" rel="noopener noreferrer" title="Open Naja CV on Figma" aria-label="Open Naja CV on Figma in a new tab" className="flex w-full min-[380px]:w-[142px] h-[46px] shrink-0 justify-center items-center bg-[#f6f5ee] border rounded-full px-5 py-0 border-[#176f69] hover:-translate-y-0.5 hover:bg-[#176f69] group transition-all duration-300">
+            <a href="https://cv-naja-andika.figma.site/" target="_blank" rel="noopener noreferrer" download title="Download Naja CV" aria-label="Download Naja CV in a new tab" className="flex w-full min-[380px]:w-[142px] h-[46px] shrink-0 justify-center items-center bg-[#f6f5ee] border rounded-full px-5 py-0 border-[#176f69] hover:-translate-y-0.5 hover:bg-[#176f69] group transition-all duration-300">
               <div className="w-fit text-[#176f69] font-['Poppins'] text-xs font-semibold leading-normal group-hover:text-white transition-colors">Download CV</div>
             </a>
           </div>
