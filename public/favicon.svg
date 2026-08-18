@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Naja Andika">
+  <rect width="64" height="64" rx="16" fill="#0b3442"/>
+  <path d="M18 47V17h7.5l13 18.3V17H46v30h-7.2L25.5 28.1V47H18z" fill="#f6f5ee"/>
+  <path d="M46 17v30h-7.2L25.5 28.1V47H18" fill="none" stroke="#31c6b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
