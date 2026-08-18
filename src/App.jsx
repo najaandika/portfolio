@@ -1,9 +1,11 @@
+import { lazy, Suspense } from 'react';
 import Hero from './components/Hero';
-import Skills from './components/Skills';
-import Education from './components/Education';
-import Projects from './components/Projects';
-import Certifications from './components/Certifications';
 import Footer from './components/Footer';
+
+const Skills = lazy(() => import('./components/Skills'));
+const Education = lazy(() => import('./components/Education'));
+const Projects = lazy(() => import('./components/Projects'));
+const Certifications = lazy(() => import('./components/Certifications'));
 
 export default function App() {
   return (
@@ -11,10 +13,12 @@ export default function App() {
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <main id="main-content" tabIndex="-1">
         <Hero />
-        <Skills />
-        <Education />
-        <Projects />
-        <Certifications />
+        <Suspense fallback={null}>
+          <Skills />
+          <Education />
+          <Projects />
+          <Certifications />
+        </Suspense>
       </main>
       <Footer />
     </div>

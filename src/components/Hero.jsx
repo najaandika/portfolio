@@ -161,7 +161,15 @@ export default function Hero() {
         </div>
 
         <div className="flex w-full lg:w-[40%] min-h-[340px] sm:min-h-[420px] lg:min-h-[650px] flex-col shrink-0 justify-end">
-          <div className="hero-enter-photo flex w-full h-[340px] sm:h-[420px] lg:h-[650px] flex-col shrink-0 bg-[url('/images/hero.webp')] bg-cover bg-no-repeat bg-center rounded-3xl shadow-[0px_20px_48px_rgba(8,47,61,0.13)] transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] hover:scale-[1.015]"></div>
+          <img
+            src="/images/hero.webp"
+            alt="Naja Andika"
+            width="520"
+            height="650"
+            fetchPriority="high"
+            decoding="async"
+            className="hero-enter-photo flex w-full h-[340px] sm:h-[420px] lg:h-[650px] shrink-0 object-cover object-center rounded-3xl shadow-[0px_20px_48px_rgba(8,47,61,0.13)] transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] hover:scale-[1.015]"
+          />
         </div>
       </div>
     </div></Reveal>
