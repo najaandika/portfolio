@@ -1,11 +1,11 @@
 import { lazy, Suspense } from 'react';
 import Hero from './components/Hero';
-import Footer from './components/Footer';
 
 const Skills = lazy(() => import('./components/Skills'));
 const Education = lazy(() => import('./components/Education'));
 const Projects = lazy(() => import('./components/Projects'));
 const Certifications = lazy(() => import('./components/Certifications'));
+const Footer = lazy(() => import('./components/Footer'));
 
 export default function App() {
   return (
@@ -20,7 +20,9 @@ export default function App() {
           <Certifications />
         </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

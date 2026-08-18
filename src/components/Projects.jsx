@@ -17,7 +17,8 @@ const projects = [
     ctaText: 'View Live Preview',
     ctaLabel: 'Open AC & Electronics Service Website live preview in a new tab',
     link: 'https://ac-service-website-one.vercel.app/',
-    image: '/images/project-service-ac.webp',
+    image: '/images/project-service-ac-960.webp',
+    imageSet: '/images/project-service-ac-480.webp 480w, /images/project-service-ac-768.webp 768w, /images/project-service-ac-960.webp 960w',
   },
   {
     title: 'E-Commerce Thrifting',
@@ -34,7 +35,8 @@ const projects = [
     ctaText: 'View Code',
     ctaLabel: 'Open E-Commerce Thrifting source code in a new tab',
     link: 'https://github.com/najaandika/thrif_app.git',
-    image: '/images/project-thrif.webp',
+    image: '/images/project-thrif-960.webp',
+    imageSet: '/images/project-thrif-480.webp 480w, /images/project-thrif-768.webp 768w, /images/project-thrif-960.webp 960w',
   },
   {
     title: 'E-Commerce Storefront UI',
@@ -51,7 +53,8 @@ const projects = [
     ctaText: 'View Live Preview',
     ctaLabel: 'Open E-Commerce Storefront UI live preview in a new tab',
     link: 'https://moderen-e-commerce.figma.site/',
-    image: '/images/project-ecommerce-storefront.webp',
+    image: '/images/project-ecommerce-storefront-960.webp',
+    imageSet: '/images/project-ecommerce-storefront-480.webp 480w, /images/project-ecommerce-storefront-768.webp 768w, /images/project-ecommerce-storefront-960.webp 960w',
   },
 ];
 
@@ -119,6 +122,8 @@ export default function Projects() {
                 >
                   <img
                     src={project.image}
+                    srcSet={project.imageSet}
+                    sizes="(min-width: 1024px) 44vw, calc(100vw - 40px)"
                     alt=""
                     aria-hidden="true"
                     className="absolute inset-0 h-full w-full object-contain object-bottom transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-2 group-hover:scale-[1.045]"

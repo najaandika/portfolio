@@ -4,7 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" as="image" href="/images/hero.webp" fetchpriority="high" />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero-640.webp"
+      imagesrcset="/images/hero-480.webp 480w, /images/hero-640.webp 640w, /images/hero-960.webp 960w, /images/hero-1200.webp 1200w"
+      imagesizes="(min-width: 1024px) 40vw, calc(100vw - 40px)"
+      fetchpriority="high"
+    />
     <title>Naja Andika - Web Developer Portfolio</title>
     <meta name="description" content="Portfolio Naja Andika, Information Systems graduate and web developer building responsive web apps, clean interfaces, and practical digital workflows with React, Laravel, and Tailwind CSS." />
     <meta name="author" content="Naja Andika" />
@@ -16,13 +23,13 @@
     <meta property="og:url" content="https://portfolio-naja-andika.vercel.app/" />
     <meta property="og:title" content="Naja Andika - Web Developer Portfolio" />
     <meta property="og:description" content="Information Systems graduate building responsive web apps, clean interfaces, and practical digital workflows." />
-    <meta property="og:image" content="https://portfolio-naja-andika.vercel.app/images/hero.webp" />
+    <meta property="og:image" content="https://portfolio-naja-andika.vercel.app/images/hero-1200.webp" />
     <meta property="og:site_name" content="Naja Andika Portfolio" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Naja Andika - Web Developer Portfolio" />
     <meta name="twitter:description" content="Information Systems graduate building responsive web apps, clean interfaces, and practical digital workflows." />
-    <meta name="twitter:image" content="https://portfolio-naja-andika.vercel.app/images/hero.webp" />
+    <meta name="twitter:image" content="https://portfolio-naja-andika.vercel.app/images/hero-1200.webp" />
 
     <script type="application/ld+json">
       {
@@ -30,7 +37,7 @@
         "@type": "Person",
         "name": "Naja Andika",
         "url": "https://portfolio-naja-andika.vercel.app/",
-        "image": "https://portfolio-naja-andika.vercel.app/images/hero.webp",
+        "image": "https://portfolio-naja-andika.vercel.app/images/hero-1200.webp",
         "jobTitle": "Web Developer",
         "description": "Information Systems graduate building responsive web apps, clean interfaces, and practical digital workflows.",
         "sameAs": [

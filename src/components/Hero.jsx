@@ -162,11 +162,14 @@ export default function Hero() {
 
         <div className="flex w-full lg:w-[40%] min-h-[340px] sm:min-h-[420px] lg:min-h-[650px] flex-col shrink-0 justify-end">
           <img
-            src="/images/hero.webp"
+            src="/images/hero-640.webp"
+            srcSet="/images/hero-480.webp 480w, /images/hero-640.webp 640w, /images/hero-960.webp 960w, /images/hero-1200.webp 1200w"
+            sizes="(min-width: 1024px) 40vw, calc(100vw - 40px)"
             alt="Naja Andika"
             width="520"
             height="650"
             fetchPriority="high"
+            loading="eager"
             decoding="async"
             className="hero-enter-photo flex w-full h-[340px] sm:h-[420px] lg:h-[650px] shrink-0 object-cover object-center rounded-3xl shadow-[0px_20px_48px_rgba(8,47,61,0.13)] transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] hover:scale-[1.015]"
           />
