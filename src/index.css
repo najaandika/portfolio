@@ -81,13 +81,29 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 
 .hero-enter {
-  opacity: 1;
-  transform: none;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: hero-enter 760ms cubic-bezier(.22,1,.36,1) both;
 }
 
+.hero-enter:nth-child(1) { animation-delay: 90ms; }
+.hero-enter:nth-child(2) { animation-delay: 180ms; }
+.hero-enter:nth-child(3) { animation-delay: 260ms; }
+.hero-enter:nth-child(4) { animation-delay: 340ms; }
+.hero-enter:nth-child(5) { animation-delay: 420ms; }
+
 .hero-enter-photo {
-  opacity: 1;
-  transform: none;
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  animation: hero-photo-enter 900ms cubic-bezier(.22,1,.36,1) 260ms both;
+}
+
+@keyframes hero-enter {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-photo-enter {
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes mobile-menu-in {
