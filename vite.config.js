@@ -1,7 +1,18 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'early-charset',
+      transformIndexHtml: {
+        order: 'post',
+        handler(html) {
+          const withoutCharset = html.replace(/\s*<meta charset="UTF-8"\s*\/?>/i, '');
+          return withoutCharset.replace('<head>', '<head>\n    <meta charset="UTF-8" />');
+        },
+      },
+    },
+  ],
 })

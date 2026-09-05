@@ -52,3 +52,24 @@ export const CourseraIcon = () => (
     <path d="M12.1 3C6.8 3 3 6.8 3 12.1S6.8 21 12.1 21c3.1 0 5.8-1.3 7.4-3.5l-2.7-2.1c-1 1.3-2.6 2.1-4.6 2.1-3.1 0-5.2-2.2-5.2-5.4s2.1-5.5 5.2-5.5c1.9 0 3.5.8 4.5 2.1l2.7-2.1C17.7 4.3 15.1 3 12.1 3Z" />
   </svg>
 );
+
+export const CredlyIcon = () => (
+  <img src="/icons/credly.svg" alt="" aria-hidden="true" className="h-full w-full object-contain" />
+);
+
+export const CiscoIcon = () => (
+  <img src="/icons/cisco.svg" alt="" aria-hidden="true" className="h-full w-full object-contain" />
+);
+
+export const LinkedinIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5.04 3.2a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4ZM3.2 9h3.68v11.8H3.2V9Zm5.96 0h3.53v1.61h.05c.49-.93 1.69-1.91 3.48-1.91 3.72 0 4.41 2.45 4.41 5.64v6.46h-3.68v-5.73c0-1.37-.03-3.13-1.91-3.13-1.91 0-2.2 1.49-2.2 3.03v5.83H9.16V9Z" />
+  </svg>
+);
+
+export const MailIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="2" />
+    <path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);

@@ -1,4 +1,5 @@
 import Reveal from './Reveal';
+import { CredlyIcon, GithubIcon, LinkedinIcon, MailIcon } from './Icons';
 
 const navItems = [
   { label: 'SKILLS', target: 'skills' },
@@ -21,9 +22,11 @@ export default function Footer() {
             <div className="w-fit text-[#0b3442] font-['Poppins'] text-[30px] md:text-[42px] font-semibold leading-tight tracking-[-1.26px]">amazing together.</div>
           </div>
           <a
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=naja.andika3000@gmail.com"
+            href="https://wa.me/6282125461418"
             target="_blank"
             rel="noopener noreferrer"
+            title="Contact Naja via WhatsApp"
+            aria-label="Contact Naja via WhatsApp in a new tab"
             className="flex flex-wrap items-baseline gap-x-[7.75px] mt-10 md:mt-[66px] mb-0 text-[#0b3442] text-[28px] md:text-[31px] font-semibold mx-0 group w-fit transition-transform duration-300 hover:-translate-y-0.5"
           >
             <div className="w-fit text-[#0b3442] font-['Poppins'] text-[28px] md:text-[31px] font-semibold leading-normal">Start by</div>
@@ -51,17 +54,57 @@ export default function Footer() {
         <div className="flex w-full h-px flex-col bg-gradient-to-r from-transparent via-[#aeb9b7] to-transparent"></div>
         <div className="flex flex-col md:flex-row items-start md:items-center pt-[26px] pb-0 px-0 gap-2 md:gap-0">
           <div className="w-fit text-[#0b3442] font-['Poppins'] text-base font-semibold">Naja</div>
-          <div className="w-fit md:mr-0 md:ml-4 text-[#344c54] font-['Poppins'] text-xs my-0">(c) 2026 Naja Andika</div>
-          <a
-            href="https://linkedin.com/in/naja-andika-447234317"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-wrap items-baseline gap-x-[2.5px] md:mr-0 md:ml-auto text-[#344b53] text-[10px] my-0 group transition-transform duration-300 hover:-translate-y-0.5"
-          >
-            <div className="w-fit text-[#0b3442] font-['Poppins'] text-xs leading-normal">LinkedIn:</div>
-            <div className="w-fit max-w-[230px] text-[#ef5b3f] font-['Poppins'] text-xs font-semibold leading-[1.4] text-right group-hover:text-[#c94d33] transition-colors">naja-andika-447234317</div>
-            <div className="w-fit text-[#ef5b3f] font-['Poppins'] text-xs font-semibold leading-normal transition-transform duration-300 group-hover:translate-x-0.5">-&gt;</div>
-          </a>
+          <div className="w-fit md:mr-0 md:ml-4 text-[#344c54] font-['Poppins'] text-xs my-0">© 2026 Naja Andika</div>
+          <div className="mt-4 flex flex-wrap items-center gap-3 md:ml-auto md:mt-0">
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=naja.andika3000@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Send email to Naja Andika"
+              aria-label="Send email to Naja Andika in a new tab"
+              className="flex size-8 items-center justify-center text-[#0b3442] transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              <span className="size-6" aria-hidden="true">
+                <MailIcon />
+              </span>
+            </a>
+            <a
+              href="https://github.com/najaandika"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Open Naja Andika GitHub profile"
+              aria-label="Open Naja Andika GitHub profile in a new tab"
+              className="flex size-8 items-center justify-center text-[#0b3442] transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              <span className="size-6" aria-hidden="true">
+                <GithubIcon />
+              </span>
+            </a>
+            <a
+              href="https://linkedin.com/in/naja-andika-447234317"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Open Naja Andika LinkedIn profile"
+              aria-label="Open Naja Andika LinkedIn profile in a new tab"
+              className="flex size-8 items-center justify-center text-[#0a66c2] transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              <span className="size-6" aria-hidden="true">
+                <LinkedinIcon />
+              </span>
+            </a>
+            <a
+              href="https://www.credly.com/users/naja-andika"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Open Naja Andika Credly profile"
+              aria-label="Open Naja Andika Credly profile in a new tab"
+              className="flex size-8 items-center justify-center text-[#ff6b00] transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              <span className="size-6" aria-hidden="true">
+                <CredlyIcon />
+              </span>
+            </a>
+          </div>
         </div>
       </div>
     </div></Reveal>

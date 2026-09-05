@@ -56,6 +56,23 @@ const projects = [
     image: '/images/project-ecommerce-storefront-960.webp',
     imageSet: '/images/project-ecommerce-storefront-480.webp 480w, /images/project-ecommerce-storefront-768.webp 768w, /images/project-ecommerce-storefront-960.webp 960w',
   },
+  {
+    title: 'BHD Gamification Learning Platform',
+    desc: 'Designed a gamified first-aid learning experience that helps users practice making calm, confident decisions in emergency situations.',
+    tags: ['React', 'Laravel', 'Gamification'],
+    bg: 'bg-[#dce9ff]',
+    descColor: 'text-[#30486b]',
+    titleColor: 'text-[#0b3c92]',
+    tagColor: 'text-[#2758a4]',
+    btnBg: 'bg-[#0755c9]',
+    btnText: 'text-white',
+    badge: 'bg-white/60 border-[#0755c966] text-[#16488e]',
+    badgeText: 'Live Website',
+    ctaText: 'View Live Preview',
+    ctaLabel: 'Open BHD Gamification Learning Platform live preview',
+    link: null,
+    image: '/images/project-bhd-hero.png',
+  },
 ];
 
 function openExternal(link) {
@@ -95,8 +112,9 @@ export default function Projects() {
                   <div className="flex h-fit items-center pt-2 pb-0 mt-auto mb-0 px-0 mx-0 gap-3 flex-wrap">
                     <button
                       type="button"
-                      onClick={() => openExternal(project.link)}
-                      className={`flex h-[38px] items-center gap-2 ${project.btnBg} shadow rounded-full px-5 py-0 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69]`}
+                      onClick={() => project.link && openExternal(project.link)}
+                      disabled={!project.link}
+                      className={`flex h-[38px] items-center gap-2 ${project.btnBg} shadow rounded-full px-5 py-0 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69] disabled:cursor-not-allowed disabled:opacity-75`}
                       aria-label={project.ctaLabel}
                     >
                       <div className={`w-fit font-['Poppins'] text-xs font-semibold leading-normal ${project.btnText}`}>{project.ctaText}</div>
@@ -116,7 +134,8 @@ export default function Projects() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => openExternal(project.link)}
+                  onClick={() => project.link && openExternal(project.link)}
+                  disabled={!project.link}
                   className="relative w-full h-[190px] sm:h-[230px] md:h-[280px] shrink-0 mt-auto overflow-hidden bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-[#176f69]"
                   aria-label={project.ctaLabel}
                 >

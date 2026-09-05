@@ -1,16 +1,34 @@
 import { useRef, useState } from 'react';
-import { UdemyIcon, CourseraIcon, GraduationIcon } from './Icons';
+import { UdemyIcon, CourseraIcon, CiscoIcon } from './Icons';
 import Reveal from './Reveal';
 
 const certs = [
   {
-    icon: <UdemyIcon />,
-    iconBg: 'bg-white border-4 border-[#a435f0]',
-    iconColor: 'text-[#a435f0]',
-    accentBorder: 'hover:border-[#d7a8ff]',
-    title: 'Modern Web Development with JavaScript, jQuery & TypeScript',
-    issuer: 'Udemy - Issued 2026 - JavaScript, jQuery, TypeScript',
-    link: 'https://www.udemy.com/certificate/UC-b1a592e8-fde3-435a-b978-97d6463f68d0/',
+    icon: <CiscoIcon />,
+    iconBg: 'bg-white border-4 border-[#1BA0D7]',
+    iconColor: 'text-[#1BA0D7]',
+    accentBorder: 'hover:border-[#9bdcf2]',
+    title: 'HTML Essentials',
+    issuer: 'Cisco Networking Academy - HTML',
+    link: 'https://www.netacad.com/certificates/?issuanceId=3baaf20d-b262-474b-bb2f-447376f6c251',
+  },
+  {
+    icon: <CiscoIcon />,
+    iconBg: 'bg-white border-4 border-[#1BA0D7]',
+    iconColor: 'text-[#1BA0D7]',
+    accentBorder: 'hover:border-[#9bdcf2]',
+    title: 'CSS Essentials',
+    issuer: 'Cisco Networking Academy - CSS',
+    link: 'https://www.netacad.com/certificates/?issuanceId=40adb325-8465-473d-9cdf-28d7328d1330',
+  },
+  {
+    icon: <CiscoIcon />,
+    iconBg: 'bg-white border-4 border-[#1BA0D7]',
+    iconColor: 'text-[#1BA0D7]',
+    accentBorder: 'hover:border-[#9bdcf2]',
+    title: 'JavaScript Essentials 1',
+    issuer: 'Cisco Networking Academy - JavaScript',
+    link: 'https://www.netacad.com/certificates/?issuanceId=767fad3f-fb31-4b18-ac68-810c3a39cb9f',
   },
   {
     icon: <UdemyIcon />,
@@ -20,6 +38,15 @@ const certs = [
     title: 'Complete Figma Course: Web & Mobile Projects from Scratch',
     issuer: 'Udemy - Issued 2026 - Figma, Web & Mobile Design',
     link: 'https://www.udemy.com/certificate/UC-c53eabf9-4c22-4d7a-a100-9562428e5d8f/',
+  },
+  {
+    icon: <CourseraIcon />,
+    iconBg: 'bg-white border-4 border-[#0056D2]',
+    iconColor: 'text-[#0056D2]',
+    accentBorder: 'hover:border-[#9fc5ff]',
+    title: 'Technical Support Fundamentals',
+    issuer: 'Coursera - Google IT Support Professional Certificate',
+    link: 'https://www.coursera.org/account/accomplishments/verify/JSAB0CEKIF8Y',
   },
   {
     icon: <CourseraIcon />,
@@ -40,31 +67,13 @@ const certs = [
     link: 'https://coursera.org/share/272100def0d31b378bcf52b1ca7ba4dc',
   },
   {
-    icon: <UdemyIcon />,
-    iconBg: 'bg-white border-4 border-[#a435f0]',
-    iconColor: 'text-[#a435f0]',
-    accentBorder: 'hover:border-[#d7a8ff]',
-    title: 'Mastering Excel Formulas & Functions',
-    issuer: 'Udemy - Issued 2026 - Beginner to Advanced',
-    link: 'https://www.udemy.com/certificate/UC-07b6ad15-3c42-4abc-a46c-c57b3269798f/',
-  },
-  {
-    icon: <UdemyIcon />,
-    iconBg: 'bg-white border-4 border-[#a435f0]',
-    iconColor: 'text-[#a435f0]',
-    accentBorder: 'hover:border-[#d7a8ff]',
-    title: 'Microsoft Excel Comprehensive Guide',
-    issuer: 'Udemy - Issued 2026 - Microsoft Excel',
-    link: 'https://www.udemy.com/certificate/UC-56646efb-1094-4a88-a033-fe8ce00ae64a/',
-  },
-  {
-    icon: <GraduationIcon />,
-    iconBg: 'bg-[#ef6380] border-4 border-[#ef6380]',
-    iconColor: 'text-white',
-    accentBorder: 'hover:border-[#ef9aab]',
-    title: 'Administrative Internship Certificate',
-    issuer: 'Balai Guru Penggerak - Issued 2024 - Administration',
-    link: 'https://drive.google.com/drive/folders/1OYj5pADBij38czyE0zZti0zx7gy7R1ub',
+    icon: <CiscoIcon />,
+    iconBg: 'bg-white border-4 border-[#1BA0D7]',
+    iconColor: 'text-[#1BA0D7]',
+    accentBorder: 'hover:border-[#9bdcf2]',
+    title: 'IT Customer Support Basics',
+    issuer: 'Cisco Networking Academy - IT Customer Support',
+    link: 'https://www.netacad.com/certificates/?issuanceId=87128f64-69cf-4169-be89-e2aa9dc934b8',
   },
 ];
 
@@ -129,7 +138,7 @@ export default function Certifications() {
       <div className="flex w-full h-fit flex-col items-center gap-3">
         <div className="w-fit text-[#0b3442] font-['Poppins'] text-[28px] md:text-[38px] font-semibold leading-normal tracking-[-1.2px] text-center">Learning & Certifications</div>
         <p className="m-0 max-w-[650px] text-center text-[#506066] font-['Poppins'] text-sm leading-[1.7]">
-          Verified learning in web development, UI design, spreadsheet analysis, data foundations, and professional administration experience.
+          Verified learning in frontend development, UI design, technical support, data foundations, and productivity tools.
         </p>
       </div>
       <div className="group/certs mt-[42px] w-full min-w-0 md:mt-[34px]">

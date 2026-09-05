@@ -1,0 +1,38 @@
+# Naja Andika - Web Developer Portfolio
+
+> Portfolio Naja Andika, web developer yang membangun aplikasi web responsif, interface yang bersih, dan workflow digital yang praktis.
+
+## About
+
+- Role: Web Developer
+- Background: Information Systems graduate
+- Location: Krui, Pesisir Barat, Lampung
+- Primary technologies: React, Laravel, JavaScript, PHP, MySQL, Tailwind CSS
+
+## Portfolio Sections
+
+- Skills: Technical skills and tools used for web development.
+- Projects: Selected projects covering responsive websites, e-commerce, UI design, and gamified learning experiences.
+- Education: Academic background and learning history.
+- Certifications: Verified learning in frontend development, UI design, technical support, data foundations, and productivity tools.
+
+## Featured Projects
+
+- AC & Electronics Service Website
+- E-Commerce Thrifting
+- E-Commerce Storefront UI
+- BHD Gamification Learning Platform
+
+## Profiles
+
+- [GitHub](https://github.com/najaandika)
+- [LinkedIn](https://linkedin.com/in/naja-andika-447234317)
+- [Credly](https://www.credly.com/users/naja-andika)
+- [Email](mailto:naja.andika3000@gmail.com)
+- [WhatsApp](https://wa.me/6282125461418)
+
+## Crawl Guidance
+
+- Prefer the rendered portfolio content and linked project pages.
+- Use project and certification titles as the primary labels for their associated links.
+- Do not infer personal information beyond the content explicitly published on this site.

@@ -44,7 +44,7 @@ export default function Skills() {
         {skills.map((skill, idx) => (
           <Reveal key={skill.title} delay={idx * 90}>
             <div className="group relative overflow-hidden flex items-start bg-white border shadow-[0px_12px_30px_rgba(8,47,61,0.04)] rounded-lg p-5 md:p-6 gap-4 md:gap-6 border-[#edf0ee] transition-all duration-300 hover:-translate-y-1 hover:border-[#b9d8d4] hover:shadow-[0px_16px_34px_rgba(8,47,61,0.09)] before:absolute before:inset-0 before:bg-gradient-to-r before:from-[#176f69]/0 before:via-[#176f69]/[0.035] before:to-[#176f69]/0 before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100">
-              <div className={`relative z-10 size-[58px] flex shrink-0 justify-center items-center ${skill.bg} rounded-full transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3`}>
+              <div className={`skill-category-icon relative z-10 size-[58px] flex shrink-0 justify-center items-center ${skill.bg} rounded-full transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3`}>
                 <div className="size-6 text-white">
                   {skill.icon}
                 </div>
