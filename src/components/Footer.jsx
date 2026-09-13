@@ -1,112 +1,110 @@
+import { useLanguage } from '../context/useLanguage';
 import Reveal from './Reveal';
 import { CredlyIcon, GithubIcon, LinkedinIcon, MailIcon } from './Icons';
-
-const navItems = [
-  { label: 'SKILLS', target: 'skills' },
-  { label: 'PROJECTS', target: 'projects' },
-  { label: 'EDUCATION', target: 'education' },
-  { label: 'EXPERIENCE', target: 'experience' },
-];
 
 function scrollTo(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 }
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
-    <Reveal><div className="flex min-h-[420px] flex-col pt-16 md:pt-[72px] pb-8 bg-white px-5 md:px-12 lg:px-20 xl:px-[120px]">
-      <div className="flex flex-col md:flex-row w-full h-fit gap-10 md:gap-0">
-        <div className="flex w-full md:w-[65%] flex-col">
-          <div className="flex flex-col text-[#0b3442] font-['Poppins'] text-[30px] md:text-[42px] font-semibold leading-[1.18] tracking-[-1.4px]">
-            <div className="w-fit text-[#0b3442] font-['Poppins'] text-[30px] md:text-[42px] font-semibold leading-tight tracking-[-1.26px]">Let's make something</div>
-            <div className="w-fit text-[#0b3442] font-['Poppins'] text-[30px] md:text-[42px] font-semibold leading-tight tracking-[-1.26px]">amazing together.</div>
+    <Reveal>
+      <div className="flex min-h-[420px] flex-col pt-16 md:pt-[72px] pb-8 bg-white px-5 md:px-12 lg:px-20 xl:px-[120px]">
+        <div className="flex flex-col md:flex-row w-full h-fit gap-10 md:gap-0">
+          <div className="flex w-full md:w-[65%] flex-col">
+            <div className="flex flex-col text-[#0b3442] font-['Poppins'] text-[30px] md:text-[42px] font-semibold leading-[1.18] tracking-[-1.4px]">
+              <div className="w-fit text-[#0b3442] font-['Poppins'] text-[30px] md:text-[42px] font-semibold leading-tight tracking-[-1.26px]">{t.footer.headline1}</div>
+              <div className="w-fit text-[#0b3442] font-['Poppins'] text-[30px] md:text-[42px] font-semibold leading-tight tracking-[-1.26px]">{t.footer.headline2}</div>
+            </div>
+            <a
+              href="https://wa.me/6282125461418"
+              target="_blank"
+              rel="noopener noreferrer"
+              title={t.hero.whatsappTitle}
+              aria-label={`${t.hero.whatsappTitle} in a new tab`}
+              className="flex flex-wrap items-baseline gap-x-[7.75px] mt-10 md:mt-[66px] mb-0 text-[#0b3442] text-[28px] md:text-[31px] font-semibold mx-0 group w-fit transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              <div className="w-fit text-[#0b3442] font-['Poppins'] text-[28px] md:text-[31px] font-semibold leading-normal">{t.footer.startBy}</div>
+              <div className="relative w-fit text-[#e95f43] font-['Poppins'] text-[28px] md:text-[31px] font-semibold leading-normal group-hover:text-[#c94d33] transition-colors after:absolute after:left-0 after:bottom-[-3px] after:h-0.5 after:w-full after:origin-left after:bg-[#e95f43] after:transition-transform after:duration-300 group-hover:after:scale-x-105">{t.footer.sayingHi}</div>
+              <div className="w-fit text-[#e95f43] font-['Poppins'] text-[22px] md:text-[25px] font-semibold leading-normal transition-transform duration-300 group-hover:translate-x-1">-&gt;</div>
+            </a>
           </div>
-          <a
-            href="https://wa.me/6282125461418"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Contact Naja via WhatsApp"
-            aria-label="Contact Naja via WhatsApp in a new tab"
-            className="flex flex-wrap items-baseline gap-x-[7.75px] mt-10 md:mt-[66px] mb-0 text-[#0b3442] text-[28px] md:text-[31px] font-semibold mx-0 group w-fit transition-transform duration-300 hover:-translate-y-0.5"
-          >
-            <div className="w-fit text-[#0b3442] font-['Poppins'] text-[28px] md:text-[31px] font-semibold leading-normal">Start by</div>
-            <div className="relative w-fit text-[#e95f43] font-['Poppins'] text-[28px] md:text-[31px] font-semibold leading-normal group-hover:text-[#c94d33] transition-colors after:absolute after:left-0 after:bottom-[-3px] after:h-0.5 after:w-full after:origin-left after:bg-[#e95f43] after:transition-transform after:duration-300 group-hover:after:scale-x-105">saying hi</div>
-            <div className="w-fit text-[#e95f43] font-['Poppins'] text-[22px] md:text-[25px] font-semibold leading-normal transition-transform duration-300 group-hover:translate-x-1">-&gt;</div>
-          </a>
+          <div className="flex flex-col flex-1">
+            <div className="w-fit text-[#0b3442] font-['Poppins'] text-[17px] font-semibold leading-normal">{t.footer.infoTitle}</div>
+            <div className="w-fit mt-3 mb-0 text-[#344b53] font-['Poppins'] text-[11px] leading-normal mx-0">{t.footer.location}</div>
+            <div className="flex flex-col items-start mt-[34px] mb-0 mx-0 gap-[22px]">
+              {t.nav.map((item) => (
+                <button
+                  key={item.target}
+                  onClick={() => scrollTo(item.target)}
+                  className="relative w-fit text-[#102f39] font-['Poppins'] text-[11px] font-semibold leading-normal hover:text-[#176f69] transition-colors after:absolute after:left-0 after:top-[18px] after:h-0.5 after:w-0 after:bg-[#176f69] after:transition-all after:duration-300 hover:after:w-full"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col flex-1">
-          <div className="w-fit text-[#0b3442] font-['Poppins'] text-[17px] font-semibold leading-normal">Information</div>
-          <div className="w-fit mt-3 mb-0 text-[#344b53] font-['Poppins'] text-[11px] leading-normal mx-0">Krui, Pesisir Barat, Lampung</div>
-          <div className="flex flex-col items-start mt-[34px] mb-0 mx-0 gap-[22px]">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => scrollTo(item.target)}
-                className="relative w-fit text-[#102f39] font-['Poppins'] text-[11px] font-semibold leading-normal hover:text-[#176f69] transition-colors after:absolute after:left-0 after:top-[18px] after:h-0.5 after:w-0 after:bg-[#176f69] after:transition-all after:duration-300 hover:after:w-full"
+        <div className="flex w-full h-fit flex-col mt-auto mb-0 mx-0">
+          <div className="flex w-full h-px flex-col bg-gradient-to-r from-transparent via-[#aeb9b7] to-transparent"></div>
+          <div className="flex flex-col md:flex-row items-start md:items-center pt-[26px] pb-0 px-0 gap-2 md:gap-0">
+            <div className="w-fit text-[#0b3442] font-['Poppins'] text-base font-semibold">Naja</div>
+            <div className="w-fit md:mr-0 md:ml-4 text-[#344c54] font-['Poppins'] text-xs my-0">{t.footer.copyright}</div>
+            <div className="mt-4 flex flex-wrap items-center gap-3 md:ml-auto md:mt-0">
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=naja.andika3000@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Send email to Naja Andika"
+                aria-label="Send email to Naja Andika in a new tab"
+                className="flex size-8 items-center justify-center text-[#0b3442] transition-transform duration-300 hover:-translate-y-0.5"
               >
-                {item.label}
-              </button>
-            ))}
+                <span className="size-6" aria-hidden="true">
+                  <MailIcon />
+                </span>
+              </a>
+              <a
+                href="https://github.com/najaandika"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open Naja Andika GitHub profile"
+                aria-label="Open Naja Andika GitHub profile in a new tab"
+                className="flex size-8 items-center justify-center text-[#0b3442] transition-transform duration-300 hover:-translate-y-0.5"
+              >
+                <span className="size-6" aria-hidden="true">
+                  <GithubIcon />
+                </span>
+              </a>
+              <a
+                href="https://linkedin.com/in/naja-andika-447234317"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open Naja Andika LinkedIn profile"
+                aria-label="Open Naja Andika LinkedIn profile in a new tab"
+                className="flex size-8 items-center justify-center text-[#0a66c2] transition-transform duration-300 hover:-translate-y-0.5"
+              >
+                <span className="size-6" aria-hidden="true">
+                  <LinkedinIcon />
+                </span>
+              </a>
+              <a
+                href="https://www.credly.com/users/naja-andika"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open Naja Andika Credly profile"
+                aria-label="Open Naja Andika Credly profile in a new tab"
+                className="flex size-8 items-center justify-center text-[#ff6b00] transition-transform duration-300 hover:-translate-y-0.5"
+              >
+                <span className="size-6" aria-hidden="true">
+                  <CredlyIcon />
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-      <div className="flex w-full h-fit flex-col mt-auto mb-0 mx-0">
-        <div className="flex w-full h-px flex-col bg-gradient-to-r from-transparent via-[#aeb9b7] to-transparent"></div>
-        <div className="flex flex-col md:flex-row items-start md:items-center pt-[26px] pb-0 px-0 gap-2 md:gap-0">
-          <div className="w-fit text-[#0b3442] font-['Poppins'] text-base font-semibold">Naja</div>
-          <div className="w-fit md:mr-0 md:ml-4 text-[#344c54] font-['Poppins'] text-xs my-0">© 2026 Naja Andika</div>
-          <div className="mt-4 flex flex-wrap items-center gap-3 md:ml-auto md:mt-0">
-            <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=naja.andika3000@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Send email to Naja Andika"
-              aria-label="Send email to Naja Andika in a new tab"
-              className="flex size-8 items-center justify-center text-[#0b3442] transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              <span className="size-6" aria-hidden="true">
-                <MailIcon />
-              </span>
-            </a>
-            <a
-              href="https://github.com/najaandika"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Open Naja Andika GitHub profile"
-              aria-label="Open Naja Andika GitHub profile in a new tab"
-              className="flex size-8 items-center justify-center text-[#0b3442] transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              <span className="size-6" aria-hidden="true">
-                <GithubIcon />
-              </span>
-            </a>
-            <a
-              href="https://linkedin.com/in/naja-andika-447234317"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Open Naja Andika LinkedIn profile"
-              aria-label="Open Naja Andika LinkedIn profile in a new tab"
-              className="flex size-8 items-center justify-center text-[#0a66c2] transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              <span className="size-6" aria-hidden="true">
-                <LinkedinIcon />
-              </span>
-            </a>
-            <a
-              href="https://www.credly.com/users/naja-andika"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Open Naja Andika Credly profile"
-              aria-label="Open Naja Andika Credly profile in a new tab"
-              className="flex size-8 items-center justify-center text-[#ff6b00] transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              <span className="size-6" aria-hidden="true">
-                <CredlyIcon />
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div></Reveal>
+    </Reveal>
   );
 }

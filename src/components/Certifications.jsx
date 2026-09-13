@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useLanguage } from '../context/useLanguage';
 import { UdemyIcon, CourseraIcon, CiscoIcon } from './Icons';
 import Reveal from './Reveal';
 
@@ -89,6 +90,7 @@ function handleCardKey(event, link) {
 }
 
 export default function Certifications() {
+  const { t } = useLanguage();
   const scrollerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const progressPercent = certs.length > 1 ? ((activeIndex + 1) / certs.length) * 100 : 100;
@@ -136,16 +138,16 @@ export default function Certifications() {
   return (
     <Reveal><div id="certifications" className="flex min-w-0 min-h-[620px] flex-col items-center bg-[#f6f5ee] px-5 md:px-12 lg:px-20 xl:px-[120px] pt-[68px] pb-[84px] md:py-[72px] overflow-clip">
       <div className="flex w-full h-fit flex-col items-center gap-3">
-        <div className="w-fit text-[#0b3442] font-['Poppins'] text-[28px] md:text-[38px] font-semibold leading-normal tracking-[-1.2px] text-center">Learning & Certifications</div>
+        <div className="w-fit text-[#0b3442] font-['Poppins'] text-[28px] md:text-[38px] font-semibold leading-normal tracking-[-1.2px] text-center">{t.certifications.title}</div>
         <p className="m-0 max-w-[650px] text-center text-[#506066] font-['Poppins'] text-sm leading-[1.7]">
-          Verified learning in frontend development, UI design, technical support, data foundations, and productivity tools.
+          {t.certifications.subtitle}
         </p>
       </div>
       <div className="group/certs mt-[42px] w-full min-w-0 md:mt-[34px]">
         <div className="mb-3 hidden justify-end gap-2 opacity-80 transition-opacity duration-300 group-hover/certs:opacity-100 md:flex">
           <button
             type="button"
-            aria-label="Previous certificate"
+            aria-label={t.certifications.prev}
             onClick={() => scrollByDirection(-1)}
             disabled={activeIndex === 0}
             className="flex size-10 items-center justify-center rounded-full border border-[#d5dfdc] bg-white text-[#0b3442] shadow-[0px_8px_20px_rgba(8,47,61,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#176f69] hover:text-[#176f69] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:border-[#d5dfdc] disabled:hover:text-[#0b3442] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69]"
@@ -154,7 +156,7 @@ export default function Certifications() {
           </button>
           <button
             type="button"
-            aria-label="Next certificate"
+            aria-label={t.certifications.next}
             onClick={() => scrollByDirection(1)}
             disabled={activeIndex === certs.length - 1}
             className="flex size-10 items-center justify-center rounded-full border border-[#d5dfdc] bg-white text-[#0b3442] shadow-[0px_8px_20px_rgba(8,47,61,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#176f69] hover:text-[#176f69] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:border-[#d5dfdc] disabled:hover:text-[#0b3442] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69]"
@@ -192,7 +194,7 @@ export default function Certifications() {
                   <div className="w-full text-[#0b3442] font-['Poppins'] text-base font-semibold leading-[1.45] text-center">{cert.title}</div>
                   <div className="w-full text-[#5b6b70] font-['Poppins'] text-xs leading-normal text-center">{cert.issuer}</div>
                   <div className="mt-1 flex w-fit items-center gap-1.5 border-b border-[#176f69] pb-0.5 text-[#176f69] font-['Poppins'] text-[11px] font-semibold leading-normal">
-                    <span>View Certificate</span>
+                    <span>{t.certifications.viewCertificate}</span>
                     <span className="transition-transform duration-300 group-hover:translate-x-0.5">-&gt;</span>
                   </div>
                 </div>
