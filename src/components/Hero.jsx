@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useLanguage } from '../context/useLanguage';
 import { GraduationIcon, PhoneIcon } from './Icons';
 import LanguageSwitcher from './LanguageSwitcher';
-import Reveal from './Reveal';
 
 function scrollTo(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -55,8 +54,7 @@ export default function Hero() {
   }, [menuOpen]);
 
   return (
-    <Reveal>
-      <div id="home" className="notion-grid flex relative min-h-[740px] flex-col bg-[#f6f5ee] px-5 md:px-12 lg:px-20 xl:px-[120px] pt-[82px] pb-0">
+    <div id="home" className="notion-grid flex relative min-h-[740px] flex-col bg-[#f6f5ee] px-5 md:px-12 lg:px-20 xl:px-[120px] pt-[82px] pb-0">
         <div className="fixed left-1/2 top-0 z-50 flex h-[82px] w-full max-w-[1440px] -translate-x-1/2 shrink-0 items-center gap-3 md:gap-8 border-b border-[#dce6e2]/70 bg-[#f6f5ee]/82 px-6 shadow-[0px_10px_30px_rgba(8,47,61,0.04)] backdrop-blur-xl md:px-12 lg:px-20 xl:px-[120px]">
           <div className="w-[100px] md:w-[150px] shrink-0 text-[#0b3442] font-['Caveat'] text-[34px] font-semibold leading-none">Naja</div>
 
@@ -177,29 +175,28 @@ export default function Hero() {
                 </div>
               </div>
               <div className="flex flex-col text-[#111111] text-[15px] font-medium leading-[1.35]">
-                <div className="w-fit text-black font-['Inter'] text-sm font-medium">{t.hero.badgeRole1}</div>
-                <div className="w-fit text-black font-['Inter'] text-sm font-medium">{t.hero.badgeRole2}</div>
-                <div className="w-fit text-black font-['Inter'] text-sm font-medium">{t.hero.badgeRole3}</div>
+                <div className="w-fit text-black font-['Poppins'] text-xs font-semibold uppercase tracking-[0.8px]">{t.hero.badgeRole1}</div>
+                <div className="w-fit text-black font-['Poppins'] text-xs font-semibold uppercase tracking-[0.8px]">{t.hero.badgeRole2}</div>
+                <div className="w-fit text-black font-['Poppins'] text-xs font-semibold uppercase tracking-[0.8px]">{t.hero.badgeRole3}</div>
               </div>
             </div>
           </div>
 
           <div className="flex w-full lg:w-[40%] min-h-[340px] sm:min-h-[420px] lg:min-h-[650px] flex-col shrink-0 justify-end">
             <img
-              src="/images/hero-640.webp"
+              src="/images/hero-480.webp"
               srcSet="/images/hero-480.webp 480w, /images/hero-640.webp 640w"
-              sizes="(min-width: 1024px) 40vw, 640px"
+              sizes="(min-width: 1024px) 40vw, calc(100vw - 40px)"
               alt="Naja Andika"
               width="520"
               height="650"
               fetchPriority="high"
               loading="eager"
               decoding="async"
-              className="hero-enter-photo flex w-full h-[340px] sm:h-[420px] lg:h-[650px] shrink-0 object-cover object-center rounded-3xl shadow-[0px_20px_48px_rgba(8,47,61,0.13)] transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] hover:scale-[1.015]"
+              className="flex w-full h-[340px] sm:h-[420px] lg:h-[650px] shrink-0 object-cover object-center rounded-3xl shadow-[0px_20px_48px_rgba(8,47,61,0.13)] transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] hover:scale-[1.015]"
             />
           </div>
         </div>
       </div>
-    </Reveal>
   );
 }

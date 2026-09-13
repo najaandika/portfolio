@@ -1,13 +1,11 @@
-import { lazy, Suspense } from 'react';
 import { LanguageProvider } from './context/LanguageProvider';
 import { useLanguage } from './context/useLanguage';
 import Hero from './components/Hero';
-
-const Skills = lazy(() => import('./components/Skills'));
-const Education = lazy(() => import('./components/Education'));
-const Projects = lazy(() => import('./components/Projects'));
-const Certifications = lazy(() => import('./components/Certifications'));
-const Footer = lazy(() => import('./components/Footer'));
+import Skills from './components/Skills';
+import Education from './components/Education';
+import Projects from './components/Projects';
+import Certifications from './components/Certifications';
+import Footer from './components/Footer';
 
 function PortfolioContent() {
   const { t } = useLanguage();
@@ -17,16 +15,12 @@ function PortfolioContent() {
       <a href="#main-content" className="skip-link">{t.skipLink}</a>
       <main id="main-content" tabIndex="-1">
         <Hero />
-        <Suspense fallback={null}>
-          <Skills />
-          <Education />
-          <Projects />
-          <Certifications />
-        </Suspense>
+        <Skills />
+        <Education />
+        <Projects />
+        <Certifications />
       </main>
-      <Suspense fallback={null}>
-        <Footer />
-      </Suspense>
+      <Footer />
     </div>
   );
 }
