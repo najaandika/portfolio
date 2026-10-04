@@ -94,6 +94,12 @@ export const translations = {
           badgeText: 'Live Website',
           ctaText: 'View Live Preview',
         },
+        {
+          title: 'POS Counter & QR Table Ordering System',
+          desc: 'Modern restaurant & cafe POS built with Next.js and TypeScript, featuring customer QR self-ordering, cashier ticket counter, kitchen queue, and owner staff/table management.',
+          badgeText: 'Next.js App',
+          ctaText: 'View Details',
+        },
       ],
     },
     certifications: {
@@ -207,6 +213,12 @@ export const translations = {
           desc: 'Merancang platform edukasi pertolongan pertama berbasis gamifikasi untuk melatih pengambilan keputusan yang tepat dan tenang dalam situasi darurat.',
           badgeText: 'Website Aktif',
           ctaText: 'Lihat Live Preview',
+        },
+        {
+          title: 'Sistem POS & Pemesanan Meja QR',
+          desc: 'Aplikasi kasir & restoran modern berbasis Next.js dan TypeScript, dilengkapi self-ordering meja via QR, POS counter kasir cepat, antrean dapur live, dan manajemen staf/meja owner.',
+          badgeText: 'Aplikasi Next.js',
+          ctaText: 'Lihat Detail',
         },
       ],
     },

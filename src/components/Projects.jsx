@@ -51,8 +51,20 @@ const projectMeta = [
     btnBg: 'bg-[#0755c9]',
     btnText: 'text-white',
     badge: 'bg-white/60 border-[#0755c966] text-[#16488e]',
-    link: null,
+    link: 'https://bhd-hero.vercel.app',
     image: '/images/project-bhd-hero.png',
+  },
+  {
+    tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+    bg: 'bg-[#1e293b]',
+    descColor: 'text-[#cbd5e1]',
+    titleColor: 'text-white',
+    tagColor: 'text-[#93c5fd]',
+    btnBg: 'bg-[#2563eb]',
+    btnText: 'text-white',
+    badge: 'bg-white/10 border-white/20 text-[#bfdbfe]',
+    link: null,
+    image: '/images/project-pos.png',
   },
 ];
 
