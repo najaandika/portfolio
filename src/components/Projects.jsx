@@ -17,21 +17,20 @@ const projectMeta = [
     imageSet: '/images/project-service-ac-480.webp 480w, /images/project-service-ac-768.webp 768w, /images/project-service-ac-960.webp 960w',
   },
   {
-    tags: ['Laravel', 'Midtrans', 'MySQL'],
-    bg: 'bg-[#e8b84a]',
-    descColor: 'text-[#263f43]',
+    tags: ['React', 'TypeScript', 'Admin Dashboard'],
+    bg: 'bg-[#f1f0e8]',
+    descColor: 'text-[#465047]',
     titleColor: 'text-[#0b3442]',
-    tagColor: 'text-[#4f563e]',
-    btnBg: 'bg-[#173f41]',
+    tagColor: 'text-[#526052]',
+    btnBg: 'bg-[#3f523f]',
     btnText: 'text-white',
-    badge: 'bg-[#ffffff24] border-[#173f4166] text-[#173f41]',
-    link: 'https://github.com/najaandika/thrif_app.git',
-    image: '/images/project-thrif-960.webp',
-    imageSet: '/images/project-thrif-480.webp 480w, /images/project-thrif-768.webp 768w, /images/project-thrif-960.webp 960w',
+    badge: 'bg-white/60 border-[#3f523f66] text-[#3f523f]',
+    link: 'https://e-commerce-mobile.figma.site/',
+    image: '/images/project-fashion-app.png',
   },
   {
     tags: ['Storefront', 'Checkout Flow', 'Responsive UI'],
-    bg: 'bg-[#f1c98f]',
+    bg: 'bg-[#f3dfbe]',
     descColor: 'text-[#3e372e]',
     titleColor: 'text-[#0b3442]',
     tagColor: 'text-[#5c4c34]',
@@ -56,15 +55,27 @@ const projectMeta = [
   },
   {
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-    bg: 'bg-[#1e293b]',
-    descColor: 'text-[#cbd5e1]',
-    titleColor: 'text-white',
-    tagColor: 'text-[#93c5fd]',
-    btnBg: 'bg-[#2563eb]',
+    bg: 'bg-[#e8edf2]',
+    descColor: 'text-[#526273]',
+    titleColor: 'text-[#17324d]',
+    tagColor: 'text-[#4e6c89]',
+    btnBg: 'bg-[#315d83]',
     btnText: 'text-white',
-    badge: 'bg-white/10 border-white/20 text-[#bfdbfe]',
+    badge: 'bg-white/70 border-[#315d8366] text-[#315d83]',
     link: null,
     image: '/images/project-pos.png',
+  },
+  {
+    tags: ['React', 'Role-Based UX', 'Mobile App'],
+    bg: 'bg-[#fff4df]',
+    descColor: 'text-[#5d5142]',
+    titleColor: 'text-[#253126]',
+    tagColor: 'text-[#6a604f]',
+    btnBg: 'bg-[#f47732]',
+    btnText: 'text-white',
+    badge: 'bg-white/70 border-[#f4773266] text-[#c85f24]',
+    link: 'https://parcelify.figma.site/',
+    image: '/images/project-parcel-app.png',
   },
 ];
 
@@ -113,8 +124,8 @@ export default function Projects() {
           <div className="flex w-full h-fit flex-wrap gap-6">
             {projects.map((project, idx) => (
               <Reveal key={project.title} className="w-full lg:w-[calc(50%_-_12px)]" delay={idx * 110}>
-                <div className={`flex w-full min-h-[430px] sm:min-h-[500px] md:min-h-[540px] flex-col ${project.bg} shadow-[0px_18px_50px_rgba(11,52,66,0.12)] rounded-[20px] overflow-clip transition-all duration-300 hover:-translate-y-1 hover:shadow-[0px_24px_58px_rgba(11,52,66,0.18)] group`}>
-                  <div className="flex h-fit min-h-[230px] md:min-h-[260px] flex-col pt-7 md:pt-8 pb-6 md:pb-7 px-6 md:px-8 gap-3">
+                <div className={`flex w-full min-h-[430px] sm:min-h-[500px] md:h-[540px] md:min-h-[540px] flex-col ${project.bg} shadow-[0px_18px_50px_rgba(11,52,66,0.12)] rounded-[20px] overflow-clip transition-all duration-300 hover:-translate-y-1 hover:shadow-[0px_24px_58px_rgba(11,52,66,0.18)] group`}>
+                  <div className="flex h-fit min-h-[230px] md:min-h-0 md:flex-1 flex-col pt-7 md:pt-8 pb-6 md:pb-7 px-6 md:px-8 gap-3">
                     <div className={`w-fit ${project.titleColor} font-['Poppins'] text-[21px] md:text-[26px] font-semibold leading-[1.2] tracking-[-0.4px]`}>{project.title}</div>
                     <div className={`w-fit max-w-[500px] ${project.descColor} font-['Poppins'] text-[13px] md:text-sm leading-[1.65]`}>{project.desc}</div>
                     <div className="flex h-fit items-center pt-2 pb-0 mt-auto mb-0 px-0 mx-0 gap-3 flex-wrap">
@@ -153,7 +164,7 @@ export default function Projects() {
                       sizes="(min-width: 1024px) 44vw, calc(100vw - 40px)"
                       alt=""
                       aria-hidden="true"
-                      className="absolute inset-0 h-full w-full object-contain object-bottom transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-2 group-hover:scale-[1.045]"
+                      className="absolute inset-0 h-full w-full object-contain object-center transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-2 group-hover:scale-[1.045]"
                       loading="lazy"
                     />
                     <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/10 to-transparent opacity-40 transition-opacity duration-300 group-hover:opacity-20"></div>

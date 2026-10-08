@@ -80,7 +80,7 @@ export default function Skills() {
               <div className="w-fit text-[#293f47] font-['Poppins'] text-xs leading-normal">{t.skills.gpaLabel}</div>
             </div>
             <div className="group/stat flex flex-col border-b border-transparent pb-1 transition-colors duration-300 hover:border-[#176f69]">
-              <div className="w-fit text-[#0b3442] font-['Poppins'] text-[43px] font-semibold leading-normal transition-transform duration-300 group-hover/stat:-translate-y-0.5">3+</div>
+              <div className="w-fit text-[#0b3442] font-['Poppins'] text-[43px] font-semibold leading-normal transition-transform duration-300 group-hover/stat:-translate-y-0.5">5+</div>
               <div className="w-fit text-[#293f47] font-['Poppins'] text-xs leading-normal">{t.skills.projectsLabel}</div>
             </div>
           </div>
