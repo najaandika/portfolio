@@ -1,230 +1,468 @@
-import { useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { useLanguage } from '../context/useLanguage';
-import { UdemyIcon, CourseraIcon, CiscoIcon } from './Icons';
-import Reveal from './Reveal';
+import { CiscoIcon, CourseraIcon } from './Icons';
+import useCertificationsGsap from '../hooks/useCertificationsGsap';
+import './Certifications.css';
 
-const certs = [
-  {
-    icon: <CiscoIcon />,
-    iconBg: 'bg-white border-4 border-[#1BA0D7]',
-    iconColor: 'text-[#1BA0D7]',
-    accentBorder: 'hover:border-[#9bdcf2]',
-    title: 'HTML Essentials',
-    issuer: 'Cisco Networking Academy - HTML',
-    link: 'https://www.netacad.com/certificates/?issuanceId=3baaf20d-b262-474b-bb2f-447376f6c251',
-  },
-  {
-    icon: <CiscoIcon />,
-    iconBg: 'bg-white border-4 border-[#1BA0D7]',
-    iconColor: 'text-[#1BA0D7]',
-    accentBorder: 'hover:border-[#9bdcf2]',
-    title: 'CSS Essentials',
-    issuer: 'Cisco Networking Academy - CSS',
-    link: 'https://www.netacad.com/certificates/?issuanceId=40adb325-8465-473d-9cdf-28d7328d1330',
-  },
-  {
-    icon: <CiscoIcon />,
-    iconBg: 'bg-white border-4 border-[#1BA0D7]',
-    iconColor: 'text-[#1BA0D7]',
-    accentBorder: 'hover:border-[#9bdcf2]',
-    title: 'JavaScript Essentials 1',
-    issuer: 'Cisco Networking Academy - JavaScript',
-    link: 'https://www.netacad.com/certificates/?issuanceId=767fad3f-fb31-4b18-ac68-810c3a39cb9f',
-  },
-  {
-    icon: <UdemyIcon />,
-    iconBg: 'bg-white border-4 border-[#a435f0]',
-    iconColor: 'text-[#a435f0]',
-    accentBorder: 'hover:border-[#d7a8ff]',
-    title: 'Complete Figma Course: Web & Mobile Projects from Scratch',
-    issuer: 'Udemy - Issued 2026 - Figma, Web & Mobile Design',
-    link: 'https://www.udemy.com/certificate/UC-c53eabf9-4c22-4d7a-a100-9562428e5d8f/',
-  },
-  {
-    icon: <CourseraIcon />,
-    iconBg: 'bg-white border-4 border-[#0056D2]',
-    iconColor: 'text-[#0056D2]',
-    accentBorder: 'hover:border-[#9fc5ff]',
-    title: 'Technical Support Fundamentals',
-    issuer: 'Coursera - Google IT Support Professional Certificate',
-    link: 'https://www.coursera.org/account/accomplishments/verify/JSAB0CEKIF8Y',
-  },
-  {
-    icon: <CourseraIcon />,
-    iconBg: 'bg-white border-4 border-[#0056D2]',
-    iconColor: 'text-[#0056D2]',
-    accentBorder: 'hover:border-[#9fc5ff]',
-    title: 'Foundations: Data, Data, Everywhere',
-    issuer: 'Coursera - Google Data Analytics - Data Foundations',
-    link: 'https://coursera.org/share/4d57e930eddb785e730704fdd6bc16fb',
-  },
-  {
-    icon: <CourseraIcon />,
-    iconBg: 'bg-white border-4 border-[#0056D2]',
-    iconColor: 'text-[#0056D2]',
-    accentBorder: 'hover:border-[#9fc5ff]',
-    title: 'Excel Skills for Business: Essentials',
-    issuer: 'Coursera - Macquarie University - Excel Essentials',
-    link: 'https://coursera.org/share/272100def0d31b378bcf52b1ca7ba4dc',
-  },
-  {
-    icon: <CiscoIcon />,
-    iconBg: 'bg-white border-4 border-[#1BA0D7]',
-    iconColor: 'text-[#1BA0D7]',
-    accentBorder: 'hover:border-[#9bdcf2]',
-    title: 'IT Customer Support Basics',
-    issuer: 'Cisco Networking Academy - IT Customer Support',
-    link: 'https://www.netacad.com/certificates/?issuanceId=87128f64-69cf-4169-be89-e2aa9dc934b8',
-  },
+// Preload GSAP in its own chunk so the modal opens quickly without adding
+// the animation engine to the critical-path React bundle.
+const gsapModulePromise = import('gsap').catch(() => null);
+
+// Asset files are bundled automatically when placed in src/assets/certifications.
+// Missing assets simply use the accessible editorial illustration below.
+const badgeAssets = import.meta.glob('../assets/certifications/badges/*.webp', { eager: true, query: '?url', import: 'default' });
+const previewAssets = import.meta.glob('../assets/certifications/previews/*.webp', { eager: true, query: '?url', import: 'default' });
+const badgeFor = (id) => badgeAssets[`../assets/certifications/badges/${id}.webp`];
+const previewFor = (id) => previewAssets[`../assets/certifications/previews/${id}.webp`];
+
+// Each course is a single credential: a Cisco badge and its completion certificate
+// represent the same achievement, not two separate certificates.
+const credentials = [
+  { id: 'html', title: 'HTML Essentials', issuer: 'Cisco Networking Academy', provider: 'cisco', category: 'development', issued: '02 Sep 2026', certificateId: '3baaf20d-b262-474b-bb2f-447376f6c251', verificationUrl: 'https://www.credly.com/badges/ea5a2f30-e5f4-4c80-810a-cdccd15b301a', tags: ['HTML', 'Web fundamentals'] },
+  { id: 'css', title: 'CSS Essentials', issuer: 'Cisco Networking Academy', provider: 'cisco', category: 'development', issued: '02 Sep 2026', certificateId: '40adb325-8465-473d-9cdf-28d7328d1330', verificationUrl: 'https://www.credly.com/badges/64b72413-8787-4fd4-b499-d3fe777c579e', tags: ['CSS', 'Web styling'] },
+  { id: 'javascript-1', title: 'JavaScript Essentials 1', issuer: 'Cisco Networking Academy', provider: 'cisco', category: 'development', issued: '03 Sep 2026', certificateId: '767fad3f-fb31-4b18-ac68-810c3a39cb9f', verificationUrl: 'https://www.credly.com/badges/4d50bfcd-36dc-49f9-b825-e1779df27f35', tags: ['JavaScript', 'Programming'] },
+  { id: 'javascript-2', title: 'JavaScript Essentials 2', issuer: 'Cisco Networking Academy', provider: 'cisco', category: 'development', issued: '03 Sep 2026', certificateId: '80ae2acd-21c5-4ddf-8517-b1ef499bac98', verificationUrl: 'https://www.credly.com/badges/d61735aa-0343-4696-a96c-79e60b734d82', tags: ['JavaScript', 'Advanced concepts'] },
+  { id: 'operating-systems', title: 'Operating Systems Basics', issuer: 'Cisco Networking Academy', provider: 'cisco', category: 'it', issued: '03 Sep 2026', certificateId: 'ca60f423-cf4c-4534-941c-3b71c98474fc', verificationUrl: 'https://www.credly.com/badges/3ab11ea0-0457-416a-ae22-036299c8adf3', tags: ['Operating systems', 'IT fundamentals'] },
+  { id: 'computer-hardware', title: 'Computer Hardware Basics', issuer: 'Cisco Networking Academy', provider: 'cisco', category: 'it', issued: '02 Sep 2026', certificateId: '674e0f0d-033c-4af6-ba02-bc60b8f12f39', verificationUrl: 'https://www.credly.com/badges/efc48803-d3c7-49f2-b22d-400fff1c8696', tags: ['Hardware', 'IT fundamentals'] },
+  { id: 'customer-support', title: 'IT Customer Support Basics', issuer: 'Cisco Networking Academy', provider: 'cisco', category: 'it', issued: '01 Sep 2026', certificateId: null, verificationUrl: 'https://www.credly.com/badges/317b5eb7-30e1-49c0-803c-a9a7bad3637b', tags: ['Technical support', 'Customer service'] },
+  { id: 'technical-support', title: 'Technical Support Fundamentals', issuer: 'Google · Coursera', provider: 'coursera', category: 'it', issued: '29 Aug 2026', certificateId: 'JSAB0CEKIF8Y', verificationUrl: 'https://www.coursera.org/verify/JSAB0CEKIF8Y', tags: ['IT support', 'Troubleshooting'] },
+  { id: 'data-foundations', title: 'Foundations: Data, Data, Everywhere', issuer: 'Google · Coursera', provider: 'coursera', category: 'data', issued: '05 Aug 2026', certificateId: '3N3YL7IMMCB3', verificationUrl: 'https://www.coursera.org/verify/3N3YL7IMMCB3', tags: ['Data analytics', 'Data literacy'] },
+  { id: 'excel', title: 'Excel Skills for Business: Essentials', issuer: 'Macquarie University · Coursera', provider: 'coursera', category: 'data', issued: '03 Aug 2026', certificateId: 'FVP4GV07CU34', verificationUrl: 'https://www.coursera.org/verify/FVP4GV07CU34', tags: ['Excel', 'Business productivity'] },
 ];
 
-function openExternal(link) {
-  window.open(link, '_blank', 'noopener,noreferrer');
+const filters = ['all', 'development', 'it', 'data'];
+
+// A short curated opening gives both Cisco badges and Coursera certificates
+// a place in the first row on every screen, without hiding other credentials
+// from search filters or the expanded view.
+const featuredIds = ['html', 'javascript-1', 'data-foundations', 'css', 'javascript-2', 'technical-support'];
+const featuredCredentials = [
+  ...featuredIds.map((id) => credentials.find((item) => item.id === id)),
+  ...credentials.filter((item) => !featuredIds.includes(item.id)),
+];
+const getCompactLimit = () => (
+  window.innerWidth <= 700 ? 3 : window.innerWidth <= 1050 ? 4 : 6
+);
+
+function ArrowIcon({ diagonal = false }) {
+  return (
+    <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      {diagonal ? <path d="M6 18 18 6M7 6h11v11" /> : <path d="M4 12h16m-7-7 7 7-7 7" />}
+    </svg>
+  );
 }
 
-function handleCardKey(event, link) {
-  if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault();
-    openExternal(link);
+function BrandMark({ provider }) {
+  return (
+    <span className={'credential-brand-mark credential-brand-mark--' + provider} aria-hidden="true">
+      {provider === 'cisco' ? <CiscoIcon /> : <CourseraIcon />}
+    </span>
+  );
+}
+
+// Show the original Cisco badge when installed; use an illustration otherwise.
+function CredentialArtwork({ credential, large = false }) {
+  const certificatePreview = previewFor(credential.id);
+  if (certificatePreview) {
+    return <img className={'credential-certificate-preview' + (large ? ' credential-certificate-preview--large' : '')} src={certificatePreview} alt={credential.title + ' — original Coursera certificate'} width="873" height="681" decoding="async" loading={large ? 'eager' : 'lazy'} />;
   }
+  const badge = badgeFor(credential.id);
+  if (badge) {
+    return <img className={'credential-actual-badge' + (large ? ' credential-actual-badge--large' : '')} src={badge} alt={credential.title + ' digital badge'} loading={large ? 'eager' : 'lazy'} />;
+  }
+  if (credential.provider === 'cisco') {
+    return (
+      <div className={'credential-art credential-art--cisco' + (large ? ' credential-art--large' : '')} aria-hidden="true">
+        <div className="credential-badge-top">
+          <CiscoIcon />
+          <span>Networking<br />Academy</span>
+        </div>
+        <div className="credential-badge-wave">
+          <strong>Verified</strong>
+          <span className="credential-badge-wave-light" />
+        </div>
+        <div className="credential-badge-course">{credential.title}</div>
+      </div>
+    );
+  }
+
+  const institution = credential.id === 'excel' ? 'Macquarie University' : 'Google';
+  return (
+    <div className={'credential-art credential-art--coursera' + (large ? ' credential-art--large' : '')} aria-hidden="true">
+      <div className="credential-course-top">
+        <span>{institution}</span>
+        <CourseraIcon />
+      </div>
+      <div className="credential-course-stamp">COURSE<br />CERTIFICATE</div>
+      <div className="credential-course-name">{credential.title}</div>
+      <div className="credential-course-bottom">COURSERA · 2026</div>
+    </div>
+  );
+}
+
+function CredentialDialog({ credential, copy, onClose }) {
+  const closeRef = useRef(null);
+  const backdropRef = useRef(null);
+  const dialogRef = useRef(null);
+  const hasOriginalBadge = Boolean(badgeFor(credential.id));
+  const hasOriginalPreview = Boolean(previewFor(credential.id));
+
+  useEffect(() => {
+    closeRef.current?.focus({ preventScroll: true });
+    const oldOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKey = (event) => {
+      if (event.key === 'Escape') onClose();
+      if (event.key !== 'Tab') return;
+      const focusable = dialogRef.current?.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])');
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.body.style.overflow = oldOverflow;
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [onClose]);
+
+  useLayoutEffect(() => {
+    const backdrop = backdropRef.current;
+    const dialog = dialogRef.current;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!backdrop || !dialog || reduced.matches) return undefined;
+
+    // Hide before paint so a cached or delayed dynamic import never shows
+    // the modal at 100% and then flashes it back to transparent.
+    backdrop.style.opacity = '0';
+    backdrop.style.visibility = 'hidden';
+    dialog.style.opacity = '0';
+    dialog.style.visibility = 'hidden';
+    let disposed = false;
+    let context;
+    let unbind;
+    const animate = async () => {
+      const module = await gsapModulePromise;
+      if (disposed) return;
+      if (!module) {
+        backdrop.style.removeProperty('opacity');
+        backdrop.style.removeProperty('visibility');
+        dialog.style.removeProperty('opacity');
+        dialog.style.removeProperty('visibility');
+        closeRef.current?.focus({ preventScroll: true });
+        return;
+      }
+      const { gsap } = module;
+      context = gsap.context(() => {
+        gsap.fromTo(backdrop, { autoAlpha: 0 }, {
+          autoAlpha: 1, duration: 0.20, ease: 'power2.out',
+        });
+        gsap.fromTo(dialog, {
+          autoAlpha: 0,
+          scale: window.innerWidth < 701 ? 1 : 0.985,
+          y: window.innerWidth < 701 ? 8 : 0,
+        }, {
+          autoAlpha: 1, scale: 1, y: 0, duration: 0.27,
+          ease: 'power2.out', clearProps: 'opacity,visibility,transform',
+          onComplete: () => closeRef.current?.focus({ preventScroll: true }),
+        });
+      }, backdrop);
+      const link = dialog.querySelector('.credential-verification-link');
+      const arrow = link?.querySelector('svg');
+      if (link && arrow && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const enter = () => gsap.to(arrow, { x: 2, y: -2, duration: 0.18, ease: 'power2.out', overwrite: 'auto' });
+        const leave = () => gsap.to(arrow, { x: 0, y: 0, duration: 0.18, ease: 'power2.out', overwrite: 'auto' });
+        link.addEventListener('pointerenter', enter);
+        link.addEventListener('pointerleave', leave);
+        unbind = () => {
+          link.removeEventListener('pointerenter', enter);
+          link.removeEventListener('pointerleave', leave);
+          gsap.killTweensOf(arrow);
+        };
+      }
+    };
+    void animate();
+
+    return () => {
+      disposed = true;
+      unbind?.();
+      context?.revert();
+      for (const element of [backdrop, dialog]) {
+        element.style.removeProperty('opacity');
+        element.style.removeProperty('visibility');
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={backdropRef} className="credential-modal-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <section className="credential-modal" role="dialog" aria-modal="true" aria-labelledby="credential-dialog-heading" ref={dialogRef}>
+        <button ref={closeRef} className="credential-modal-close" type="button" onClick={onClose} aria-label={copy.close}>×</button>
+        <div className="credential-modal-visual">
+          <span className="credential-modal-eyebrow">{hasOriginalPreview ? copy.previewLabel : hasOriginalBadge ? copy.badgeLabel : copy.visualLabel}</span>
+          <CredentialArtwork credential={credential} large />
+          {!hasOriginalBadge && !hasOriginalPreview && <span className="credential-modal-footnote">{copy.visualNote}</span>}
+        </div>
+        <div className="credential-modal-content">
+          <div className="credential-modal-count">{credential.provider === 'cisco' ? 'CISCO NETWORKING ACADEMY' : 'COURSERA'} <span> / 2026</span></div>
+          <h3 id="credential-dialog-heading">{credential.title}</h3>
+          <p className="credential-modal-issuer">{credential.issuer}</p>
+          <div className="credential-modal-rule" />
+          <dl className="credential-modal-metadata">
+            <div><dt>{copy.issued}</dt><dd>{credential.issued}</dd></div>
+            <div><dt>{copy.issuer}</dt><dd>{credential.issuer}</dd></div>
+            {credential.certificateId && <div><dt>{copy.idLabel}</dt><dd className="credential-id">{credential.certificateId}</dd></div>}
+          </dl>
+          <div className="credential-modal-skills" aria-label={copy.skills}>
+            {credential.tags.map((tag) => <span key={tag}>{tag}</span>)}
+          </div>
+          {credential.verificationUrl && (
+            <a className="credential-verification-link" href={credential.verificationUrl} target="_blank" rel="noopener noreferrer">
+              {credential.provider === 'cisco' ? copy.verifyCredly : copy.verifyCoursera} <ArrowIcon diagonal />
+            </a>
+          )}
+          <button type="button" className="credential-modal-done" onClick={onClose}>
+            {copy.done} <ArrowIcon />
+          </button>
+        </div>
+      </section>
+    </div>
+  );
 }
 
 export default function Certifications() {
   const { t } = useLanguage();
-  const scrollerRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const progressPercent = certs.length > 1 ? ((activeIndex + 1) / certs.length) * 100 : 100;
+  const copy = t.certifications;
+  const sectionRef = useRef(null);
+  const gridRef = useRef(null);
+  const expandTimelineRef = useRef(null);
+  const expandLockRef = useRef(false);
+  const [filter, setFilter] = useState('all');
+  const [expanded, setExpanded] = useState(false);
+  const [compactLimit, setCompactLimit] = useState(getCompactLimit);
+  const compactLimitRef = useRef(compactLimit);
+  const [isExpanding, setIsExpanding] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const lastTrigger = useRef(null);
+  const visible = filter === 'all' ? featuredCredentials : credentials.filter((item) => item.category === filter);
+  const displayCount = filter === 'all' && !expanded ? compactLimit : visible.length;
+  useCertificationsGsap(sectionRef, filter);
 
-  const scrollToCert = (index) => {
-    const scroller = scrollerRef.current;
-    const card = scroller?.children[index];
-
-    if (!scroller || !card) return;
-
-    scroller.scrollTo({
-      left: card.offsetLeft - scroller.offsetLeft,
-      behavior: 'smooth',
-    });
-    setActiveIndex(index);
-  };
-
-  const scrollByDirection = (direction) => {
-    const nextIndex = Math.min(Math.max(activeIndex + direction, 0), certs.length - 1);
-    scrollToCert(nextIndex);
-  };
-
-  const updateActiveCert = () => {
-    const scroller = scrollerRef.current;
-
-    if (!scroller) return;
-
-    const scrollCenter = scroller.scrollLeft + scroller.clientWidth / 2;
-    let nearestIndex = 0;
-    let nearestDistance = Infinity;
-
-    Array.from(scroller.children).forEach((card, index) => {
-      const cardCenter = card.offsetLeft + card.clientWidth / 2;
-      const distance = Math.abs(scrollCenter - cardCenter);
-
-      if (distance < nearestDistance) {
-        nearestIndex = index;
-        nearestDistance = distance;
+  useEffect(() => {
+    const onResize = () => {
+      const nextLimit = getCompactLimit();
+      // Mobile browser chrome can resize the viewport's HEIGHT while scrolling.
+      // Only reconfigure the grid when the actual column breakpoint changes.
+      if (nextLimit === compactLimitRef.current) return;
+      compactLimitRef.current = nextLimit;
+      if (expandTimelineRef.current) {
+        expandTimelineRef.current.kill();
+        expandTimelineRef.current = null;
+        const grid = gridRef.current;
+        void gsapModulePromise.then((module) => {
+          if (!module || !grid) return;
+          const { gsap } = module;
+          gsap.set(grid, { clearProps: 'height,overflow' });
+          gsap.set(grid.querySelectorAll('.credential-card'), { clearProps: 'opacity,visibility,transform,boxShadow' });
+        });
+        expandLockRef.current = false;
+        setIsExpanding(false);
       }
-    });
+      setCompactLimit(nextLimit);
+    };
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
-    setActiveIndex(nearestIndex);
-  };
+  useEffect(() => () => {
+    expandTimelineRef.current?.kill();
+    expandTimelineRef.current = null;
+  }, []);
+
+  async function toggleExpanded() {
+    if (expandLockRef.current || filter !== 'all') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setExpanded((current) => !current);
+      return;
+    }
+    expandLockRef.current = true;
+    setIsExpanding(true);
+    try {
+      const module = await gsapModulePromise;
+      if (!module) {
+        setExpanded((current) => !current);
+        return;
+      }
+      const { gsap } = module;
+      const grid = gridRef.current;
+      if (!grid) return;
+
+      const cards = [...grid.querySelectorAll('.credential-card')];
+      const extras = cards.slice(compactLimit);
+      gsap.killTweensOf([grid, ...extras]);
+      gsap.set(extras, { clearProps: 'opacity,visibility,transform,boxShadow' });
+      const startHeight = grid.getBoundingClientRect().height;
+
+      const finish = () => {
+        gsap.set(extras, { clearProps: 'opacity,visibility,transform,boxShadow' });
+        gsap.set(grid, { clearProps: 'height,overflow' });
+        expandTimelineRef.current = null;
+        expandLockRef.current = false;
+        setIsExpanding(false);
+        void import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => ScrollTrigger.refresh());
+      };
+
+      if (!expanded) {
+        // React commits before measuring: avoids Flip's duplicate transforms and
+        // stale hidden-card opacity left behind after repeated toggles.
+        flushSync(() => setExpanded(true));
+        const endHeight = grid.getBoundingClientRect().height;
+        gsap.set(grid, { height: startHeight, overflow: 'hidden' });
+        gsap.set(extras, { autoAlpha: 0, y: 12 });
+
+        expandTimelineRef.current = gsap.timeline({ onComplete: finish })
+          .to(grid, { height: endHeight, duration: 0.53, ease: 'power2.inOut' }, 0)
+          .to(extras, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.035, ease: 'power2.out' }, 0.09);
+      } else {
+        // Measure the bottom of the last retained card without abruptly hiding
+        // the extra rows. Fade and shrink together in ONE GSAP timeline.
+        const lastCard = cards[compactLimit - 1];
+        const endHeight = lastCard.getBoundingClientRect().bottom - grid.getBoundingClientRect().top;
+        const scrollState = { y: window.scrollY };
+        const scrollTarget = Math.max(0, scrollState.y - (startHeight - endHeight));
+        gsap.set(grid, { height: startHeight, overflow: 'hidden' });
+        expandTimelineRef.current = gsap.timeline({
+          onComplete: () => {
+            flushSync(() => setExpanded(false));
+            finish();
+          },
+        })
+          .to(grid, { height: endHeight, duration: 0.53, ease: 'power2.inOut' }, 0)
+          // Keep the control at a stable viewport position as the preceding
+          // rows contract; avoids a sudden scroll clamp near the page bottom.
+          .to(scrollState, {
+            y: scrollTarget,
+            duration: 0.53,
+            ease: 'power2.inOut',
+            // Force the per-frame position immediately. Global
+            // scroll-behavior:smooth would otherwise queue a second animation
+            // and make the viewport lag behind the shrinking grid.
+            onUpdate: () => window.scrollTo({ top: scrollState.y, behavior: 'instant' }),
+          }, 0)
+          .to(extras, { autoAlpha: 0, y: -8, duration: 0.2, stagger: 0.025, ease: 'power1.in' }, 0);
+      }
+    } catch (error) {
+      console.error('Certifications expand animation could not load', error);
+      setExpanded((current) => !current);
+    } finally {
+      // The timeline owns the lock until onComplete; failures release it here.
+      if (!expandTimelineRef.current) {
+        expandLockRef.current = false;
+        setIsExpanding(false);
+      }
+    }
+  }
+
+  function closeDialog() {
+    setSelected(null);
+    requestAnimationFrame(() => lastTrigger.current?.focus({ preventScroll: true }));
+  }
+
+  function openDialog(credential, event) {
+    lastTrigger.current = event.currentTarget;
+    setSelected(credential);
+  }
 
   return (
-    <Reveal><div id="certifications" className="flex min-w-0 min-h-[620px] flex-col items-center bg-[#f6f5ee] px-5 md:px-12 lg:px-20 xl:px-[120px] pt-[68px] pb-[84px] md:py-[72px] overflow-clip">
-      <div className="flex w-full h-fit flex-col items-center gap-3">
-        <div className="w-fit text-[#0b3442] font-['Poppins'] text-[28px] md:text-[38px] font-semibold leading-normal tracking-[-1.2px] text-center">{t.certifications.title}</div>
-        <p className="m-0 max-w-[650px] text-center text-[#506066] font-['Poppins'] text-sm leading-[1.7]">
-          {t.certifications.subtitle}
-        </p>
-      </div>
-      <div className="group/certs mt-[42px] w-full min-w-0 md:mt-[34px]">
-        <div className="mb-3 hidden justify-end gap-2 opacity-80 transition-opacity duration-300 group-hover/certs:opacity-100 md:flex">
-          <button
-            type="button"
-            aria-label={t.certifications.prev}
-            onClick={() => scrollByDirection(-1)}
-            disabled={activeIndex === 0}
-            className="flex size-10 items-center justify-center rounded-full border border-[#d5dfdc] bg-white text-[#0b3442] shadow-[0px_8px_20px_rgba(8,47,61,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#176f69] hover:text-[#176f69] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:border-[#d5dfdc] disabled:hover:text-[#0b3442] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69]"
-          >
-            <span aria-hidden="true">&lt;</span>
-          </button>
-          <button
-            type="button"
-            aria-label={t.certifications.next}
-            onClick={() => scrollByDirection(1)}
-            disabled={activeIndex === certs.length - 1}
-            className="flex size-10 items-center justify-center rounded-full border border-[#d5dfdc] bg-white text-[#0b3442] shadow-[0px_8px_20px_rgba(8,47,61,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#176f69] hover:text-[#176f69] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:border-[#d5dfdc] disabled:hover:text-[#0b3442] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69]"
-          >
-            <span aria-hidden="true">&gt;</span>
-          </button>
+    <section ref={sectionRef} id="certifications" className="credentials-section" aria-labelledby="certifications-title">
+      <div className="credentials-container">
+        <div className="credentials-overline">
+          <span>{copy.eyebrow}</span>
+          <span>{copy.overlineEnd}</span>
         </div>
-        <div
-          ref={scrollerRef}
-          onScroll={updateActiveCert}
-          className="scrollbar-hide -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-[11vw] pb-7 pt-9 sm:gap-6 sm:px-5 md:-mx-12 md:px-12 lg:-mx-20 lg:px-20 xl:-mx-[120px] xl:px-[120px]"
-        >
-          {certs.map((cert, idx) => {
-            const isActive = activeIndex === idx;
 
-            return (
-              <Reveal key={cert.title} className="w-[78vw] min-w-[250px] max-w-[330px] shrink-0 snap-center sm:w-[45%] sm:max-w-none sm:snap-start lg:w-[31%]" delay={idx * 100}>
-                <div
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Open ${cert.title} certificate in a new tab`}
-                  onClick={() => openExternal(cert.link)}
-                  onKeyDown={(event) => handleCardKey(event, cert.link)}
-                  className={`group flex min-h-[238px] flex-col justify-center items-center bg-white border text-center rounded-[14px] px-5 md:px-[34px] py-8 gap-3 cursor-pointer ${cert.accentBorder} transition-all duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69] ${
-                    isActive
-                      ? 'border-[#dbe8e4] shadow-[0px_18px_42px_rgba(8,47,61,0.14)] opacity-100 md:scale-[1.02]'
-                      : 'border-transparent shadow-[0px_10px_28px_rgba(8,47,61,0.05)] opacity-75 md:scale-[0.985] hover:opacity-100 hover:scale-100 hover:-translate-y-1 hover:shadow-[0px_14px_34px_rgba(8,47,61,0.13)]'
-                  }`}
-                >
-                  <div className={`size-14 flex shrink-0 justify-center items-center mt-[-55px] mb-1 rounded-full mx-0 transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105 ${cert.iconBg}`}>
-                    <div className={`size-[26px] ${cert.iconColor}`}>
-                      {cert.icon}
-                    </div>
-                  </div>
-                  <div className="w-full text-[#0b3442] font-['Poppins'] text-base font-semibold leading-[1.45] text-center">{cert.title}</div>
-                  <div className="w-full text-[#5b6b70] font-['Poppins'] text-xs leading-normal text-center">{cert.issuer}</div>
-                  <div className="mt-1 flex w-fit items-center gap-1.5 border-b border-[#176f69] pb-0.5 text-[#176f69] font-['Poppins'] text-[11px] font-semibold leading-normal">
-                    <span>{t.certifications.viewCertificate}</span>
-                    <span className="transition-transform duration-300 group-hover:translate-x-0.5">-&gt;</span>
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
-        <div className="mx-auto mt-2 flex w-full max-w-[280px] flex-col items-center gap-3 sm:max-w-[360px]">
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#dce5e2]">
-            <div
-              className="h-full rounded-full bg-[#176f69] transition-[width] duration-500 ease-out"
-              style={{ width: `${progressPercent}%` }}
-            />
+        <div className="credentials-intro">
+          <div className="credentials-intro-title">
+            <p className="credentials-kicker">{copy.kicker}</p>
+            <h2 id="certifications-title">{copy.title}<span aria-hidden="true">.</span></h2>
           </div>
-          <div className="flex justify-center gap-2">
-            {certs.map((cert, idx) => (
+          <div className="credentials-intro-aside">
+            <p>{copy.subtitle}</p>
+            <div className="credentials-summary">
+              <span><strong>10</strong> {copy.certificatesCount}</span>
+              <span className="credentials-summary-dot" aria-hidden="true" />
+              <span><strong>02</strong> {copy.providersCount}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="credentials-toolbar">
+          <div className="credentials-filters" role="group" aria-label={copy.filterLabel}>
+            {filters.map((item) => (
               <button
-                key={cert.title}
+                key={item}
                 type="button"
-                aria-label={`Go to certificate ${idx + 1}`}
-                aria-current={activeIndex === idx}
-                onClick={() => scrollToCert(idx)}
-                className={`h-2 rounded-full transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69] ${
-                  activeIndex === idx ? 'w-6 bg-[#176f69]' : 'w-2 bg-[#b8c9c5] hover:bg-[#8da8a2]'
-                }`}
-              />
+                className={'credentials-filter' + (filter === item ? ' is-active' : '')}
+                aria-pressed={filter === item}
+                onClick={() => { setFilter(item); setExpanded(false); }}
+                disabled={isExpanding}
+              >
+                {copy.filters[item]}
+                {item === 'all' && <span className="credentials-filter-count">10</span>}
+              </button>
             ))}
           </div>
+          <span className="credentials-showing" aria-live="polite">{displayCount.toString().padStart(2, '0')} / 10 {copy.showing}</span>
         </div>
+
+        <div ref={gridRef} id="certifications-grid" className="credentials-grid">
+          {visible.map((credential, index) => (
+            <article className="credential-card" data-credential-id={credential.id} key={credential.id} hidden={filter === 'all' && !expanded && index >= compactLimit}>
+              <div className="credential-card-meta">
+                <span className="credential-card-number">{(index + 1).toString().padStart(2, '0')}</span>
+                <span className="credential-card-provider"><BrandMark provider={credential.provider} />{credential.provider === 'cisco' ? 'CISCO' : 'COURSERA'}</span>
+              </div>
+              <div className={'credential-card-artwork' + (credential.provider === 'coursera' ? ' credential-card-artwork--plain' : '')}><CredentialArtwork credential={credential} /></div>
+              <div className="credential-card-body">
+                <span className="credential-card-category">{copy.categories[credential.category]} · 2026</span>
+                <h3>{credential.title}</h3>
+                <p>{credential.issuer}</p>
+                <button type="button" className="credential-card-action" onClick={(event) => openDialog(credential, event)} aria-label={copy.viewCertificate + ': ' + credential.title}>
+                  <span>{copy.viewCertificate}</span>
+                  <span className="credential-card-action-icon"><ArrowIcon diagonal /></span>
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+        {filter === 'all' && (
+          <div className="credentials-expand-control">
+            <button
+              type="button"
+              className="credentials-expand-button"
+              onClick={toggleExpanded}
+              disabled={isExpanding}
+              aria-controls="certifications-grid"
+              aria-expanded={expanded}
+            >
+              <span>{expanded ? copy.showLess : copy.viewAll}</span>
+              <span className={'credentials-expand-icon' + (expanded ? ' is-expanded' : '')} aria-hidden="true">↓</span>
+            </button>
+          </div>
+        )}
+        <p className="credentials-footer-note">{copy.footerNote}</p>
       </div>
-    </div></Reveal>
+
+      {selected && <CredentialDialog credential={selected} copy={copy} onClose={closeDialog} />}
+    </section>
   );
 }

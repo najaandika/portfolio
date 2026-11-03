@@ -1,20 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../context/useLanguage';
-import { GraduationIcon, PhoneIcon } from './Icons';
+import useHeroPortraitTilt from '../hooks/useHeroPortraitTilt';
+import useHeroMobileParallax from '../hooks/useHeroMobileParallax';
+import useHeroIntroGsap from '../hooks/useHeroIntroGsap';
+import { CodeIcon, GraduationCapIcon } from './Icons';
 import LanguageSwitcher from './LanguageSwitcher';
-import Reveal from './Reveal';
-
-function scrollTo(id) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-}
+import { navigateToPortfolioSection } from '../utils/navigateToPortfolioSection';
 
 export default function Hero() {
   const { t } = useLanguage();
+  const portraitRef = useRef(null);
+  const copyRef = useRef(null);
+  const pendingMobileTarget = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  useHeroPortraitTilt(portraitRef);
+  useHeroMobileParallax(portraitRef);
+  useHeroIntroGsap(copyRef, t.hero.name, t.hero.role, t.hero.bio);
 
   useEffect(() => {
-    const sectionIds = ['skills', 'projects', 'education', 'experience'];
+    const sectionIds = ['skills', 'projects', 'education', 'experience', 'certifications'];
     const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
 
     function clearActiveNearTop() {
@@ -44,162 +49,221 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen) return undefined;
 
-    function closeOnEscape(event) {
-      if (event.key === 'Escape') setMenuOpen(false);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const panel = document.getElementById('mobile-navigation');
+    panel?.querySelector('a[href^="#"]')?.focus();
+
+    function onKeyDown(event) {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        document.querySelector('button[aria-controls="mobile-navigation"]')?.focus();
+        return;
+      }
+      if (event.key !== 'Tab' || !panel) return;
+      const focusable = [...panel.querySelectorAll('a[href], button:not([disabled])')];
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
     }
 
-    window.addEventListener('keydown', closeOnEscape);
-    return () => window.removeEventListener('keydown', closeOnEscape);
+    const media = window.matchMedia('(min-width: 1024px)');
+    const onDesktop = () => { if (media.matches) setMenuOpen(false); };
+    window.addEventListener('keydown', onKeyDown);
+    media.addEventListener('change', onDesktop);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+      media.removeEventListener('change', onDesktop);
+    };
   }, [menuOpen]);
 
-  return (
-    <Reveal>
-      <div id="home" className="notion-grid flex relative min-h-[740px] flex-col bg-[#f6f5ee] px-5 md:px-12 lg:px-20 xl:px-[120px] pt-[82px] pb-0">
-        <div className="fixed left-1/2 top-0 z-50 flex h-[82px] w-full max-w-[1440px] -translate-x-1/2 shrink-0 items-center gap-3 md:gap-8 border-b border-[#dce6e2]/70 bg-[#f6f5ee]/82 px-6 shadow-[0px_10px_30px_rgba(8,47,61,0.04)] backdrop-blur-xl md:px-12 lg:px-20 xl:px-[120px]">
-          <div className="w-[100px] md:w-[150px] shrink-0 text-[#0b3442] font-['Caveat'] text-[34px] font-semibold leading-none">Naja</div>
+  // The overlay locks body scrolling. Navigate only after its cleanup has
+  // unlocked the page, otherwise a smooth-scroll anchor can silently fail.
+  useEffect(() => {
+    if (menuOpen || !pendingMobileTarget.current) return undefined;
+    const target = pendingMobileTarget.current;
+    pendingMobileTarget.current = null;
+    const frame = window.requestAnimationFrame(() => {
+      void navigateToPortfolioSection(target);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [menuOpen]);
 
-          <div className="hidden md:flex justify-center items-center flex-1 gap-[42px]">
+  const handleMobileNavigation = (event, target) => {
+    event.preventDefault();
+    pendingMobileTarget.current = target;
+    setMenuOpen(false);
+  };
+
+  const handleDesktopNavigation = (event, target) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey ||
+        event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    void navigateToPortfolioSection(target);
+  };
+
+  return (
+    <div id="home" className="notion-grid flex relative min-h-[740px] flex-col bg-[#f6f5ee] px-5 md:px-12 lg:px-20 xl:px-[120px] pb-0" style={{ paddingTop: 'var(--portfolio-header-height)' }}>
+        <header className="portfolio-navbar" data-menu-open={menuOpen}>
+          <div className="portfolio-navbar-inner">
+          <a
+            href="#home"
+            title={t.hero.homeTitle}
+            aria-label={t.hero.homeTitle}
+            onClick={(event) => menuOpen
+              ? handleMobileNavigation(event, 'home')
+              : handleDesktopNavigation(event, 'home')}
+            className="portfolio-navbar-brand"
+          >
+            Naja<span aria-hidden="true">.</span>
+          </a>
+
+          <nav className="portfolio-navbar-links" aria-label={t.hero.desktopNavLabel}>
             {t.nav.map((item) => {
               const isActive = activeSection === item.target;
 
               return (
-                <button
+                <a
                   key={item.target}
-                  onClick={() => scrollTo(item.target)}
-                  className={`relative w-fit font-['Poppins'] text-[11px] font-semibold leading-normal transition-colors after:absolute after:left-1/2 after:top-[20px] after:h-1 after:-translate-x-1/2 after:rounded-full after:bg-[#176f69] after:transition-all after:duration-300 ${
-                    isActive
-                      ? 'text-[#176f69] after:w-4'
-                      : 'text-[#102f39] hover:text-[#176f69] after:w-0 hover:after:w-3'
-                  }`}
+                  href={`#${item.target}`}
+                  onClick={(event) => handleDesktopNavigation(event, item.target)}
+                  aria-current={isActive ? 'location' : undefined}
+                  data-active={isActive}
+                  className="portfolio-navbar-link"
                 >
                   {item.label}
-                </button>
+                </a>
               );
             })}
-          </div>
+          </nav>
 
-          <a
-            href="https://wa.me/6282125461418"
-            target="_blank"
-            rel="noopener noreferrer"
-            title={t.hero.whatsappTitle}
-            aria-label={t.hero.whatsappTitle}
-            className="hidden md:block w-fit shrink-0 text-[#102f39] font-['Poppins'] text-xs font-medium leading-normal hover:text-[#176f69] transition-colors"
-          >
-            0821-2546-1418
-          </a>
-
-          <div className="flex items-center gap-2.5 ml-auto md:ml-0">
-            <div className="hidden md:block">
+          <div className="portfolio-navbar-actions">
+            <div className="portfolio-navbar-language">
               <LanguageSwitcher />
             </div>
-
-            <a
-              href="https://wa.me/6282125461418"
-              target="_blank"
-              rel="noopener noreferrer"
-              title={t.hero.whatsappTitle}
-              aria-label={t.hero.whatsappTitle}
-              className="size-10 flex shrink-0 justify-center items-center bg-white shadow-[0px_8px_20px_rgba(8,47,61,0.06)] rounded-full hover:shadow-[0px_8px_20px_rgba(8,47,61,0.15)] transition-shadow"
-            >
-              <div className="size-[17px] text-[#176f69]">
-                <PhoneIcon />
-              </div>
-            </a>
           </div>
 
           <button
-            aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
+            type="button"
+            aria-label={menuOpen ? t.hero.menuClose : t.hero.menuOpen}
+            aria-controls="mobile-navigation"
             aria-expanded={menuOpen}
-            className="md:hidden size-10 flex justify-center items-center bg-white shadow-[0px_8px_20px_rgba(8,47,61,0.08)] rounded-full transition-transform duration-300 hover:-translate-y-0.5"
+            className="portfolio-navbar-menu-toggle"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <div className="relative size-5 text-[#176f69]">
-              <span className={`absolute left-0 top-[4px] h-0.5 w-5 rounded-full bg-current transition-transform duration-300 ${menuOpen ? 'translate-y-[6px] rotate-45' : ''}`}></span>
-              <span className={`absolute left-0 top-[10px] h-0.5 w-5 rounded-full bg-current transition-opacity duration-300 ${menuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-              <span className={`absolute left-0 top-[16px] h-0.5 w-5 rounded-full bg-current transition-transform duration-300 ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`}></span>
-            </div>
+            <span className="portfolio-navbar-menu-lines" aria-hidden="true">
+              <span/><span/><span/>
+            </span>
           </button>
-        </div>
+          </div>
+        </header>
 
         {menuOpen && (
-          <>
-            <button
-              aria-label="Close navigation"
-              className="fixed inset-0 z-40 bg-[#082f3d]/25 backdrop-blur-[2px] md:hidden transition-opacity"
-              onClick={() => setMenuOpen(false)}
-            ></button>
-            <div className="fixed left-6 right-6 top-[92px] z-50 flex origin-top flex-col items-center gap-4 rounded-2xl border border-[#edf0ee] bg-white py-6 shadow-2xl backdrop-blur-xl animate-[mobile-menu-in_220ms_cubic-bezier(.22,1,.36,1)] md:hidden">
-              {t.nav.map((item) => {
-                const isActive = activeSection === item.target;
-
-                return (
-                  <button
-                    key={item.target}
-                    onClick={() => { scrollTo(item.target); setMenuOpen(false); }}
-                    className={`w-fit rounded-full px-5 py-2 font-['Poppins'] text-[13px] font-semibold leading-normal transition-colors ${
-                      isActive ? 'bg-[#e4f0ee] text-[#176f69]' : 'text-[#102f39] hover:text-[#176f69]'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                );
-              })}
-              <div className="pt-3 border-t border-[#edf0ee] w-[75%] flex justify-center">
-                <LanguageSwitcher />
-              </div>
+          <div
+            id="mobile-navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-label={t.hero.mobileNavLabel}
+            className="portfolio-navbar-panel"
+          >
+            <p className="mb-5 font-['Poppins'] text-xs font-medium uppercase tracking-[0.09em] text-[#176f69]">
+              {t.hero.menuEyebrow}
+            </p>
+            <nav aria-label={t.hero.mobileNavLabel} className="flex flex-col border-t border-[#dce6e2]">
+              {t.nav.map((item, index) => (
+                <a
+                  key={item.target}
+                  href={'#' + item.target}
+                  onClick={(event) => handleMobileNavigation(event, item.target)}
+                  aria-current={activeSection === item.target ? 'location' : undefined}
+                  className="portfolio-navbar-panel-link flex min-h-[60px] items-center gap-4 border-b border-[#dce6e2] py-2 font-['Poppins'] text-[#0b3442] transition-colors hover:text-[#176f69]"
+                >
+                  <span className="w-7 text-xs font-medium text-[#176f69]">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="flex-1 text-[clamp(22px,4.8vw,26px)] font-medium tracking-[-0.035em]">{item.label}</span>
+                </a>
+              ))}
+            </nav>
+            <div className="portfolio-navbar-panel-footer mt-auto flex items-center pt-8">
+              <LanguageSwitcher />
             </div>
-          </>
+          </div>
         )}
 
         <div className="flex flex-col lg:flex-row bg-[#f6f5ee] flex-1 gap-8 lg:gap-[42px]">
-          <div className="flex w-full lg:w-[60%] flex-col pt-10 lg:pt-[92px] pb-8 lg:pb-[58px] px-0 gap-5">
-            <div className="hero-enter flex flex-col gap-1.5">
-              <div className="w-fit text-[#0b3442] font-['Poppins'] text-[40px] sm:text-[46px] md:text-[56px] lg:text-[64px] font-bold leading-[0.98] tracking-[-2px]">{t.hero.greeting}</div>
-              <div className="w-fit text-[#0b3442] font-['Poppins'] text-[40px] sm:text-[46px] md:text-[56px] lg:text-[64px] font-bold leading-[0.98] tracking-[-2px]">{t.hero.name}</div>
+          <div ref={copyRef} className="hero-copy flex w-full lg:w-[60%] flex-col pt-10 lg:pt-[92px] pb-8 lg:pb-[58px] px-0 gap-[17px]">
+            <div className="flex flex-col gap-[9px]">
+              <p data-hero-reveal className="w-fit text-[#176f69] font-['Poppins'] text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.09em]">{t.hero.greeting}</p>
+              <h1 data-hero-reveal aria-label={`${t.hero.name}.`} className="w-fit max-w-full text-[#0b3442] font-['Poppins'] text-[clamp(38px,5vw,64px)] font-bold leading-[1.04] tracking-[-0.05em]">
+                <span className="hero-typewriter-space" aria-hidden="true">
+                  <span className="hero-typewriter-reserve">{t.hero.name}</span>
+                  <span data-hero-typewriter-name className="hero-typewriter-live" />
+                </span><span aria-hidden="true" className="text-[#176f69]">.</span>
+              </h1>
+              <p data-hero-reveal className="flex items-center gap-2.5 pt-1 text-[#176f69] font-['Poppins'] text-[14px] sm:text-[16px] font-semibold leading-[1.5]">
+                <span className="hero-role-icon block size-5 shrink-0" aria-hidden="true"><CodeIcon /></span>
+                <span className="sr-only">{t.hero.role}</span>
+                <span className="hero-typewriter-space" aria-hidden="true">
+                  <span className="hero-typewriter-reserve" aria-hidden="true">{t.hero.role}</span>
+                  <span data-hero-typewriter-role className="hero-typewriter-live" aria-hidden="true" />
+                </span>
+              </p>
             </div>
-            <div className="hero-enter max-w-[430px] text-[#34505a] font-['Poppins'] text-[15px] leading-[1.75]">{t.hero.bio}</div>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=naja.andika3000@gmail.com" target="_blank" rel="noopener noreferrer" title={t.hero.emailTitle} aria-label={t.hero.emailTitle} className="hero-enter w-fit pt-0 pb-1 border-b text-[#0b3442] font-['Poppins'] text-xs font-medium leading-normal px-0 mx-0 border-b-[#0b3442] hover:text-[#176f69] hover:border-b-[#176f69] transition-colors">naja.andika3000@gmail.com</a>
-            <div className="hero-enter flex h-fit flex-col min-[380px]:flex-row items-stretch min-[380px]:items-center gap-3">
-              <button onClick={() => scrollTo('projects')} className="flex w-full min-[380px]:w-[150px] h-[46px] shrink-0 justify-center items-center bg-[#176f69] shadow-[0px_8px_20px_rgba(23,111,105,0.18)] rounded-full px-5 py-0 hover:-translate-y-0.5 hover:bg-[#145a55] hover:shadow-[0px_12px_26px_rgba(23,111,105,0.26)] transition-all duration-300">
-                <div className="w-fit text-white font-['Poppins'] text-xs font-semibold leading-normal">{t.hero.viewWork}</div>
+            <p data-hero-reveal aria-label={t.hero.bio} className="max-w-[450px] text-[#34505a] font-['Poppins'] text-[14px] sm:text-[15px] leading-[1.75]">
+              <span aria-hidden="true">
+                {t.hero.bio.trim().split(/\s+/).map((word, index) => (
+                  <span key={index}>
+                    <span data-hero-bio-word className="hero-bio-word">{word}</span>{' '}
+                  </span>
+                ))}
+              </span>
+            </p>
+            <div data-hero-reveal className="flex h-fit flex-col min-[380px]:flex-row items-stretch min-[380px]:items-center gap-3">
+              <button data-hero-cta type="button" onClick={() => void navigateToPortfolioSection('projects')} className="group flex w-full min-[380px]:w-[162px] h-[46px] shrink-0 justify-center items-center gap-2 bg-[#176f69] shadow-[0px_8px_20px_rgba(23,111,105,0.18)] rounded-full px-4 hover:bg-[#145a55] hover:shadow-[0px_12px_26px_rgba(23,111,105,0.26)] transition-[background-color,box-shadow] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69]">
+                <span className="text-white font-['Poppins'] text-xs font-semibold leading-normal">{t.hero.viewWork}</span>
+                <svg data-hero-arrow viewBox="0 0 24 24" className="size-4 shrink-0 text-white" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10" /></svg>
               </button>
-              <a href="https://cv-naja-andika.figma.site/" target="_blank" rel="noopener noreferrer" download title="Download Naja CV" aria-label="Download Naja CV in a new tab" className="flex w-full min-[380px]:w-[150px] h-[46px] shrink-0 justify-center items-center bg-[#f6f5ee] border rounded-full px-5 py-0 border-[#176f69] hover:-translate-y-0.5 hover:bg-[#176f69] group transition-all duration-300">
-                <div className="w-fit text-[#176f69] font-['Poppins'] text-xs font-semibold leading-normal group-hover:text-white transition-colors">{t.hero.downloadCv}</div>
+              <a data-hero-cta href="https://cv-naja-andika.figma.site/" target="_blank" rel="noopener noreferrer" title={t.hero.cvTitle} aria-label={t.hero.cvTitle} className="group flex w-full min-[380px]:w-[152px] h-[46px] shrink-0 justify-center items-center gap-2 bg-[#f6f5ee] border rounded-full px-4 border-[#176f69] hover:bg-[#176f69] transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69]">
+                <span className="text-[#176f69] font-['Poppins'] text-xs font-semibold leading-normal group-hover:text-white transition-colors">{t.hero.viewCv}</span>
+                <svg viewBox="0 0 24 24" className="size-4 shrink-0 text-[#176f69] group-hover:text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg>
               </a>
             </div>
-            <div className="hero-enter flex items-center gap-4 pt-2">
-              <div className="size-[60px] flex justify-center items-center bg-[#fffdf8] rounded-full border-2 border-[#111111]">
-                <div className="size-[28px] text-[#111111]">
-                  <GraduationIcon />
-                </div>
-              </div>
-              <div className="flex flex-col text-[#111111] text-[15px] font-medium leading-[1.35]">
-                <div className="w-fit text-black font-['Inter'] text-sm font-medium">{t.hero.badgeRole1}</div>
-                <div className="w-fit text-black font-['Inter'] text-sm font-medium">{t.hero.badgeRole2}</div>
-                <div className="w-fit text-black font-['Inter'] text-sm font-medium">{t.hero.badgeRole3}</div>
+            <div data-hero-reveal className="flex w-fit max-w-full items-center gap-3 border-t border-[#dce6e2] pt-4">
+              <span className="hero-education-icon block size-[26px] shrink-0 text-[#176f69]" aria-hidden="true"><GraduationCapIcon /></span>
+              <div className="flex min-w-0 flex-col gap-1">
+                <span className="text-[#0b3442] font-['Poppins'] text-[12px] sm:text-[13px] font-semibold leading-[1.35]">{t.hero.badgeEducation}</span>
+                <span className="text-[#56706f] font-['Poppins'] text-[11px] leading-[1.35]">{t.hero.badgeDegree}</span>
               </div>
             </div>
           </div>
 
-          <div className="flex w-full lg:w-[40%] min-h-[340px] sm:min-h-[420px] lg:min-h-[650px] flex-col shrink-0 justify-end">
-            <img
-              src="/images/hero-480.webp"
-              srcSet="/images/hero-480.webp 480w, /images/hero-640.webp 640w"
-              sizes="(min-width: 1024px) 40vw, calc(100vw - 40px)"
-              alt="Naja Andika"
-              width="520"
-              height="650"
-              fetchPriority="high"
-              loading="eager"
-              decoding="async"
-              className="hero-enter-photo flex w-full h-[340px] sm:h-[420px] lg:h-[650px] shrink-0 object-cover object-center rounded-3xl shadow-[0px_20px_48px_rgba(8,47,61,0.13)] transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] hover:scale-[1.015]"
-            />
+          <div className="flex w-full lg:w-[40%] flex-col shrink-0 items-center lg:items-end justify-end">
+            <div className="hero-enter-photo hero-portrait-entrance aspect-[4/5] w-full max-w-[460px] shrink-0">
+              <div ref={portraitRef} className="hero-portrait-tilt h-full w-full">
+                <img
+                  src="/images/hero-640.webp"
+                  srcSet="/images/hero-480.webp 480w, /images/hero-640.webp 640w, /images/hero-960.webp 960w, /images/hero-1200.webp 1200w"
+                  sizes="(min-width: 1440px) 480px, (min-width: 1280px) calc((100vw - 240px) * 0.4), (min-width: 1024px) calc((100vw - 160px) * 0.4), (min-width: 768px) min(460px, calc(100vw - 96px)), min(460px, calc(100vw - 40px))"
+                  alt="Naja Andika"
+                  width="1200"
+                  height="1600"
+                  fetchPriority="high"
+                  loading="eager"
+                  decoding="async"
+                  className="hero-portrait-image block h-full w-full object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </Reveal>
   );
 }

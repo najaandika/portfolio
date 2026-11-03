@@ -1,110 +1,254 @@
+import { useEffect, useRef } from 'react';
 import { useLanguage } from '../context/useLanguage';
 import Reveal from './Reveal';
-import { CredlyIcon, GithubIcon, LinkedinIcon, MailIcon } from './Icons';
+import { CredlyIcon, GithubMarkIcon, LinkedinIcon, GmailIcon } from './Icons';
 
-function scrollTo(id) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+const socials = [
+  {
+    label: 'Email',
+    href: 'mailto:naja.andika3000@gmail.com',
+    Icon: GmailIcon,
+  },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/najaandika',
+    Icon: GithubMarkIcon,
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/in/naja-andika-447234317',
+    Icon: LinkedinIcon,
+  },
+  {
+    label: 'Credly',
+    href: 'https://www.credly.com/users/naja-andika',
+    Icon: CredlyIcon,
+  },
+];
+
+async function animateScrollTo(targetY) {
+  const target = Math.max(0, Math.round(targetY));
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.scrollTo({ top: target, behavior: 'instant' });
+    return;
+  }
+
+  // Global CSS smooth-scroll must be suspended while GSAP controls scroll.
+  const root = document.documentElement;
+  const previousScrollBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = 'auto';
+  const restore = () => { root.style.scrollBehavior = previousScrollBehavior; };
+
+  try {
+    const [gsapModule, scrollModule] = await Promise.all([
+      import('gsap'),
+      import('gsap/ScrollToPlugin'),
+    ]);
+    const gsap = gsapModule.gsap || gsapModule.default;
+    gsap.registerPlugin(scrollModule.ScrollToPlugin);
+    gsap.to(window, {
+      scrollTo: { y: target, autoKill: false },
+      duration: 1,
+      ease: 'power2.inOut',
+      overwrite: 'auto',
+      onComplete: restore,
+      onInterrupt: restore,
+    });
+  } catch {
+    window.scrollTo({ top: target, behavior: 'instant' });
+    restore();
+  }
+}
+
+function backToTop() {
+  void animateScrollTo(0);
 }
 
 export default function Footer() {
   const { t } = useLanguage();
+  const footer = t.footer;
+  const socialRef = useRef(null);
+  const ctaRef = useRef(null);
+
+  useEffect(() => {
+    const link = ctaRef.current;
+    const underline = link?.querySelector('.footer-editorial-hi-underline');
+    const arrow = link?.querySelector('.footer-editorial-cta-arrow');
+    if (!link || !underline || !arrow) return undefined;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+    let disposed = false;
+    let hovered = false;
+    let gsapCore;
+
+    const animate = async () => {
+      if (reduceMotion.matches || !canHover.matches) return;
+      const { gsap } = await import('gsap');
+      if (disposed || reduceMotion.matches || !canHover.matches) return;
+      gsapCore = gsap;
+      gsap.to(underline, {
+        scaleX: hovered ? 1 : 0.76,
+        duration: 0.25,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
+      gsap.to(arrow, {
+        x: hovered ? 2 : 0,
+        y: hovered ? -2 : 0,
+        duration: 0.2,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
+    };
+
+    const enter = () => { hovered = true; void animate(); };
+    const leave = () => { hovered = false; void animate(); };
+    link.addEventListener('pointerenter', enter);
+    link.addEventListener('pointerleave', leave);
+
+    return () => {
+      disposed = true;
+      link.removeEventListener('pointerenter', enter);
+      link.removeEventListener('pointerleave', leave);
+      if (gsapCore) {
+        gsapCore.killTweensOf([underline, arrow]);
+        gsapCore.set([underline, arrow], { clearProps: 'transform' });
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const container = socialRef.current;
+    if (!container) return undefined;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const targets = [...container.querySelectorAll('a > span')];
+    const hovered = new WeakSet();
+    const unbind = [];
+    let disposed = false;
+    let gsapCore;
+
+    const animate = async (target) => {
+      if (reduceMotion.matches || !canHover.matches) return;
+      const { gsap } = await import('gsap');
+      if (disposed || reduceMotion.matches || !canHover.matches) return;
+      gsapCore = gsap;
+      const isHovered = hovered.has(target);
+      gsap.to(target, {
+        y: isHovered ? -3 : 0,
+        duration: 0.2,
+        ease: 'power2.out',
+        overwrite: 'auto',
+        onComplete: isHovered ? undefined : () => gsap.set(target, { clearProps: 'transform' }),
+      });
+    };
+
+    container.querySelectorAll('a').forEach((link) => {
+      const target = link.querySelector('span');
+      if (!target) return;
+      const enter = () => { hovered.add(target); void animate(target); };
+      const leave = () => { hovered.delete(target); void animate(target); };
+      link.addEventListener('pointerenter', enter);
+      link.addEventListener('pointerleave', leave);
+      unbind.push(() => {
+        link.removeEventListener('pointerenter', enter);
+        link.removeEventListener('pointerleave', leave);
+      });
+    });
+
+    return () => {
+      disposed = true;
+      unbind.forEach((cleanup) => cleanup());
+      if (gsapCore) {
+        gsapCore.killTweensOf(targets);
+        gsapCore.set(targets, { clearProps: 'transform' });
+      }
+    };
+  }, []);
 
   return (
     <Reveal>
-      <div className="flex min-h-[420px] flex-col pt-16 md:pt-[72px] pb-8 bg-white px-5 md:px-12 lg:px-20 xl:px-[120px]">
-        <div className="flex flex-col md:flex-row w-full h-fit gap-10 md:gap-0">
-          <div className="flex w-full md:w-[65%] flex-col">
-            <div className="flex flex-col text-[#0b3442] font-['Poppins'] text-[30px] md:text-[42px] font-semibold leading-[1.18] tracking-[-1.4px]">
-              <div className="w-fit text-[#0b3442] font-['Poppins'] text-[30px] md:text-[42px] font-semibold leading-tight tracking-[-1.26px]">{t.footer.headline1}</div>
-              <div className="w-fit text-[#0b3442] font-['Poppins'] text-[30px] md:text-[42px] font-semibold leading-tight tracking-[-1.26px]">{t.footer.headline2}</div>
-            </div>
-            <a
-              href="https://wa.me/6282125461418"
-              target="_blank"
-              rel="noopener noreferrer"
-              title={t.hero.whatsappTitle}
-              aria-label={`${t.hero.whatsappTitle} in a new tab`}
-              className="flex flex-wrap items-baseline gap-x-[7.75px] mt-10 md:mt-[66px] mb-0 text-[#0b3442] text-[28px] md:text-[31px] font-semibold mx-0 group w-fit transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              <div className="w-fit text-[#0b3442] font-['Poppins'] text-[28px] md:text-[31px] font-semibold leading-normal">{t.footer.startBy}</div>
-              <div className="relative w-fit text-[#e95f43] font-['Poppins'] text-[28px] md:text-[31px] font-semibold leading-normal group-hover:text-[#c94d33] transition-colors after:absolute after:left-0 after:bottom-[-3px] after:h-0.5 after:w-full after:origin-left after:bg-[#e95f43] after:transition-transform after:duration-300 group-hover:after:scale-x-105">{t.footer.sayingHi}</div>
-              <div className="w-fit text-[#e95f43] font-['Poppins'] text-[22px] md:text-[25px] font-semibold leading-normal transition-transform duration-300 group-hover:translate-x-1">-&gt;</div>
-            </a>
+      <footer id="contact" className="editorial-footer" aria-label={footer.infoTitle}>
+        <div className="footer-editorial-container">
+          <div className="footer-editorial-overline">
+            <span>{footer.eyebrow}</span>
+            <span>{footer.studioNote}</span>
           </div>
-          <div className="flex flex-col flex-1">
-            <div className="w-fit text-[#0b3442] font-['Poppins'] text-[17px] font-semibold leading-normal">{t.footer.infoTitle}</div>
-            <div className="w-fit mt-3 mb-0 text-[#344b53] font-['Poppins'] text-[11px] leading-normal mx-0">{t.footer.location}</div>
-            <div className="flex flex-col items-start mt-[34px] mb-0 mx-0 gap-[22px]">
-              {t.nav.map((item) => (
-                <button
-                  key={item.target}
-                  onClick={() => scrollTo(item.target)}
-                  className="relative w-fit text-[#102f39] font-['Poppins'] text-[11px] font-semibold leading-normal hover:text-[#176f69] transition-colors after:absolute after:left-0 after:top-[18px] after:h-0.5 after:w-0 after:bg-[#176f69] after:transition-all after:duration-300 hover:after:w-full"
+
+          <div className="footer-editorial-intro">
+            <div className="footer-editorial-headline">
+              <p className="footer-editorial-kicker">{footer.contactLabel}</p>
+              <h2>
+                <span>{footer.headline1}</span>
+                <span>{footer.headline2}</span>
+              </h2>
+              <a
+                ref={ctaRef}
+                className="footer-editorial-cta"
+                href="https://wa.me/6282125461418"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t.hero.whatsappTitle}
+              >
+                <span>{footer.startBy} <strong className="footer-editorial-hi">{footer.sayingHi}<span className="footer-editorial-hi-underline" aria-hidden="true" /></strong></span>
+                <span className="footer-editorial-cta-arrow" aria-hidden="true">↗</span>
+              </a>
+            </div>
+
+            <div className="footer-editorial-info">
+              <p className="footer-editorial-kicker">{footer.whatIDoLabel}</p>
+              <h3 className="footer-editorial-service-title">{footer.whatIDoHeading}</h3>
+              <p className="footer-editorial-service-description">{footer.whatIDoDescription}</p>
+              <div className="footer-editorial-focus">
+                <p className="footer-editorial-kicker">{footer.focusLabel}</p>
+                <ul>
+                  <li>{footer.focusDevelopment}</li>
+                  <li>{footer.focusDesign}</li>
+                </ul>
+              </div>
+              <p className="footer-editorial-location">
+                <span>{footer.basedIn}</span>
+                {footer.location}
+              </p>
+            </div>
+          </div>
+
+          <div className="footer-editorial-wordmark" aria-label="Naja Andika">
+            NAJA<span aria-hidden="true">.</span>
+          </div>
+
+          <div className="footer-editorial-bottom">
+            <div className="footer-editorial-copyright">
+              <span>{footer.copyright}</span>
+              <span className="footer-editorial-divider" aria-hidden="true" />
+              <span>{footer.bottomNote}</span>
+            </div>
+
+            <div ref={socialRef} className="footer-editorial-socials" role="group" aria-label={footer.socialLabel}>
+              {socials.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  data-social={label.toLowerCase()}
+                  href={href}
+                  target={href.startsWith('mailto:') ? undefined : '_blank'}
+                  rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                  aria-label={label}
+                  title={label}
                 >
-                  {item.label}
-                </button>
+                  <span aria-hidden="true"><Icon /></span>
+                </a>
               ))}
             </div>
+
+            <button type="button" className="footer-editorial-backtop" onClick={backToTop}>
+              {footer.backToTop}
+              <span aria-hidden="true">↑</span>
+            </button>
           </div>
         </div>
-        <div className="flex w-full h-fit flex-col mt-auto mb-0 mx-0">
-          <div className="flex w-full h-px flex-col bg-gradient-to-r from-transparent via-[#aeb9b7] to-transparent"></div>
-          <div className="flex flex-col md:flex-row items-start md:items-center pt-[26px] pb-0 px-0 gap-2 md:gap-0">
-            <div className="w-fit text-[#0b3442] font-['Poppins'] text-base font-semibold">Naja</div>
-            <div className="w-fit md:mr-0 md:ml-4 text-[#344c54] font-['Poppins'] text-xs my-0">{t.footer.copyright}</div>
-            <div className="mt-4 flex flex-wrap items-center gap-3 md:ml-auto md:mt-0">
-              <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=naja.andika3000@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Send email to Naja Andika"
-                aria-label="Send email to Naja Andika in a new tab"
-                className="flex size-8 items-center justify-center text-[#0b3442] transition-transform duration-300 hover:-translate-y-0.5"
-              >
-                <span className="size-6" aria-hidden="true">
-                  <MailIcon />
-                </span>
-              </a>
-              <a
-                href="https://github.com/najaandika"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Open Naja Andika GitHub profile"
-                aria-label="Open Naja Andika GitHub profile in a new tab"
-                className="flex size-8 items-center justify-center text-[#0b3442] transition-transform duration-300 hover:-translate-y-0.5"
-              >
-                <span className="size-6" aria-hidden="true">
-                  <GithubIcon />
-                </span>
-              </a>
-              <a
-                href="https://linkedin.com/in/naja-andika-447234317"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Open Naja Andika LinkedIn profile"
-                aria-label="Open Naja Andika LinkedIn profile in a new tab"
-                className="flex size-8 items-center justify-center text-[#0a66c2] transition-transform duration-300 hover:-translate-y-0.5"
-              >
-                <span className="size-6" aria-hidden="true">
-                  <LinkedinIcon />
-                </span>
-              </a>
-              <a
-                href="https://www.credly.com/users/naja-andika"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Open Naja Andika Credly profile"
-                aria-label="Open Naja Andika Credly profile in a new tab"
-                className="flex size-8 items-center justify-center text-[#ff6b00] transition-transform duration-300 hover:-translate-y-0.5"
-              >
-                <span className="size-6" aria-hidden="true">
-                  <CredlyIcon />
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      </footer>
     </Reveal>
   );
 }
