@@ -15,7 +15,7 @@ export default function LanguageSwitcher({ className = '' }) {
         type="button"
         onClick={() => setLang('en')}
         aria-pressed={lang === 'en'}
-        aria-label="English"
+        aria-label="EN — English"
         lang="en"
       >
         EN
@@ -24,7 +24,7 @@ export default function LanguageSwitcher({ className = '' }) {
         type="button"
         onClick={() => setLang('id')}
         aria-pressed={lang === 'id'}
-        aria-label="Bahasa Indonesia"
+        aria-label="ID — Bahasa Indonesia"
         lang="id"
       >
         ID

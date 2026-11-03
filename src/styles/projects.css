@@ -1,0 +1,94 @@
+/* GSAP ScrollTrigger stacking on all viewports where a whole card fits. */
+.project-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3.4vw, 48px);
+}
+
+.project-stack-card {
+  position: relative;
+  isolation: isolate;
+  transform-origin: top center;
+}
+
+.project-stack--animated > .project-stack-card {
+  position: sticky;
+  top: var(--project-stack-top, 104px);
+}
+
+/* Mobile/tablet: give each screenshot a short unobstructed scroll interval
+   before the next card rises above it. Keep compact spacing in normal flow. */
+@media (max-width: 1023px) {
+  .project-stack--animated {
+    gap: clamp(112px, 20svh, 176px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-stack--animated > .project-stack-card {
+    position: relative;
+    transform: none !important;
+  }
+}
+
+
+/* Project card information hierarchy: clear action, quieter metadata. */
+.project-cta-arrow {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 11%, transparent);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1;
+  transition: transform 260ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.project-cta:hover .project-cta-arrow,
+.project-cta:focus-visible .project-cta-arrow {
+  transform: translate(2px, -2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-cta-arrow {
+    transition: none;
+  }
+}
+
+/* Keep the complete device/mockup legible while extending its own colors
+   into the spare media space. Both layers share the same responsive source. */
+.project-stack-media {
+  isolation: isolate;
+}
+
+.project-stack-media-backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: -12%;
+  width: 124%;
+  height: 124%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.34;
+  filter: blur(28px) saturate(0.85);
+  transform: scale(1.06);
+  pointer-events: none;
+}
+
+.project-stack-media-artwork {
+  z-index: 1;
+}
+
+.project-stack-media > div {
+  z-index: 2;
+}
+
+@media (max-width: 639px) {
+  .project-stack-media-backdrop {
+    opacity: 0.27;
+    filter: blur(17px) saturate(0.85);
+  }
+}

@@ -1,0 +1,136 @@
+.notion-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(23, 111, 105, 0.08) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+/* GSAP animates hero copy; the bio stays visible from first paint on mobile
+   to protect LCP. Other reveals begin hidden and finish without retaining
+   transforms or causing a late-import flash. */
+.hero-copy [data-hero-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+}
+
+.hero-copy[data-hero-ready='true'] [data-hero-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-bio-word {
+  display: inline-block;
+  opacity: 1;
+  vertical-align: baseline;
+}
+
+.hero-typewriter-space {
+  display: inline-block;
+  position: relative;
+  vertical-align: baseline;
+  max-width: 100%;
+}
+
+.hero-typewriter-reserve {
+  visibility: hidden;
+}
+
+.hero-typewriter-live {
+  position: absolute;
+  inset: 0;
+  white-space: nowrap;
+}
+
+.hero-copy[data-hero-typing='name'] [data-hero-typewriter-name]::after,
+.hero-copy[data-hero-typing='role'] [data-hero-typewriter-role]::after {
+  content: '';
+  display: inline-block;
+  height: 0.8em;
+  margin-left: 3px;
+  border-right: 2px solid #176f69;
+  animation: hero-typing-caret 720ms step-end infinite;
+}
+
+@keyframes hero-typing-caret {
+  50% { opacity: 0; }
+}
+
+.hero-role-icon svg,
+.hero-education-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-enter-photo {
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  animation: hero-photo-enter 900ms cubic-bezier(.22,1,.36,1) 260ms both;
+}
+
+/* Keep the entrance transform on the outside. GSAP only rotates the inner
+   portrait card, so hovering cannot fight the CSS reveal animation. */
+.hero-portrait-entrance {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  perspective: 1100px;
+}
+
+.hero-portrait-tilt {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #dce6e2;
+  box-shadow: 0 20px 48px rgba(8, 47, 61, 0.13);
+  backface-visibility: hidden;
+}
+
+.hero-portrait-image {
+  object-position: 52% 48%;
+  transform: scale(1.055);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 1023px) {
+  .hero-enter-photo {
+    transform: translateY(12px);
+    animation: hero-photo-enter 620ms cubic-bezier(.22,1,.36,1) 160ms both;
+  }
+  .hero-portrait-image {
+    transform: scale(1.025);
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-copy [data-hero-reveal] {
+    transform: translate3d(0, 10px, 0);
+  }
+  /* Keep the main introductory paragraph readable from first paint on mobile.
+     The headline, role, buttons and portrait retain their entrance effects. */
+  .hero-copy [data-hero-bio] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy [data-hero-reveal],
+  .hero-enter-photo {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+  .hero-typewriter-live::after {
+    display: none !important;
+    animation: none !important;
+  }
+}
+
+@keyframes hero-photo-enter {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes mobile-menu-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}

@@ -8,7 +8,11 @@ let activeTween = null;
 let activeCleanup = null;
 let navigationRequest = 0;
 
-export async function navigateToPortfolioSection(id, { updateHash = true } = {}) {
+// Project stacking must not change document height midway through a
+// programmatic scroll. It can initialize after the destination has settled.
+export const isPortfolioNavigationActive = () => activeCleanup !== null;
+
+export async function navigateToPortfolioSection(id, { updateHash = true, duration = 0.95 } = {}) {
   const destination = document.getElementById(id);
   if (!destination) return;
 
@@ -49,6 +53,7 @@ export async function navigateToPortfolioSection(id, { updateHash = true } = {})
     if (request !== navigationRequest) return;
     applyScroll(getTargetY());
     cleanup();
+    window.dispatchEvent(new CustomEvent('portfolio:navigation-settled', { detail: { id } }));
   };
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -97,7 +102,7 @@ export async function navigateToPortfolioSection(id, { updateHash = true } = {})
       });
     };
 
-    animate(0.95, 'power2.inOut');
+    animate(duration, 'power2.inOut');
   } catch {
     finish();
   }

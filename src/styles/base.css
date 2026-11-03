@@ -1,0 +1,48 @@
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #ffffff; }
+:root {
+  /* Small editorial labels share one calm typographic rhythm site-wide.
+     Headings and interactive controls retain their own visual hierarchy. */
+  --editorial-label-weight: 400;
+  --editorial-kicker-weight: 500;
+  --editorial-label-tracking: 0.08em;
+  --editorial-kicker-tracking: 0.09em;
+  --portfolio-header-height: 74px;
+}
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: #d8ebe7; color: #0b3442; }
+:focus-visible { outline: 2px solid #176f69; outline-offset: 4px; }
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 100;
+  transform: translateY(-160%);
+  border-radius: 999px;
+  background: #0b3442;
+  color: #ffffff;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+
+#skills,
+#projects,
+#education,
+#experience,
+#certifications {
+  scroll-margin-top: calc(var(--portfolio-header-height) + 24px);
+}

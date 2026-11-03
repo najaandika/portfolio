@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useLanguage } from '../context/useLanguage';
 import Reveal from './Reveal';
 import { CredlyIcon, GithubMarkIcon, LinkedinIcon, GmailIcon } from './Icons';
+import { navigateToPortfolioSection } from '../utils/navigateToPortfolioSection';
 
 const socials = [
   {
@@ -26,42 +27,10 @@ const socials = [
   },
 ];
 
-async function animateScrollTo(targetY) {
-  const target = Math.max(0, Math.round(targetY));
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    window.scrollTo({ top: target, behavior: 'instant' });
-    return;
-  }
-
-  // Global CSS smooth-scroll must be suspended while GSAP controls scroll.
-  const root = document.documentElement;
-  const previousScrollBehavior = root.style.scrollBehavior;
-  root.style.scrollBehavior = 'auto';
-  const restore = () => { root.style.scrollBehavior = previousScrollBehavior; };
-
-  try {
-    const [gsapModule, scrollModule] = await Promise.all([
-      import('gsap'),
-      import('gsap/ScrollToPlugin'),
-    ]);
-    const gsap = gsapModule.gsap || gsapModule.default;
-    gsap.registerPlugin(scrollModule.ScrollToPlugin);
-    gsap.to(window, {
-      scrollTo: { y: target, autoKill: false },
-      duration: 1,
-      ease: 'power2.inOut',
-      overwrite: 'auto',
-      onComplete: restore,
-      onInterrupt: restore,
-    });
-  } catch {
-    window.scrollTo({ top: target, behavior: 'instant' });
-    restore();
-  }
-}
-
 function backToTop() {
-  void animateScrollTo(0);
+  // Reuse the navigation scroll proxy: lazy Projects/ScrollTrigger changes
+  // must not leave the user stranded midway through a long return to Hero.
+  void navigateToPortfolioSection('home', { updateHash: false, duration: 1.65 });
 }
 
 export default function Footer() {
@@ -190,7 +159,7 @@ export default function Footer() {
                 href="https://wa.me/6282125461418"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={t.hero.whatsappTitle}
+                aria-label={`${footer.startBy} ${footer.sayingHi} — ${t.hero.whatsappTitle}`}
               >
                 <span>{footer.startBy} <strong className="footer-editorial-hi">{footer.sayingHi}<span className="footer-editorial-hi-underline" aria-hidden="true" /></strong></span>
                 <span className="footer-editorial-cta-arrow" aria-hidden="true">↗</span>

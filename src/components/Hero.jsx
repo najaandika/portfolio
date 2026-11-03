@@ -1,203 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useLanguage } from '../context/useLanguage';
 import useHeroPortraitTilt from '../hooks/useHeroPortraitTilt';
 import useHeroMobileParallax from '../hooks/useHeroMobileParallax';
 import useHeroIntroGsap from '../hooks/useHeroIntroGsap';
 import { CodeIcon, GraduationCapIcon } from './Icons';
-import LanguageSwitcher from './LanguageSwitcher';
 import { navigateToPortfolioSection } from '../utils/navigateToPortfolioSection';
 
 export default function Hero() {
   const { t } = useLanguage();
   const portraitRef = useRef(null);
   const copyRef = useRef(null);
-  const pendingMobileTarget = useRef(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
   useHeroPortraitTilt(portraitRef);
   useHeroMobileParallax(portraitRef);
   useHeroIntroGsap(copyRef, t.hero.name, t.hero.role, t.hero.bio);
 
-  useEffect(() => {
-    const sectionIds = ['skills', 'projects', 'education', 'experience', 'certifications'];
-    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
-
-    function clearActiveNearTop() {
-      if (window.scrollY < 320) setActiveSection('');
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntry = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visibleEntry) setActiveSection(visibleEntry.target.id);
-        clearActiveNearTop();
-      },
-      { threshold: [0.18, 0.35, 0.6], rootMargin: '-24% 0px -48% 0px' }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    window.addEventListener('scroll', clearActiveNearTop, { passive: true });
-    clearActiveNearTop();
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('scroll', clearActiveNearTop);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!menuOpen) return undefined;
-
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    const panel = document.getElementById('mobile-navigation');
-    panel?.querySelector('a[href^="#"]')?.focus();
-
-    function onKeyDown(event) {
-      if (event.key === 'Escape') {
-        setMenuOpen(false);
-        document.querySelector('button[aria-controls="mobile-navigation"]')?.focus();
-        return;
-      }
-      if (event.key !== 'Tab' || !panel) return;
-      const focusable = [...panel.querySelectorAll('a[href], button:not([disabled])')];
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last?.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first?.focus();
-      }
-    }
-
-    const media = window.matchMedia('(min-width: 1024px)');
-    const onDesktop = () => { if (media.matches) setMenuOpen(false); };
-    window.addEventListener('keydown', onKeyDown);
-    media.addEventListener('change', onDesktop);
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      window.removeEventListener('keydown', onKeyDown);
-      media.removeEventListener('change', onDesktop);
-    };
-  }, [menuOpen]);
-
-  // The overlay locks body scrolling. Navigate only after its cleanup has
-  // unlocked the page, otherwise a smooth-scroll anchor can silently fail.
-  useEffect(() => {
-    if (menuOpen || !pendingMobileTarget.current) return undefined;
-    const target = pendingMobileTarget.current;
-    pendingMobileTarget.current = null;
-    const frame = window.requestAnimationFrame(() => {
-      void navigateToPortfolioSection(target);
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [menuOpen]);
-
-  const handleMobileNavigation = (event, target) => {
-    event.preventDefault();
-    pendingMobileTarget.current = target;
-    setMenuOpen(false);
-  };
-
-  const handleDesktopNavigation = (event, target) => {
-    if (event.button !== 0 || event.metaKey || event.ctrlKey ||
-        event.shiftKey || event.altKey) return;
-    event.preventDefault();
-    void navigateToPortfolioSection(target);
-  };
-
   return (
     <div id="home" className="notion-grid flex relative min-h-[740px] flex-col bg-[#f6f5ee] px-5 md:px-12 lg:px-20 xl:px-[120px] pb-0" style={{ paddingTop: 'var(--portfolio-header-height)' }}>
-        <header className="portfolio-navbar" data-menu-open={menuOpen}>
-          <div className="portfolio-navbar-inner">
-          <a
-            href="#home"
-            title={t.hero.homeTitle}
-            aria-label={t.hero.homeTitle}
-            onClick={(event) => menuOpen
-              ? handleMobileNavigation(event, 'home')
-              : handleDesktopNavigation(event, 'home')}
-            className="portfolio-navbar-brand"
-          >
-            Naja<span aria-hidden="true">.</span>
-          </a>
-
-          <nav className="portfolio-navbar-links" aria-label={t.hero.desktopNavLabel}>
-            {t.nav.map((item) => {
-              const isActive = activeSection === item.target;
-
-              return (
-                <a
-                  key={item.target}
-                  href={`#${item.target}`}
-                  onClick={(event) => handleDesktopNavigation(event, item.target)}
-                  aria-current={isActive ? 'location' : undefined}
-                  data-active={isActive}
-                  className="portfolio-navbar-link"
-                >
-                  {item.label}
-                </a>
-              );
-            })}
-          </nav>
-
-          <div className="portfolio-navbar-actions">
-            <div className="portfolio-navbar-language">
-              <LanguageSwitcher />
-            </div>
-          </div>
-
-          <button
-            type="button"
-            aria-label={menuOpen ? t.hero.menuClose : t.hero.menuOpen}
-            aria-controls="mobile-navigation"
-            aria-expanded={menuOpen}
-            className="portfolio-navbar-menu-toggle"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <span className="portfolio-navbar-menu-lines" aria-hidden="true">
-              <span/><span/><span/>
-            </span>
-          </button>
-          </div>
-        </header>
-
-        {menuOpen && (
-          <div
-            id="mobile-navigation"
-            role="dialog"
-            aria-modal="true"
-            aria-label={t.hero.mobileNavLabel}
-            className="portfolio-navbar-panel"
-          >
-            <p className="mb-5 font-['Poppins'] text-xs font-medium uppercase tracking-[0.09em] text-[#176f69]">
-              {t.hero.menuEyebrow}
-            </p>
-            <nav aria-label={t.hero.mobileNavLabel} className="flex flex-col border-t border-[#dce6e2]">
-              {t.nav.map((item, index) => (
-                <a
-                  key={item.target}
-                  href={'#' + item.target}
-                  onClick={(event) => handleMobileNavigation(event, item.target)}
-                  aria-current={activeSection === item.target ? 'location' : undefined}
-                  className="portfolio-navbar-panel-link flex min-h-[60px] items-center gap-4 border-b border-[#dce6e2] py-2 font-['Poppins'] text-[#0b3442] transition-colors hover:text-[#176f69]"
-                >
-                  <span className="w-7 text-xs font-medium text-[#176f69]">{String(index + 1).padStart(2, '0')}</span>
-                  <span className="flex-1 text-[clamp(22px,4.8vw,26px)] font-medium tracking-[-0.035em]">{item.label}</span>
-                </a>
-              ))}
-            </nav>
-            <div className="portfolio-navbar-panel-footer mt-auto flex items-center pt-8">
-              <LanguageSwitcher />
-            </div>
-          </div>
-        )}
-
         <div className="flex flex-col lg:flex-row bg-[#f6f5ee] flex-1 gap-8 lg:gap-[42px]">
           <div ref={copyRef} className="hero-copy flex w-full lg:w-[60%] flex-col pt-10 lg:pt-[92px] pb-8 lg:pb-[58px] px-0 gap-[17px]">
             <div className="flex flex-col gap-[9px]">
@@ -217,7 +35,8 @@ export default function Hero() {
                 </span>
               </p>
             </div>
-            <p data-hero-reveal aria-label={t.hero.bio} className="max-w-[450px] text-[#34505a] font-['Poppins'] text-[14px] sm:text-[15px] leading-[1.75]">
+            <p data-hero-reveal data-hero-bio className="max-w-[450px] text-[#34505a] font-['Poppins'] text-[14px] sm:text-[15px] leading-[1.75]">
+              <span className="sr-only">{t.hero.bio}</span>
               <span aria-hidden="true">
                 {t.hero.bio.trim().split(/\s+/).map((word, index) => (
                   <span key={index}>
@@ -231,7 +50,7 @@ export default function Hero() {
                 <span className="text-white font-['Poppins'] text-xs font-semibold leading-normal">{t.hero.viewWork}</span>
                 <svg data-hero-arrow viewBox="0 0 24 24" className="size-4 shrink-0 text-white" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10" /></svg>
               </button>
-              <a data-hero-cta href="https://cv-naja-andika.figma.site/" target="_blank" rel="noopener noreferrer" title={t.hero.cvTitle} aria-label={t.hero.cvTitle} className="group flex w-full min-[380px]:w-[152px] h-[46px] shrink-0 justify-center items-center gap-2 bg-[#f6f5ee] border rounded-full px-4 border-[#176f69] hover:bg-[#176f69] transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69]">
+              <a data-hero-cta href="https://cv-naja-andika.figma.site/" target="_blank" rel="noopener noreferrer" title={t.hero.cvTitle} aria-label={`${t.hero.viewCv} — ${t.hero.cvTitle}`} className="group flex w-full min-[380px]:w-[152px] h-[46px] shrink-0 justify-center items-center gap-2 bg-[#f6f5ee] border rounded-full px-4 border-[#176f69] hover:bg-[#176f69] transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176f69]">
                 <span className="text-[#176f69] font-['Poppins'] text-xs font-semibold leading-normal group-hover:text-white transition-colors">{t.hero.viewCv}</span>
                 <svg viewBox="0 0 24 24" className="size-4 shrink-0 text-[#176f69] group-hover:text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg>
               </a>

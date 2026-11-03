@@ -98,11 +98,13 @@ export default function useHeroIntroGsap(scopeRef, name, role, bio) {
           const nameStart = mobile ? 0.20 : 0.25;
           const nameEnd = nameStart + (mobile ? 0.74 : 0.95);
           const roleStart = nameEnd + 0.10;
-          const bioStart = roleStart + (mobile ? 0.67 : 0.76) + 0.05;
-          const bioStagger = 0.48 / Math.max(1, bioWords.length - 1);
+          // Keep the bio discoverable early for LCP while the name and role
+          // continue their independent typewriter animations.
+          const bioStart = mobile ? 0.42 : 0.55;
+          const bioStagger = 0.26 / Math.max(1, bioWords.length - 1);
 
-          gsap.set(items, { autoAlpha: 0, y: mobile ? 10 : 16 });
-          gsap.set(bioWords, { autoAlpha: 0, y: mobile ? 6 : 8 });
+          gsap.set(mobile ? items.filter((item) => item !== bio) : items, { autoAlpha: 0, y: mobile ? 10 : 16 });
+          if (!mobile) gsap.set(bioWords, { autoAlpha: 0, y: 8 });
           entrance = gsap.timeline({ onComplete: markReady });
           entrance
             .to(greeting, { autoAlpha: 1, y: 0, duration: 0.34, ease: 'power2.out' }, 0)

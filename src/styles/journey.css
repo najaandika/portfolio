@@ -1,0 +1,485 @@
+/* Education card + editorial experience timeline, native portfolio palette. */
+.journey-education,
+.journey-experience {
+  color: #0b3442;
+  font-family: 'Poppins', sans-serif;
+}
+
+.journey-education { background: #f6f5ee; }
+.journey-experience { background: #fff; }
+
+.journey-container {
+  width: 100%;
+  padding: clamp(70px, 7.5vw, 112px) clamp(20px, 8.333vw, 120px);
+}
+
+.journey-overline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #dce6e2;
+  color: #176f69;
+  font-size: 11px;
+  font-weight: var(--editorial-label-weight);
+  line-height: 1.5;
+  letter-spacing: var(--editorial-label-tracking);
+  text-transform: uppercase;
+}
+
+.journey-overline span:last-child {
+  color: #506066;
+  font-size: 11px;
+  font-weight: var(--editorial-label-weight);
+  letter-spacing: 0.04em;
+}
+
+.journey-heading {
+  margin: 0;
+  color: #0b3442;
+  font-size: clamp(34px, 4.4vw, 58px);
+  font-weight: 600;
+  letter-spacing: -0.06em;
+  line-height: 1.15;
+}
+
+.journey-heading span { color: #176f69; }
+
+.journey-lead {
+  max-width: 480px;
+  margin-top: 20px;
+  color: #506066;
+  font-size: clamp(14px, 1.2vw, 15px);
+  line-height: 1.9;
+}
+
+.journey-education-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(36px, 6vw, 110px);
+  margin-top: clamp(42px, 5.2vw, 75px);
+}
+
+.journey-education-intro { min-width: 0; }
+
+.journey-education-card {
+  min-width: 0;
+  overflow: hidden;
+  padding: clamp(24px, 3.5vw, 45px);
+  border: 1px solid #dce6e2;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 17px 45px rgba(11, 52, 66, 0.07);
+}
+
+.journey-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+}
+
+.journey-degree-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 6px 12px;
+  border: 1px solid #c6ddd8;
+  border-radius: 999px;
+  background: #e4f0ee;
+  color: #176f69;
+  font-size: 10px;
+  font-weight: var(--editorial-kicker-weight);
+  letter-spacing: var(--editorial-label-tracking);
+}
+
+.journey-card-period {
+  color: #506066;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.journey-degree-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 38px;
+}
+
+.journey-degree-content h3 {
+  max-width: 400px;
+  color: #0b3442;
+  font-size: clamp(23px, 2.4vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.048em;
+  line-height: 1.28;
+}
+
+.journey-university {
+  margin-top: 18px;
+  color: #0b3442;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.journey-faculty {
+  margin-top: 4px;
+  color: #506066;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.journey-degree-icon {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  flex: 0 0 62px;
+  place-items: center;
+  border-radius: 19px;
+  background: #e4f0ee;
+  color: #176f69;
+}
+
+.journey-degree-icon svg {
+  width: 36px;
+  height: 36px;
+}
+
+.journey-card-details {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 22px;
+  margin-top: 48px;
+  padding-top: 25px;
+  border-top: 1px solid #dce6e2;
+}
+
+.journey-meta-label {
+  display: block;
+  margin-bottom: 9px;
+  color: #506066;
+  font-size: 10px;
+  font-weight: var(--editorial-label-weight);
+  letter-spacing: var(--editorial-label-tracking);
+}
+
+.journey-academic-stat p {
+  color: #0b3442;
+  font-size: 13px;
+}
+
+.journey-academic-stat strong {
+  font-size: clamp(30px, 3vw, 42px);
+  font-weight: 600;
+  letter-spacing: -0.06em;
+  line-height: 1.15;
+}
+
+.journey-academic-stat p span {
+  color: #506066;
+  font-size: 13px;
+}
+
+.journey-academic-focus { min-width: 0; }
+
+.journey-academic-focus p {
+  color: #0b3442;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.journey-experience-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 25px 55px;
+  margin-top: clamp(42px, 5vw, 75px);
+}
+
+.journey-experience-header .journey-lead {
+  max-width: 440px;
+  margin: 0 0 4px;
+}
+
+.journey-timeline {
+  position: relative;
+  width: 100%;
+  margin-top: clamp(50px, 6vw, 86px);
+}
+
+.journey-timeline-track {
+  position: absolute;
+  top: var(--journey-track-top, 15px);
+  bottom: var(--journey-track-bottom, 12px);
+  left: calc(28% + 23px);
+  width: 2px;
+  pointer-events: none;
+}
+
+.journey-timeline-track-base,
+.journey-timeline-track-progress {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: 999px;
+}
+
+.journey-timeline-track-base {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #b6cbc7 0,
+    #b6cbc7 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.journey-timeline-track-progress {
+  background: #176f69;
+  transform-origin: top center;
+}
+
+.journey-milestone {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 28%) 48px minmax(0, 1fr);
+  min-height: 184px;
+  padding-bottom: 45px;
+}
+
+.journey-milestone:last-child {
+  min-height: 0;
+  padding-bottom: 0;
+}
+
+.journey-milestone-date {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 5px 30px 0 0;
+  color: #506066;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.journey-entry-index {
+  color: #176f69;
+  font-size: 11px;
+  font-weight: var(--editorial-label-weight);
+  letter-spacing: var(--editorial-label-tracking);
+}
+
+.journey-milestone-marker {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 4px;
+}
+
+.journey-milestone-dot {
+  position: relative;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  outline: 1px solid #91b2ac;
+  background: #c8dcd8;
+  box-shadow: 0 0 0 0 rgba(23, 111, 105, 0.1);
+  transition: transform 340ms ease, background 340ms ease, box-shadow 340ms ease;
+}
+
+.journey-milestone.is-active .journey-milestone-dot {
+  transform: scale(1.15);
+  background: #176f69;
+  box-shadow: 0 0 0 6px #e4f0ee;
+}
+
+.journey-milestone.is-active .journey-milestone-dot--2 {
+  background: #ed6043;
+  box-shadow: 0 0 0 6px #fbe9e5;
+}
+
+.journey-milestone-copy {
+  min-width: 0;
+  padding: 0 0 12px 25px;
+}
+
+.journey-organization {
+  margin: 0 0 11px;
+  color: #176f69;
+  font-size: 11px;
+  font-weight: var(--editorial-kicker-weight);
+  line-height: 1.6;
+  letter-spacing: var(--editorial-label-tracking);
+  text-transform: uppercase;
+}
+
+.journey-milestone-copy h3 {
+  color: #0b3442;
+  font-size: clamp(18px, 2vw, 23px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.035em;
+}
+
+.journey-description {
+  max-width: 670px;
+  margin-top: 10px;
+  color: #506066;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.journey-experience-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 17px;
+  padding: 0;
+  list-style: none;
+}
+
+.journey-experience-tags li {
+  padding: 6px 11px;
+  border: 1px solid #dce6e2;
+  border-radius: 6px;
+  background: #f7faf9;
+  color: #176f69;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.journey-mobile-date { display: none; }
+
+@media (max-width: 900px) {
+  .journey-education-layout {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 24px;
+  }
+
+  .journey-degree-icon {
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+  }
+
+  .journey-experience-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 700px) {
+  .journey-container { padding: 68px 20px 75px; }
+  .journey-overline { font-size: 10px; }
+
+  .journey-education-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    margin-top: 39px;
+  }
+
+  .journey-education-card {
+    padding: 25px;
+    border-radius: 20px;
+  }
+
+  .journey-degree-content { margin-top: 31px; }
+  .journey-card-details { margin-top: 34px; }
+
+  .journey-experience-header {
+    gap: 18px;
+    margin-top: 39px;
+  }
+
+  .journey-experience-header .journey-lead { max-width: 540px; }
+  .journey-timeline { margin-top: 46px; }
+
+  .journey-timeline-track {
+    left: 15px;
+    top: var(--journey-track-top, 14px);
+    bottom: var(--journey-track-bottom, 12px);
+  }
+
+  .journey-milestone {
+    grid-template-columns: 32px minmax(0, 1fr);
+    min-height: 0;
+    padding-bottom: 44px;
+  }
+
+  .journey-milestone-date { display: none; }
+
+  .journey-milestone-marker {
+    grid-column: 1;
+    grid-row: 1;
+    padding-top: 6px;
+  }
+
+  .journey-milestone-dot {
+    width: 24px;
+    height: 24px;
+    border-width: 4px;
+  }
+
+  .journey-milestone-copy {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 0 0 0 17px;
+  }
+
+  .journey-mobile-date {
+    display: block;
+    margin-bottom: 12px;
+    color: #506066;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .journey-organization { font-size: 10px; }
+
+  .journey-description {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+}
+
+@media (max-width: 380px) {
+  .journey-degree-content { gap: 13px; }
+
+  .journey-degree-icon {
+    width: 43px;
+    height: 43px;
+    flex-basis: 43px;
+    border-radius: 13px;
+  }
+
+  .journey-degree-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .journey-card-details {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .journey-degree-content h3 { font-size: 23px; }
+  .journey-education-card { padding: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-milestone-dot { transition: none; }
+}

@@ -2,48 +2,12 @@ import { useRef } from 'react';
 import { useLanguage } from '../context/useLanguage';
 import useSkillsIntroGsap from '../hooks/useSkillsIntroGsap';
 import TechMarquee from './TechMarquee';
+import { navigateToPortfolioSection } from '../utils/navigateToPortfolioSection';
 
-async function handleProjectsNavigation(event) {
+function handleProjectsNavigation(event) {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-
-  const destination = document.getElementById('projects');
-  if (!destination) return;
-
   event.preventDefault();
-  window.history.pushState(null, '', '#projects');
-  const top = destination.getBoundingClientRect().top + window.scrollY - 104;
-
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    window.scrollTo({ top, behavior: 'instant' });
-    return;
-  }
-
-  // The site's global smooth-scroll competes with ScrollToPlugin unless
-  // temporarily disabled (the same navigation behavior used by Footer).
-  const root = document.documentElement;
-  const previousBehavior = root.style.scrollBehavior;
-  root.style.scrollBehavior = 'auto';
-  const restore = () => { root.style.scrollBehavior = previousBehavior; };
-
-  try {
-    const [gsapModule, pluginModule] = await Promise.all([
-      import('gsap'),
-      import('gsap/ScrollToPlugin'),
-    ]);
-    const gsap = gsapModule.gsap || gsapModule.default;
-    gsap.registerPlugin(pluginModule.ScrollToPlugin);
-    gsap.to(window, {
-      scrollTo: { y: top, autoKill: false },
-      duration: 1,
-      ease: 'power2.inOut',
-      overwrite: 'auto',
-      onComplete: restore,
-      onInterrupt: restore,
-    });
-  } catch {
-    window.scrollTo({ top, behavior: 'instant' });
-    restore();
-  }
+  void navigateToPortfolioSection('projects');
 }
 
 export default function Skills() {

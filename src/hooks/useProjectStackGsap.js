@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { isPortfolioNavigationActive } from '../utils/navigateToPortfolioSection';
 
 /**
  * An OTO-style sticky stack, using GSAP / ScrollTrigger for scroll-scrubbed
@@ -19,6 +20,9 @@ export default function useProjectStackGsap(stackRef, contentKey) {
     let context = null;
     let scrollTrigger = null;
     let resizeFrame = 0;
+    let scrollFrame = 0;
+    let deferredActivation = false;
+    let deferredRefresh = false;
 
     const isMobile = () => window.innerWidth < 768;
     const stickyTop = () => (isMobile() ? 90 : 104);
@@ -41,6 +45,7 @@ export default function useProjectStackGsap(stackRef, contentKey) {
       stack.classList.remove('project-stack--animated');
       stack.style.removeProperty('--project-stack-top');
       scrollTrigger = null;
+      deferredRefresh = false;
     };
 
     const activate = async () => {
@@ -48,11 +53,13 @@ export default function useProjectStackGsap(stackRef, contentKey) {
         removeMotion();
         return;
       }
-      if (context) {
-        stack.style.setProperty('--project-stack-top', stickyTop() + 'px');
-        scrollTrigger?.refresh();
+      // Adding sticky gaps on mobile changes the document height. Never
+      // initialize them while another component controls the viewport.
+      if (isPortfolioNavigationActive()) {
+        if (!context) deferredActivation = true;
         return;
       }
+      if (context) return;
       if (loading || !isNearby()) return;
 
       loading = true;
@@ -62,7 +69,12 @@ export default function useProjectStackGsap(stackRef, contentKey) {
           import('gsap'),
           import('gsap/ScrollTrigger'),
         ]);
-        if (disposed || !fitsViewport()) return;
+        if (disposed || !fitsViewport() || !isNearby()) return;
+        // The GSAP chunks may resolve after navigation has already started.
+        if (isPortfolioNavigationActive()) {
+          deferredActivation = true;
+          return;
+        }
 
         const gsap = gsapModule.gsap || gsapModule.default;
         const ScrollTrigger = triggerModule.ScrollTrigger;
@@ -97,6 +109,7 @@ export default function useProjectStackGsap(stackRef, contentKey) {
         }, stack);
 
         ScrollTrigger.refresh();
+        deferredActivation = false;
       } catch (error) {
         removeMotion();
         console.error('Project stack animation could not load', error);
@@ -110,7 +123,39 @@ export default function useProjectStackGsap(stackRef, contentKey) {
       resizeFrame = requestAnimationFrame(() => {
         resizeFrame = 0;
         if (!fitsViewport()) removeMotion();
-        else void activate();
+        else if (context) {
+          if (isPortfolioNavigationActive()) {
+            deferredRefresh = true;
+            return;
+          }
+          stack.style.setProperty('--project-stack-top', stickyTop() + 'px');
+          scrollTrigger?.refresh();
+        } else void activate();
+      });
+    };
+
+    const onNavigationSettled = (event) => {
+      if (disposed) return;
+      if (deferredRefresh && context) {
+        deferredRefresh = false;
+        stack.style.setProperty('--project-stack-top', stickyTop() + 'px');
+        scrollTrigger?.refresh();
+      }
+      // If the user navigated TO Projects, activate after landing there.
+      // Navigating past Projects (e.g. Footer -> Hero) must not change gaps.
+      if (deferredActivation && event.detail?.id === 'projects') {
+        deferredActivation = false;
+        void activate();
+      }
+    };
+
+    const onScrollAfterNavigation = () => {
+      if (!deferredActivation || isPortfolioNavigationActive() || scrollFrame) return;
+      // Resume a skipped lazy initialization when the user next browses
+      // manually. Regular scroll activity still gets the sticky stack effect.
+      scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = 0;
+        if (deferredActivation) void activate();
       });
     };
 
@@ -127,14 +172,19 @@ export default function useProjectStackGsap(stackRef, contentKey) {
     cards.forEach((card) => cardObserver?.observe(card));
 
     window.addEventListener('resize', update);
+    window.addEventListener('scroll', onScrollAfterNavigation, { passive: true });
+    window.addEventListener('portfolio:navigation-settled', onNavigationSettled);
     reduceMotion.addEventListener('change', update);
 
     return () => {
       disposed = true;
       if (resizeFrame) cancelAnimationFrame(resizeFrame);
+      if (scrollFrame) cancelAnimationFrame(scrollFrame);
       observer?.disconnect();
       cardObserver?.disconnect();
       window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', onScrollAfterNavigation);
+      window.removeEventListener('portfolio:navigation-settled', onNavigationSettled);
       reduceMotion.removeEventListener('change', update);
       removeMotion();
     };
