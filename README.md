@@ -1,16 +1,63 @@
-# React + Vite
+# Naja Andika — Developer Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A personal portfolio for showcasing selected web projects, technical skills, experience, education, and verified credentials. The interface combines responsive editorial layouts with lightweight interaction and motion.
 
-Currently, two official plugins are available:
+**[View live portfolio](https://portfolio-naja-andika.vercel.app/)** · [GitHub profile](https://github.com/najaandika)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Actual homepage of the Naja Andika portfolio](docs/preview.webp)
 
-## React Compiler
+## Highlights
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Responsive, bilingual (English / Indonesian) portfolio.
+- Selected projects with original visual previews and links to demos or published designs.
+- Dedicated sections for skills, experience, education, and verified certifications.
+- Custom tech marquee, section transitions, and interactive details.
+- Accessible navigation considerations, including a skip link and reduced-motion support.
 
-## Expanding the Oxlint configuration
+## Tech stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+| Area | Technologies |
+| --- | --- |
+| UI | React 19, JavaScript, Tailwind CSS |
+| Tooling | Vite 8, Oxlint |
+| Animation | GSAP 3 |
+| Assets | Optimized WebP imagery, custom SVG icons |
+
+## Run locally
+
+Requirements: Node.js and npm versions compatible with the project's dependencies.
+
+```bash
+git clone https://github.com/najaandika/portfolio.git
+cd portfolio
+npm ci
+npm run dev
+```
+
+Additional commands:
+
+```bash
+npm run build    # Production build
+npm run preview  # Preview the build locally
+npm run lint     # Run Oxlint
+```
+
+## Project structure
+
+```text
+src/
+  components/   # Hero, navigation, skills, projects, certifications, footer
+  context/      # Language provider
+  data/locales/ # English and Indonesian copy
+  hooks/        # Section interactions and animations
+  styles/       # Portfolio styling
+public/
+  images/       # Optimized project imagery and portraits
+  icons/        # Original technology icons
+```
+
+## About the work
+
+This is the source for my own portfolio website. Project previews on the live site may link to separate repositories, external demos, or published UI/UX designs; a live preview does not imply that every project's source is public.
+
+**Portfolio:** https://portfolio-naja-andika.vercel.app/
