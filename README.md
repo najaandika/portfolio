@@ -2,7 +2,7 @@
 
 A personal portfolio for showcasing selected web projects, technical skills, experience, education, and verified credentials. The interface combines responsive editorial layouts with lightweight interaction and motion.
 
-**[View live portfolio](https://portfolio-naja-andika.vercel.app/)** · [GitHub profile](https://github.com/najaandika)
+**[View live portfolio](https://www.najaandika.my.id/)** · [GitHub profile](https://github.com/najaandika)
 
 ![Actual homepage of the Naja Andika portfolio](docs/preview.webp)
 
@@ -60,4 +60,4 @@ public/
 
 This is the source for my own portfolio website. Project previews on the live site may link to separate repositories, external demos, or published UI/UX designs; a live preview does not imply that every project's source is public.
 
-**Portfolio:** https://portfolio-naja-andika.vercel.app/
+**Portfolio:** https://www.najaandika.my.id/

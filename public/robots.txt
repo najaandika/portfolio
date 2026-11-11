@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://portfolio-naja-andika.vercel.app/sitemap.xml
+Sitemap: https://www.najaandika.my.id/sitemap.xml
