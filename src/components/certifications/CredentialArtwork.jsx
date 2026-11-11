@@ -9,7 +9,7 @@ function CredentialArtwork({ credential, large = false }) {
   }
   const badge = badgeFor(credential.id);
   if (badge) {
-    return <img className={'credential-actual-badge' + (large ? ' credential-actual-badge--large' : '')} src={badge} alt={credential.title + ' digital badge'} loading={large ? 'eager' : 'lazy'} />;
+    return <img className={'credential-actual-badge' + (large ? ' credential-actual-badge--large' : '')} src={badge} alt={credential.title + ' digital badge'} width="550" height="550" loading={large ? 'eager' : 'lazy'} />;
   }
   if (credential.provider === 'cisco') {
     return (

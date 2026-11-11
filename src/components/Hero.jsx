@@ -67,18 +67,25 @@ export default function Hero() {
           <div className="flex w-full lg:w-[40%] flex-col shrink-0 items-center lg:items-end justify-end">
             <div className="hero-enter-photo hero-portrait-entrance aspect-[4/5] w-full max-w-[460px] shrink-0">
               <div ref={portraitRef} className="hero-portrait-tilt h-full w-full">
-                <img
-                  src="/images/hero-640.webp"
-                  srcSet="/images/hero-480.webp 480w, /images/hero-640.webp 640w, /images/hero-960.webp 960w, /images/hero-1200.webp 1200w"
-                  sizes="(min-width: 1440px) 480px, (min-width: 1280px) calc((100vw - 240px) * 0.4), (min-width: 1024px) calc((100vw - 160px) * 0.4), (min-width: 768px) min(460px, calc(100vw - 96px)), min(460px, calc(100vw - 40px))"
-                  alt="Naja Andika"
-                  width="1200"
-                  height="1600"
-                  fetchPriority="high"
-                  loading="eager"
-                  decoding="async"
-                  className="hero-portrait-image block h-full w-full object-cover"
-                />
+                <picture className="block h-full w-full">
+                  <source
+                    media="(max-width: 480px)"
+                    srcSet="/images/hero-480.webp 480w, /images/hero-640.webp 640w, /images/hero-672.webp 672w"
+                    sizes="calc(100vw - 40px)"
+                  />
+                  <img
+                    src="/images/hero-640.webp"
+                    srcSet="/images/hero-480.webp 480w, /images/hero-640.webp 640w, /images/hero-672.webp 672w, /images/hero-960.webp 960w, /images/hero-1200.webp 1200w"
+                    sizes="(min-width: 1440px) 480px, (min-width: 1280px) calc((100vw - 240px) * 0.4), (min-width: 1024px) calc((100vw - 160px) * 0.4), (min-width: 768px) min(460px, calc(100vw - 96px)), min(460px, calc(100vw - 40px))"
+                    alt="Naja Andika"
+                    width="1200"
+                    height="1600"
+                    fetchPriority="high"
+                    loading="eager"
+                    decoding="async"
+                    className="hero-portrait-image block h-full w-full object-cover"
+                  />
+                </picture>
               </div>
             </div>
           </div>
