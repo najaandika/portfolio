@@ -46,3 +46,34 @@ button, a { -webkit-tap-highlight-color: transparent; }
 #certifications {
   scroll-margin-top: calc(var(--portfolio-header-height) + 24px);
 }
+/* Keep below-the-fold content in the document for navigation and crawlers,
+   while allowing the browser to skip its paint/layout work until it nears
+   the viewport. `auto` preserves the measured size after the first visit. */
+@supports (content-visibility: auto) {
+  .expertise-section,
+  .journey-education,
+  .journey-experience,
+  #projects,
+  .credentials-section,
+  footer {
+    content-visibility: auto;
+  }
+
+  .expertise-section,
+  .journey-education {
+    contain-intrinsic-size: auto 850px;
+  }
+
+  .journey-experience,
+  .credentials-section {
+    contain-intrinsic-size: auto 1200px;
+  }
+
+  #projects {
+    contain-intrinsic-size: auto 1800px;
+  }
+
+  footer {
+    contain-intrinsic-size: auto 650px;
+  }
+}

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLanguage } from '../context/useLanguage';
 import useExperienceTimelineGsap from '../hooks/useExperienceTimelineGsap';
 import useEducationCardGsap from '../hooks/useEducationCardGsap';
@@ -23,7 +23,7 @@ export default function Education() {
   useEducationCardGsap(educationRef);
   useExperienceTimelineGsap(timelineRef, lang);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const timeline = timelineRef.current;
     if (!timeline) return undefined;
 
@@ -45,22 +45,41 @@ export default function Education() {
       timeline.style.setProperty('--journey-track-bottom', `${Math.max(0, timelineBounds.bottom - lastCenter)}px`);
     };
 
-    alignTrack();
-    const resizeObserver = typeof ResizeObserver !== 'undefined'
-      ? new ResizeObserver(alignTrack)
-      : null;
-    milestones.forEach((milestone) => resizeObserver?.observe(milestone));
-    resizeObserver?.observe(timeline);
-    window.addEventListener('resize', alignTrack, { passive: true });
     let active = true;
-    document.fonts?.ready.then(() => {
-      if (active) alignTrack();
-    });
+    let activated = false;
+    let resizeObserver = null;
+
+    const activate = () => {
+      if (!active || activated) return;
+      activated = true;
+      alignTrack();
+      resizeObserver = typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(alignTrack)
+        : null;
+      milestones.forEach((milestone) => resizeObserver?.observe(milestone));
+      resizeObserver?.observe(timeline);
+      window.addEventListener('resize', alignTrack, { passive: true });
+      document.fonts?.ready.then(() => {
+        if (active) alignTrack();
+      });
+    };
+
+    const observer = 'IntersectionObserver' in window
+      ? new IntersectionObserver((entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          observer.disconnect();
+          activate();
+        }, { rootMargin: '600px 0px' })
+      : null;
+
+    if (observer) observer.observe(timeline);
+    else activate();
 
     return () => {
       active = false;
+      observer?.disconnect();
       resizeObserver?.disconnect();
-      window.removeEventListener('resize', alignTrack);
+      if (activated) window.removeEventListener('resize', alignTrack);
       timeline.style.removeProperty('--journey-track-top');
       timeline.style.removeProperty('--journey-track-bottom');
     };
