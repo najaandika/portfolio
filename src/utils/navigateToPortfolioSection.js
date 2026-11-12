@@ -41,11 +41,23 @@ export async function navigateToPortfolioSection(id, { updateHash = true, durati
   const cleanup = () => {
     if (activeCleanup !== cleanup) return;
     if (settleTimer !== null) window.clearTimeout(settleTimer);
+    window.removeEventListener('wheel', interruptOnUserScroll);
+    window.removeEventListener('touchstart', interruptOnUserScroll);
     root.style.scrollBehavior = previousBehavior;
     activeCleanup = null;
     activeTween = null;
   };
+  const interruptOnUserScroll = () => {
+    if (request !== navigationRequest) return;
+    // Invalidate even an in-flight dynamic import of GSAP. Otherwise its
+    // awaited continuation can restart scrolling after the user swipes.
+    navigationRequest += 1;
+    activeTween?.kill();
+    cleanup();
+  };
   activeCleanup = cleanup;
+  window.addEventListener('wheel', interruptOnUserScroll, { passive: true });
+  window.addEventListener('touchstart', interruptOnUserScroll, { passive: true });
 
   const applyScroll = (top) => window.scrollTo({ top, behavior: 'instant' });
 

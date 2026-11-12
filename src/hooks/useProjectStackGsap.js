@@ -34,7 +34,11 @@ export default function useProjectStackGsap(stackRef, contentKey) {
 
     const isNearby = () => {
       const { top, bottom } = stack.getBoundingClientRect();
-      return bottom > -700 && top < window.innerHeight + 700;
+      // Do not activate sticky card gaps after navigation has already passed
+      // Projects. Growing the stack above Certifications pushes the active
+      // section back down and makes the next swipe feel stuck or reversed.
+      const entryBoundary = Math.max(stickyTop() + 24, window.innerHeight * 0.5);
+      return bottom > entryBoundary && top < window.innerHeight + 700;
     };
 
     const removeMotion = () => {
