@@ -23,7 +23,7 @@ export const projectMeta = [
     btnBg: 'bg-[#20140f]',
     btnText: 'text-white',
     badge: 'bg-white/30 border-[#20140f66] text-[#20140f]',
-    link: null,
+    link: 'https://jblstore.vercel.app/',
     image: '/images/project-jbl-960.webp',
     imageSet: '/images/project-jbl-480.webp 480w, /images/project-jbl-640.webp 640w, /images/project-jbl-960.webp 960w',
     imageAlt: { en: 'Laptop mockup showing a JBL-inspired audio storefront and a monochrome headphone campaign', id: 'Mockup laptop menampilkan toko audio konsep JBL dan kampanye headphone monokrom' },

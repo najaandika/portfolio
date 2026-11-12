@@ -107,7 +107,7 @@ export const id = {
         title: 'JBL Concept Store — Toko Audio Interaktif',
         desc: 'Membangun konsep toko audio responsif dengan animasi WebGL, galeri produk, interaksi wishlist dan keranjang, visualisasi suara, serta simulasi checkout dan preview 360°.',
         badgeText: 'Konsep Frontend',
-        ctaText: 'Tautan Demo Menyusul',
+        ctaText: 'Lihat Demo Live',
       },
       {
         title: 'LINEUP — Toko Fashion Editorial',

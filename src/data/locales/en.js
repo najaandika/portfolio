@@ -107,7 +107,7 @@ export const en = {
         title: 'JBL Concept Store — Interactive Audio Storefront',
         desc: 'Built a responsive audio storefront concept with animated WebGL scenes, product galleries, wishlist and cart interactions, sound visualizations, and simulated checkout and 360° preview.',
         badgeText: 'Frontend Concept',
-        ctaText: 'Preview Link Coming Soon',
+        ctaText: 'View Live Preview',
       },
       {
         title: 'LINEUP — Editorial Fashion Storefront',
