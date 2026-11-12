@@ -104,6 +104,24 @@ export const id = {
         ctaText: 'Lihat Live Preview',
       },
       {
+        title: 'JBL Concept Store — Toko Audio Interaktif',
+        desc: 'Membangun konsep toko audio responsif dengan animasi WebGL, galeri produk, interaksi wishlist dan keranjang, visualisasi suara, serta simulasi checkout dan preview 360°.',
+        badgeText: 'Konsep Frontend',
+        ctaText: 'Tautan Demo Menyusul',
+      },
+      {
+        title: 'LINEUP — Toko Fashion Editorial',
+        desc: 'Mengembangkan pengalaman belanja fashion bergaya editorial dengan koleksi runway, pilihan warna produk, pencarian, wishlist, dan keranjang. Checkout serta akun masih berupa demo frontend.',
+        badgeText: 'Website Aktif',
+        ctaText: 'Lihat Live Preview',
+      },
+      {
+        title: 'Sistem POS & Pemesanan Meja QR',
+        desc: 'Aplikasi kasir & restoran dengan self-ordering meja via QR, antrean dapur live, serta manajemen staf dan meja owner.',
+        badgeText: 'Tahap Pengembangan',
+        ctaText: 'Segera Hadir',
+      },
+      {
         title: 'Fashion Shopping Mobile App & Admin Dashboard',
         desc: 'Merancang aplikasi mobile belanja fashion premium dan dashboard admin dengan katalog, checkout, pelacakan pesanan, rewards, chat, serta manajemen staf berbasis peran.',
         badgeText: 'Desain Figma',
@@ -114,18 +132,6 @@ export const id = {
         desc: 'Membuat prototipe toko online responsif yang berfokus pada kemudahan menemukan produk, kenyamanan pembeli, dan alur checkout yang ringkas.',
         badgeText: 'Desain Figma',
         ctaText: 'Lihat Live Preview',
-      },
-      {
-        title: 'BHD Gamification Learning Platform',
-        desc: 'Merancang platform edukasi pertolongan pertama berbasis gamifikasi untuk melatih pengambilan keputusan yang tepat dan tenang dalam situasi darurat.',
-        badgeText: 'Website Aktif',
-        ctaText: 'Lihat Live Preview',
-      },
-      {
-        title: 'Sistem POS & Pemesanan Meja QR',
-        desc: 'Aplikasi kasir & restoran dengan self-ordering meja via QR, antrean dapur live, serta manajemen staf dan meja owner.',
-        badgeText: 'Tahap Pengembangan',
-        ctaText: 'Segera Hadir',
       },
       {
         title: 'Parcel — Aplikasi Pengiriman Multi-Peran',

@@ -104,6 +104,24 @@ export const en = {
         ctaText: 'View Live Preview',
       },
       {
+        title: 'JBL Concept Store — Interactive Audio Storefront',
+        desc: 'Built a responsive audio storefront concept with animated WebGL scenes, product galleries, wishlist and cart interactions, sound visualizations, and simulated checkout and 360° preview.',
+        badgeText: 'Frontend Concept',
+        ctaText: 'Preview Link Coming Soon',
+      },
+      {
+        title: 'LINEUP — Editorial Fashion Storefront',
+        desc: 'Developed a runway-inspired fashion shopping experience with curated looks, product colourways, search, wishlist, and cart interactions. Checkout and account flows are frontend demos.',
+        badgeText: 'Live Website',
+        ctaText: 'View Live Preview',
+      },
+      {
+        title: 'POS Counter & QR Table Ordering System',
+        desc: 'Restaurant & cafe POS with QR self-ordering, cashier tickets, kitchen queue, and owner staff/table management.',
+        badgeText: 'In Development',
+        ctaText: 'Coming Soon',
+      },
+      {
         title: 'Fashion Shopping Mobile App & Admin Dashboard',
         desc: 'Designed a premium fashion mobile shopping app and admin dashboard with product discovery, checkout, live order tracking, rewards, chat, and role-based staff management.',
         badgeText: 'Published Design',
@@ -114,18 +132,6 @@ export const en = {
         desc: 'Created a responsive storefront prototype focused on product discovery, buyer confidence, and clean checkout flow.',
         badgeText: 'Published Design',
         ctaText: 'View Live Preview',
-      },
-      {
-        title: 'BHD Gamification Learning Platform',
-        desc: 'Designed a gamified first-aid learning experience that helps users practice making calm, confident decisions in emergency situations.',
-        badgeText: 'Live Website',
-        ctaText: 'View Live Preview',
-      },
-      {
-        title: 'POS Counter & QR Table Ordering System',
-        desc: 'Restaurant & cafe POS with QR self-ordering, cashier tickets, kitchen queue, and owner staff/table management.',
-        badgeText: 'In Development',
-        ctaText: 'Coming Soon',
       },
       {
         title: 'Parcel — Multi-Role Delivery App',
