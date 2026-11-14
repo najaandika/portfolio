@@ -117,7 +117,7 @@ export const en = {
       },
       {
         title: 'POS Counter & QR Table Ordering System',
-        desc: 'Restaurant & cafe POS with QR self-ordering, cashier tickets, kitchen queue, and owner staff/table management.',
+        desc: 'Full-stack restaurant POS built with Laravel and React, featuring QR table ordering, live kitchen queues, cashier payments, and an Owner dashboard for menus, tables, staff, and reports.',
         badgeText: 'In Development',
         ctaText: 'Coming Soon',
       },

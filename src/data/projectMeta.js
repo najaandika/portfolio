@@ -43,7 +43,7 @@ export const projectMeta = [
     imageAlt: { en: 'Laptop mockup displaying the LINEUP editorial fashion storefront and Fall 26 lookbook', id: 'Mockup laptop menampilkan toko fashion editorial LINEUP dan lookbook Fall 26' },
   },
   {
-    tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+    tags: ['Laravel 13', 'React 19', 'Inertia.js', 'TypeScript', 'MySQL', 'Tailwind CSS'],
     bg: 'bg-[#e8edf2]',
     descColor: 'text-[#526273]',
     titleColor: 'text-[#17324d]',
@@ -52,8 +52,8 @@ export const projectMeta = [
     btnText: 'text-white',
     badge: 'bg-white/70 border-[#315d8366] text-[#315d83]',
     link: null,
-    image: '/images/project-pos-optimized.webp',
-    imageAlt: { en: 'Laptop mockup showing a restaurant point-of-sale dashboard with products and orders', id: 'Mockup laptop menampilkan dasbor kasir restoran berisi produk dan pesanan' },
+    image: '/images/project-pos-2026.webp',
+    imageAlt: { en: 'Laptop mockup showing the Food POS order menu, table selection, and current cashier ticket', id: 'Mockup laptop menampilkan halaman pesanan Food POS, pilihan meja, dan tiket kasir' },
   },
   {
     tags: ['React', 'TypeScript', 'Admin Dashboard'],

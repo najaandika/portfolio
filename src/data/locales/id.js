@@ -117,7 +117,7 @@ export const id = {
       },
       {
         title: 'Sistem POS & Pemesanan Meja QR',
-        desc: 'Aplikasi kasir & restoran dengan self-ordering meja via QR, antrean dapur live, serta manajemen staf dan meja owner.',
+        desc: 'Sistem POS restoran berbasis Laravel dan React dengan pemesanan mandiri melalui QR meja, antrean dapur, pembayaran kasir, serta dashboard Owner untuk mengelola menu, meja, staf, dan laporan.',
         badgeText: 'Tahap Pengembangan',
         ctaText: 'Segera Hadir',
       },
