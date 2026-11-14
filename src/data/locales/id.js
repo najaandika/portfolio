@@ -122,6 +122,12 @@ export const id = {
         ctaText: 'Segera Hadir',
       },
       {
+        title: 'SAJATI — Pendamping Kesehatan Keluarga',
+        desc: 'Membangun platform internal pendamping kesehatan keluarga untuk penelitian lansia, dengan dashboard pemantauan tekanan darah dan kepatuhan, pengelolaan responden, jadwal obat dan kontrol, pesan, serta ekspor data.',
+        badgeText: 'Proyek Internal',
+        ctaText: 'Akses Terbatas',
+      },
+      {
         title: 'Fashion Shopping Mobile App & Admin Dashboard',
         desc: 'Merancang aplikasi mobile belanja fashion premium dan dashboard admin dengan katalog, checkout, pelacakan pesanan, rewards, chat, serta manajemen staf berbasis peran.',
         badgeText: 'Desain Figma',

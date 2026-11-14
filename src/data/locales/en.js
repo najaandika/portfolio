@@ -122,6 +122,12 @@ export const en = {
         ctaText: 'Coming Soon',
       },
       {
+        title: 'SAJATI — Family Health Companion',
+        desc: 'Built an internal family-health research platform for older adults, featuring blood-pressure and adherence dashboards, respondent management, medication and follow-up schedules, messaging, and data exports.',
+        badgeText: 'Internal Project',
+        ctaText: 'Private Access',
+      },
+      {
         title: 'Fashion Shopping Mobile App & Admin Dashboard',
         desc: 'Designed a premium fashion mobile shopping app and admin dashboard with product discovery, checkout, live order tracking, rewards, chat, and role-based staff management.',
         badgeText: 'Published Design',
